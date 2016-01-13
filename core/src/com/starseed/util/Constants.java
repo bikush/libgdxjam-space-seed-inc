@@ -8,29 +8,34 @@ public class Constants {
 	public static final int APP_HEIGHT = 480;
 	public static final float WORLD_TO_SCREEN = 32;
 	public static final Vector2 WORLD_GRAVITY = new Vector2( 0, -10 );
+	
+	public static final float WORLD_WIDTH = APP_WIDTH / WORLD_TO_SCREEN;
+	public static final float WORLD_HEIGHT = APP_HEIGHT / WORLD_TO_SCREEN;
 
-	public static final float GROUND_X = 0;
-    public static final float GROUND_Y = 0;
-    public static final float GROUND_WIDTH = 50f;
-    public static final float GROUND_HEIGHT = 2f;
+	public static final float GROUND_WIDTH = WORLD_WIDTH * 1.5f;
+    public static final float GROUND_HEIGHT = WORLD_HEIGHT * 0.15f;
+	public static final float GROUND_X = WORLD_WIDTH * 0.5f;
+    public static final float GROUND_Y = GROUND_HEIGHT * 0.5f; 
+    public static final float GROUND_TOP = GROUND_Y + GROUND_HEIGHT * 0.5f;
     public static final float GROUND_DENSITY = 0f;
-    
-    public static final float RUNNER_X = 2;
-    public static final float RUNNER_Y = GROUND_Y + GROUND_HEIGHT;
-    public static final float RUNNER_WIDTH = 1f;
-    public static final float RUNNER_HEIGHT = 2f;    
+
+    public static final float RUNNER_WIDTH = 1.5f;
+    public static final float RUNNER_HEIGHT = 3f;  
+    public static final float RUNNER_X = WORLD_WIDTH * 0.1f;
+    public static final float RUNNER_Y = GROUND_TOP + RUNNER_HEIGHT * 0.5f;  
     public static final float RUNNER_GRAVITY_SCALE = 3f;
     public static final float RUNNER_DENSITY = 0.5f;
-    public static final float RUNNER_DODGE_X = 2f;
-    public static final float RUNNER_DODGE_Y = 1.5f;
-    public static final Vector2 RUNNER_JUMPING_LINEAR_IMPULSE = new Vector2(0, 13f);
+    public static final float RUNNER_DODGE_HEIGHT = RUNNER_WIDTH * 0.5f;
+    public static final float RUNNER_DODGE_X = RUNNER_X;
+    public static final float RUNNER_DODGE_Y = RUNNER_Y - RUNNER_DODGE_HEIGHT;
+    public static final Vector2 RUNNER_JUMPING_LINEAR_IMPULSE = new Vector2(0, RUNNER_HEIGHT * RUNNER_WIDTH * 9f);
     public static final float RUNNER_HIT_ANGULAR_IMPULSE = 10f;
 
-    public static final float ENEMY_X = 25f;
+    public static final float ENEMY_X = WORLD_WIDTH + 2;
     public static final float ENEMY_DENSITY = RUNNER_DENSITY;
-    public static final float RUNNING_SHORT_ENEMY_Y = 1.5f;
-    public static final float RUNNING_LONG_ENEMY_Y = 2f;
-    public static final float FLYING_ENEMY_Y = 3f;
+    public static final float RUNNING_SHORT_ENEMY_Y = GROUND_TOP;
+    public static final float RUNNING_LONG_ENEMY_Y = GROUND_TOP;
+    public static final float FLYING_ENEMY_Y = RUNNER_Y + RUNNER_DODGE_HEIGHT + 0.5f;
     public static final Vector2 ENEMY_LINEAR_VELOCITY = new Vector2(-10f, 0);
     
     public static final String BACKGROUND_IMAGE_PATH = "background.png";

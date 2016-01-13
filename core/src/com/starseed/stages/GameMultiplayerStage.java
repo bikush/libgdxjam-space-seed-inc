@@ -47,7 +47,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
     
 	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
 		super(new ScalingViewport(
-				Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
+				Scaling.fit, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
                 new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
 		this.gameScreen = gameScreen;
         setUpWorld();
@@ -85,7 +85,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
     }
 
 	private void setupCamera() {
-		camera = new OrthographicCamera(20, 13);
+		camera = new OrthographicCamera(VIEWPORT_WIDTH/Constants.WORLD_TO_SCREEN, VIEWPORT_HEIGHT/Constants.WORLD_TO_SCREEN);
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
 		camera.update();
 	}

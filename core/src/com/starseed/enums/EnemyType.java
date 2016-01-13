@@ -28,7 +28,7 @@ public enum EnemyType {
         this.width = width;
         this.height = height;
         this.x = x;
-        this.y = y;
+        this.y = y + height * 0.5f;
         this.density = density;
         this.regions = regions;
     }

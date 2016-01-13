@@ -15,16 +15,16 @@ public class Ground extends GameActor {
 	
 	private final TextureRegion textureRegion;
     private Rectangle textureRegionBounds1;
-    private Rectangle textureRegionBounds2;
     private int speed = 10;
 
     public Ground(Body body) {
         super(body);
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal(Constants.GROUND_IMAGE_PATH)));
-        textureRegionBounds1 = new Rectangle(0 - getUserData().getWidth() / 2, 0, getUserData().getWidth(),
-                getUserData().getHeight());
-        textureRegionBounds2 = new Rectangle(getUserData().getWidth() / 2, 0, getUserData().getWidth(),
-                getUserData().getHeight());
+        textureRegionBounds1 = new Rectangle(
+        		0, 0,
+        		transformToScreen( getUserData().getWidth() ),transformToScreen(getUserData().getHeight()));
+        
+        speed = (int) transformToScreen(speed);
     }
 
 	@Override
@@ -45,25 +45,22 @@ public class Ground extends GameActor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(textureRegion, textureRegionBounds1.x, screenRectangle.y, screenRectangle.getWidth(),
-                screenRectangle.getHeight());
-        batch.draw(textureRegion, textureRegionBounds2.x, screenRectangle.y, screenRectangle.getWidth(),
-                screenRectangle.getHeight());
+        batch.draw(textureRegion, textureRegionBounds1.x, textureRegionBounds1.y,
+        		textureRegionBounds1.width, textureRegionBounds1.height);
+        batch.draw(textureRegion, textureRegionBounds1.x + textureRegionBounds1.width, textureRegionBounds1.y,
+        		textureRegionBounds1.width, textureRegionBounds1.height);
     }
 
     private boolean leftBoundsReached(float delta) {
-        return (textureRegionBounds2.x - transformToScreen(delta * speed)) <= 0;
+        return (textureRegionBounds1.x + textureRegionBounds1.width - delta * speed) <= 0;
     }
 
     private void updateXBounds(float delta) {
-        textureRegionBounds1.x += transformToScreen(delta * speed);
-        textureRegionBounds2.x += transformToScreen(delta * speed);
+        textureRegionBounds1.x += delta * speed;
     }
 
     private void resetBounds() {
-        textureRegionBounds1 = textureRegionBounds2;
-        textureRegionBounds2 = new Rectangle(textureRegionBounds1.x + screenRectangle.width, 0, screenRectangle.width,
-                screenRectangle.height);
+        textureRegionBounds1.x = 0;
     }
 
 }

@@ -14,6 +14,7 @@ public class Enemy extends GameActor {
 	
 	private Animation animation;
     private float stateTime;
+    private float aspect = 1.0f;
 
 	public Enemy(Body body) {
 		super(body);
@@ -23,6 +24,7 @@ public class Enemy extends GameActor {
         for (int i = 0; i < getUserData().getTextureRegions().length; i++) {
             String path = getUserData().getTextureRegions()[i];
             runningFrames[i] = textureAtlas.findRegion(path);
+            aspect = runningFrames[i].getRegionWidth() / (float) runningFrames[i].getRegionHeight();
         }
         animation = new Animation(0.1f, runningFrames);
         stateTime = 0f;
@@ -44,7 +46,7 @@ public class Enemy extends GameActor {
         super.draw(batch, parentAlpha);
         stateTime += Gdx.graphics.getDeltaTime();
         batch.draw(animation.getKeyFrame(stateTime, true), (screenRectangle.x - (screenRectangle.width * 0.1f)), 
-                screenRectangle.y, screenRectangle.width * 1.2f, screenRectangle.height * 1.1f);
+                screenRectangle.y, screenRectangle.height * 1.1f * aspect, screenRectangle.height * 1.1f );
     }
 
 }

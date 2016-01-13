@@ -1,6 +1,7 @@
 package com.starseed.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.starseed.actors.*;
+import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.WorldUtils;
@@ -40,12 +42,14 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 	private Rectangle screenRightSide;
 
     private Vector3 touchPoint;
-
-	public GameMultiplayerStage() {
+    
+    private GameMultiplayerScreen gameScreen;
+    
+	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
 		super(new ScalingViewport(
 				Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
                 new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
-
+		this.gameScreen = gameScreen;
         setUpWorld();
         setupCamera();
         setupTouchControlAreas();
@@ -210,5 +214,22 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	@Override
+	public boolean keyUp(int keyCode) {
+		// TODO Auto-generated method stub
+		super.keyUp(keyCode);
+		Boolean retVal = false;
+		
+		switch (keyCode) {
+		case Input.Keys.ESCAPE:
+			gameScreen.goBack = true;
+			retVal = true;
+			break;
+		default:
+			break;
+		
+		}
+		return retVal;
+	}
 }

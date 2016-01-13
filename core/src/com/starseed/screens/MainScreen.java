@@ -2,28 +2,27 @@ package com.starseed.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.starseed.stages.GameMultiplayerStage;
+import com.starseed.stages.MainScreenStage;
 import com.starseed.screens.AbstractScreen;
 
-public class GameMultiplayerScreen extends AbstractScreen {
+public class MainScreen extends AbstractScreen {
+
+	private MainScreenStage stage;
 	
-	private GameMultiplayerStage stage;
-	
-	public GameMultiplayerScreen() {
+	public MainScreen() {
 		super();
-		stage = new GameMultiplayerStage(this);
+		stage = new MainScreenStage(this);
 	}
 
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		goBack = false;
+		goToNextScreen = false;
 		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override
 	public void render(float delta) {
-
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		stage.draw();
@@ -60,5 +59,4 @@ public class GameMultiplayerScreen extends AbstractScreen {
 		// TODO Auto-generated method stub
 
 	}
-
 }

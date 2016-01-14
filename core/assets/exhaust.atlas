@@ -1,0 +1,33 @@
+
+exhaust.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+exhaust
+  rotate: false
+  xy: 1, 1
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: 1
+exhaust
+  rotate: false
+  xy: 131, 1
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: 2
+exhaust
+  rotate: false
+  xy: 261, 1
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: 3
+exhaust
+  rotate: false
+  xy: 391, 1
+  size: 128, 256
+  orig: 128, 256
+  offset: 0, 0
+  index: 4

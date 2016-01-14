@@ -48,6 +48,9 @@ public class Constants {
 	 */
 	
 	public static final String IMAGE_SHIP = "ship_player_1.png";
+	public static final String ATLAS_SHIP_EXHAUST = "exhaust.atlas";
+	public static final String ATLAS_SHIP_EXHAUST_REGION = "exhaust";
+	public static final int ATLAS_SHIP_EXHAUST_COUNT = 4;
 	
 	
 	/*

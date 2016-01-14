@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.starseed.actors.*;
 import com.starseed.screens.GameMultiplayerScreen;
@@ -23,11 +24,7 @@ import com.starseed.util.Constants;
 import com.starseed.util.WorldUtils;
 
 public class GameMultiplayerStage extends Stage implements ContactListener {
-	
-	// This will be our viewport measurements while working with the debug renderer
-	private static final int VIEWPORT_WIDTH = Constants.APP_WIDTH;
-	private static final int VIEWPORT_HEIGHT = Constants.APP_HEIGHT;
-
+		
 	private World world;
 	private Ground ground;
 	private Runner runner;
@@ -46,9 +43,9 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
     private GameMultiplayerScreen gameScreen;
     
 	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
-		super(new ScalingViewport(
-				Scaling.fit, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
-                new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
+		super(new FitViewport(
+				Constants.APP_WIDTH, Constants.APP_HEIGHT ));
+				//, new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
 		this.gameScreen = gameScreen;
         setUpWorld();
         setupCamera();
@@ -85,7 +82,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
     }
 
 	private void setupCamera() {
-		camera = new OrthographicCamera(VIEWPORT_WIDTH/Constants.WORLD_TO_SCREEN, VIEWPORT_HEIGHT/Constants.WORLD_TO_SCREEN);
+		camera = new OrthographicCamera(Constants.APP_WIDTH/Constants.WORLD_TO_SCREEN, Constants.APP_HEIGHT/Constants.WORLD_TO_SCREEN);
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
 		camera.update();
 	}

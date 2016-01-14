@@ -7,11 +7,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -30,12 +27,7 @@ public class MainScreenStage extends Stage {
 	
 	public void setUpMainStage() {
 		skin = new Skin();
-		// Generate a 1x1 white texture and store it in the skin named "white".
-		Pixmap pixmap = new Pixmap(180, 90, Format.RGBA8888);
-		pixmap.setColor(Color.GREEN);
-		pixmap.fill();
-
-		skin.add("white", new Texture(pixmap));
+        skin.addRegions(new TextureAtlas(Constants.BUTTON_ATLAS_PATH));
 
 		// Store the default libgdx font under the name "default".
 		BitmapFont bfont=new BitmapFont();
@@ -43,9 +35,9 @@ public class MainScreenStage extends Stage {
 
 		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-		textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+		textButtonStyle.up = skin.newDrawable("button_pressed");
+		textButtonStyle.down = skin.newDrawable("button_pressed");
+		textButtonStyle.over = skin.newDrawable("button_over");
 		textButtonStyle.font = skin.getFont("default");
 
 		skin.add("default", textButtonStyle);

@@ -6,12 +6,37 @@ public class Constants {
 	
 	public static final int APP_WIDTH = 1024;
 	public static final int APP_HEIGHT = 768;
-	public static final float WORLD_TO_SCREEN = 32;
-	public static final Vector2 WORLD_GRAVITY = new Vector2( 0, -10 );
+	public static final float WORLD_TO_SCREEN = 8;
+	public static final Vector2 WORLD_GRAVITY = new Vector2( 0, 0 );
 	
+	/*
+	 * Multiplayer game constants
+	 */
+	
+	// Screen space
+	// Top UI will take 1/8 of the screen
+	public static final float GAME_UI_HEIGHT = 0f; //APP_WIDTH * 0.125f;	
+		
+	// Physics space
+	// Multiplayer game space is 128 * 84 meters
 	public static final float WORLD_WIDTH = APP_WIDTH / WORLD_TO_SCREEN;
-	public static final float WORLD_HEIGHT = APP_HEIGHT / WORLD_TO_SCREEN;
+	public static final float WORLD_HEIGHT = (APP_HEIGHT - GAME_UI_HEIGHT) / WORLD_TO_SCREEN;
 
+	// Border around the game field
+	public static final float EDGE_WIDTH = WORLD_WIDTH * 0.05f;
+	public static final float EDGE_INNER_X_START = EDGE_WIDTH;
+	public static final float EDGE_INNER_Y_START = EDGE_WIDTH;
+	public static final float EDGE_INNER_X_END = WORLD_WIDTH - EDGE_WIDTH;
+	public static final float EDGE_INNER_Y_END = WORLD_HEIGHT - EDGE_WIDTH;
+	
+	
+	
+	
+	
+	/*
+	 *  MartianRun tutorial constants
+	 */
+	
 	public static final float GROUND_WIDTH = WORLD_WIDTH * 1.5f;
     public static final float GROUND_HEIGHT = WORLD_HEIGHT * 0.15f;
 	public static final float GROUND_X = WORLD_WIDTH * 0.5f;

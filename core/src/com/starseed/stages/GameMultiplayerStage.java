@@ -18,15 +18,17 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.starseed.actors.*;
+import com.starseed.enums.EdgeSideType;
 import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.WorldUtils;
 
 public class GameMultiplayerStage extends Stage implements ContactListener {
+	
+	private Array<Edge> edges = new Array<Edge>(EdgeSideType.values().length);
 		
 	private World world;
-	private Ground ground;
 	private Runner runner;
 
 	private final float TIME_STEP = 1 / 300f;
@@ -57,7 +59,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
         world = WorldUtils.createWorld();
         world.setContactListener(this);
         setUpBackground();
-        setUpGround();
+        setUpEdges();
         setUpRunner();
         createEnemy();
     }
@@ -71,9 +73,16 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
          addActor(enemy);
 	}
 
-	private void setUpGround() {
-        ground = new Ground(WorldUtils.createGround(world));
-        addActor(ground);
+	private void setUpEdges() {
+		
+		edges.clear();
+		EdgeSideType[] edgeTypes = EdgeSideType.values();
+		for( EdgeSideType type : edgeTypes )
+		{
+			Edge edge = new Edge( WorldUtils.createEdge(world, type) );
+			addActor(edge);
+			edges.add(edge);
+		}
     }
 
     private void setUpRunner() {

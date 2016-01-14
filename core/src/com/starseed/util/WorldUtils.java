@@ -3,15 +3,34 @@ package com.starseed.util;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.starseed.box2d.*;
+import com.starseed.enums.EdgeSideType;
 import com.starseed.enums.EnemyType;
 
 public class WorldUtils {
 	
 	public static World createWorld() {
 		return new World(Constants.WORLD_GRAVITY, true);
+	}
+	
+	public static Body createEdge( World world, EdgeSideType type )
+	{
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyType.StaticBody;
+		bodyDef.position.set( new Vector2( type.getXCenter(), type.getYCenter() ) );
+				
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox( type.getWidth() / 2, type.getHeight() / 2);
+		
+		Body body = world.createBody( bodyDef );
+		body.createFixture( shape, type.getDensity() );
+		body.setUserData( new EdgeUserData( type.getWidth(), type.getHeight() ) );
+		
+		shape.dispose();
+		return body;
 	}
 	
 	public static Body createGround(World world) {

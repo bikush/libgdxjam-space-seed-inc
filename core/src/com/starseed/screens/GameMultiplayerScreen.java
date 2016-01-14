@@ -11,13 +11,14 @@ public class GameMultiplayerScreen extends AbstractScreen {
 	
 	public GameMultiplayerScreen() {
 		super();
-		stage = new GameMultiplayerStage(this);
+		stage = null;
 	}
 
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
 		goBack = false;
+		stage = new GameMultiplayerStage(this);
 		Gdx.input.setInputProcessor(stage);
 	}
 
@@ -52,7 +53,8 @@ public class GameMultiplayerScreen extends AbstractScreen {
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-
+		stage.dispose();
+		stage = null;
 	}
 
 	@Override

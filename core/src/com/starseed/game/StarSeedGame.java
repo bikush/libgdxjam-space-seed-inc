@@ -1,6 +1,7 @@
 package com.starseed.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.screens.MainScreen;
 import com.starseed.screens.AbstractScreen;
@@ -8,7 +9,6 @@ import com.starseed.screens.AbstractScreen;
 public class StarSeedGame extends Game {
 	@Override
 	public void create () {
-		//setScreen( new GameMultiplayerScreen() );
 		GameMultiplayerScreen gameScreen = new GameMultiplayerScreen();
 		MainScreen mainScreen = new MainScreen();
 		mainScreen.setNextScreen(gameScreen);
@@ -20,12 +20,20 @@ public class StarSeedGame extends Game {
     public void render() {
 		super.render();
         AbstractScreen currentScreen = (AbstractScreen) getScreen();
-        // TODO: check if back/next screen is null
-        // if it is then quit!
         if (currentScreen.goBack) {
-            setScreen(currentScreen.getBackScreen());
+        	AbstractScreen tmp = currentScreen.getBackScreen(); 
+        	if (tmp != null) {
+            	setScreen(tmp);
+            } else {
+            	Gdx.app.exit();
+            }
         } else if (currentScreen.goToNextScreen) {
-            setScreen(currentScreen.getNextScreen());
+        	AbstractScreen tmp = currentScreen.getNextScreen();
+            if (tmp != null) {
+            	setScreen(tmp);
+            } else {
+            	Gdx.app.exit();
+            }
         }
     }
 

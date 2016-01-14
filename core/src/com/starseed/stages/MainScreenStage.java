@@ -7,10 +7,14 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.actors.Background;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -29,13 +33,24 @@ public class MainScreenStage extends Stage {
 	
 	public void setUpMainStage() {
 		addActor(new Background());
-		skin = new Skin();
-        skin.addRegions(new TextureAtlas(Constants.BUTTON_ATLAS_PATH));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constants.GAME_FONT));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 24;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?: ";
+		// These characters should not repeat! 
 
-		// Store the default libgdx font under the name "default".
-		BitmapFont bfont = new BitmapFont();
-		bfont.setColor(Color.BLUE);
-		skin.add("default", bfont);
+		BitmapFont bfont24 = generator.generateFont(parameter);
+		
+		parameter.size = 16;
+		BitmapFont bfont16 = generator.generateFont(parameter);
+		
+		
+		generator.dispose();
+		
+		skin = new Skin();
+        skin.addRegions(new TextureAtlas(Gdx.files.internal(Constants.BUTTON_ATLAS_PATH)));
+		skin.add("default-24", bfont24);
+		skin.add("default", bfont16);
 
 		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
@@ -76,6 +91,11 @@ public class MainScreenStage extends Stage {
 				Gdx.app.exit();
 			}
 		});
+		LabelStyle lStyle = new LabelStyle(bfont24, Color.WHITE);
+		skin.add("default", lStyle);
+		final Label label = new Label("Space sperm!", skin);
+		label.setPosition(100, 700);
+		this.addActor(label);
 	}
 
 	@Override

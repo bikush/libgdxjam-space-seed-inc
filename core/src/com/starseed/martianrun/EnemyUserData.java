@@ -1,8 +1,8 @@
-package com.starseed.box2d;
+package com.starseed.martianrun;
 
 import com.badlogic.gdx.math.Vector2;
+import com.starseed.box2d.UserData;
 import com.starseed.enums.UserDataType;
-import com.starseed.util.Constants;
 
 public class EnemyUserData extends UserData {
 
@@ -12,7 +12,7 @@ public class EnemyUserData extends UserData {
     public EnemyUserData(float width, float height, String[] textureRegions) {
         super(width, height);
         userDataType = UserDataType.ENEMY;
-        linearVelocity = Constants.ENEMY_LINEAR_VELOCITY;
+        linearVelocity = MConstants.ENEMY_LINEAR_VELOCITY;
         this.textureRegions = textureRegions;
     }
 

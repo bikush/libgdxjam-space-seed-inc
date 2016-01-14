@@ -1,4 +1,4 @@
-package com.starseed.actors;
+package com.starseed.martianrun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.starseed.box2d.EnemyUserData;
+import com.starseed.actors.GameActor;
 import com.starseed.util.Constants;
 
 public class Enemy extends GameActor {

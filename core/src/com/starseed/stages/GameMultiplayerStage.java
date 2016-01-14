@@ -60,16 +60,10 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
         setUpBackground();
         setUpEdges();
         setUpRunner();
-        createEnemy();
     }
 
     private void setUpBackground() {
     	addActor(new Background());
-	}
-
-	private void createEnemy() {
-    	 Enemy enemy = new Enemy(WorldUtils.createEnemy(world));
-         addActor(enemy);
 	}
 
 	private void setUpEdges() {
@@ -131,13 +125,8 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 
 	private void update(Body body) {
 		if (!BodyUtils.bodyInBounds(body)) {
-            if (BodyUtils.bodyIsEnemy(body) && !runner.isHit()) {
-                createEnemy();
-            }
-           /* if (BodyUtils.bodyIsRunner(body))
-            {
-            	setUpRunner();
-            }*/
+            
+			// Destroy bodies outside of the playing field?
             world.destroyBody(body);
         }
 	}

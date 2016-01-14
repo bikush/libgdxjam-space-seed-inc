@@ -8,7 +8,14 @@ import com.starseed.screens.AbstractScreen;
 
 public class StarSeedGame extends Game {
 	@Override
-	public void create () {
+	public void create () {	
+		// TODO: resize initial window to respond well to different desktop screen sizes
+		// Aspect ratio of the game should remain the same (4/3) and should
+		// be scaled to some percentage of the screen size
+//		int height = (int)(Gdx.graphics.getHeight() * 0.9f);
+//		int width = (int)( Constants.APP_WIDTH * height / (float)Constants.APP_HEIGHT );
+//		Gdx.graphics.setWindowedMode(width, height);
+				
 		GameMultiplayerScreen gameScreen = new GameMultiplayerScreen();
 		MainScreen mainScreen = new MainScreen();
 		mainScreen.setNextScreen(gameScreen);

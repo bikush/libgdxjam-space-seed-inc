@@ -2,7 +2,6 @@ package com.starseed.actors;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.EdgeUserData;
-import com.starseed.box2d.UserData;
 
 public class Edge extends GameActor {
 
@@ -11,7 +10,7 @@ public class Edge extends GameActor {
 	}
 
 	@Override
-	public UserData getUserData() {
+	public EdgeUserData getUserData() {
 		return (EdgeUserData) userData;
 	}
 

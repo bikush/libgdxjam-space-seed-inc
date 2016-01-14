@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.starseed.box2d.*;
 import com.starseed.enums.EdgeSideType;
 import com.starseed.enums.EnemyType;
+import com.starseed.martianrun.GroundUserData;
 
 public class WorldUtils {
 	
@@ -32,19 +33,7 @@ public class WorldUtils {
 		shape.dispose();
 		return body;
 	}
-	
-	public static Body createGround(World world) {
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(new Vector2(Constants.GROUND_X, Constants.GROUND_Y));
-		Body body = world.createBody(bodyDef);
-		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(Constants.GROUND_WIDTH / 2, Constants.GROUND_HEIGHT / 2);
-		body.createFixture(shape, Constants.GROUND_DENSITY);
-		body.setUserData( new GroundUserData(Constants.GROUND_WIDTH, Constants.GROUND_HEIGHT) );
-		shape.dispose();
-		return body;
-	}
-	
+		
 	public static Body createRunner(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;

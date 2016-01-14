@@ -1,5 +1,6 @@
-package com.starseed.box2d;
+package com.starseed.martianrun;
 
+import com.starseed.box2d.UserData;
 import com.starseed.enums.UserDataType;
 
 public class GroundUserData extends UserData {

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.RunnerUserData;
-import com.starseed.martianrun.GroundUserData;
 import com.starseed.util.Constants;
 
 public class Runner extends GameActor {

@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.starseed.box2d.*;
 import com.starseed.enums.EdgeSideType;
 import com.starseed.enums.EnemyType;
-import com.starseed.martianrun.GroundUserData;
 
 public class WorldUtils {
 	

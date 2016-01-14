@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.actors.GameActor;
-import com.starseed.box2d.UserData;
 import com.starseed.util.Constants;
 
 public class Ground extends GameActor {

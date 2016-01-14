@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.EnemyUserData;
-import com.starseed.box2d.UserData;
 import com.starseed.util.Constants;
 
 public class Enemy extends GameActor {

@@ -1,19 +1,19 @@
 
-start_button.png
+button.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-button_over
+button_off
   rotate: false
   xy: 1, 1
-  size: 180, 90
-  orig: 180, 90
+  size: 204, 102
+  orig: 204, 102
   offset: 0, 0
   index: -1
-button_pressed
+button_on
   rotate: false
-  xy: 183, 1
-  size: 180, 90
-  orig: 180, 90
+  xy: 207, 1
+  size: 204, 102
+  orig: 204, 102
   offset: 0, 0
   index: -1

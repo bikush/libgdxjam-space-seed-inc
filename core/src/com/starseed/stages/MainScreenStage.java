@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.starseed.actors.Background;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -26,18 +28,20 @@ public class MainScreenStage extends Stage {
 	}
 	
 	public void setUpMainStage() {
+		addActor(new Background());
 		skin = new Skin();
         skin.addRegions(new TextureAtlas(Constants.BUTTON_ATLAS_PATH));
 
 		// Store the default libgdx font under the name "default".
-		BitmapFont bfont=new BitmapFont();
-		skin.add("default",bfont);
+		BitmapFont bfont = new BitmapFont();
+		bfont.setColor(Color.BLUE);
+		skin.add("default", bfont);
 
 		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = skin.newDrawable("button_pressed");
-		textButtonStyle.down = skin.newDrawable("button_pressed");
-		textButtonStyle.over = skin.newDrawable("button_over");
+		textButtonStyle.up = skin.newDrawable("button_off");
+		textButtonStyle.down = skin.newDrawable("button_off");
+		textButtonStyle.over = skin.newDrawable("button_on");
 		textButtonStyle.font = skin.getFont("default");
 
 		skin.add("default", textButtonStyle);
@@ -58,7 +62,8 @@ public class MainScreenStage extends Stage {
 		});
 
 		// Create quit game button with the "default" TextButtonStyle. A 3rd parameter can be used to specify a name other than "default".
-		final TextButton quitButton=new TextButton("QUIT",textButtonStyle);
+		
+		final TextButton quitButton=new TextButton("QUIT", textButtonStyle);
 		quitButton.setPosition(50, 288);
 		this.addActor(quitButton);
 

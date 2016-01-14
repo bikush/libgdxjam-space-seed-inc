@@ -74,7 +74,7 @@ public class Constants {
     public static final String BACKGROUND_IMAGE_PATH = "background.png";
     public static final String GROUND_IMAGE_PATH = "ground.png";
     
-    public static final String BUTTON_ATLAS_PATH = "start_button.atlas";
+    public static final String BUTTON_ATLAS_PATH = "button.atlas";
     
     public static final String CHARACTERS_ATLAS_PATH = "characters.atlas";
     public static final String[] RUNNER_RUNNING_REGION_NAMES = new String[] {"alienGreen_run1", "alienGreen_run2"};

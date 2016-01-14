@@ -33,24 +33,29 @@ public class MainScreenStage extends Stage {
 	
 	public void setUpMainStage() {
 		addActor(new Background());
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constants.GAME_FONT));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constants.GAME_FONT_TITLE));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 24;
+		parameter.size = 50;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?: ";
 		// These characters should not repeat! 
 
-		BitmapFont bfont24 = generator.generateFont(parameter);
+		BitmapFont bfont50 = generator.generateFont(parameter);
 		
-		parameter.size = 16;
-		BitmapFont bfont16 = generator.generateFont(parameter);
+		FreeTypeFontGenerator generator2 = new FreeTypeFontGenerator(Gdx.files.internal(Constants.GAME_FONT));
+		parameter.size = 18;
+		BitmapFont bfont18 = generator2.generateFont(parameter);
+		
+		parameter.size = 30;
+		BitmapFont bfont30 = generator2.generateFont(parameter);
 		
 		
 		generator.dispose();
+		generator2.dispose();
 		
 		skin = new Skin();
         skin.addRegions(new TextureAtlas(Gdx.files.internal(Constants.BUTTON_ATLAS_PATH)));
-		skin.add("default-24", bfont24);
-		skin.add("default", bfont16);
+		skin.add("default-50", bfont50);
+		skin.add("default", bfont18);
 
 		// Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
@@ -91,11 +96,17 @@ public class MainScreenStage extends Stage {
 				Gdx.app.exit();
 			}
 		});
-		LabelStyle lStyle = new LabelStyle(bfont24, Color.WHITE);
+		LabelStyle lStyle = new LabelStyle(bfont50, Color.WHITE);
 		skin.add("default", lStyle);
-		final Label label = new Label("Space sperm!", skin);
-		label.setPosition(100, 700);
+		final Label label = new Label("Space seed INC.", skin);
+		label.setPosition(100, 650);
 		this.addActor(label);
+		
+		LabelStyle lStyle2 = new LabelStyle(bfont30, Color.WHITE);
+		skin.add("default", lStyle2);
+		final Label label2 = new Label("Primjer teksta da vidimo kako je genijalan font!\nTreba mi jos jedna recenica!", skin);
+		label2.setPosition(135, 550);
+		this.addActor(label2);
 	}
 
 	@Override

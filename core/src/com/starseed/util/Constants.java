@@ -9,6 +9,8 @@ public class Constants {
 	public static final float WORLD_TO_SCREEN = 8;
 	public static final Vector2 WORLD_GRAVITY = new Vector2( 0, 0 );
 	
+	public static final float RAD_TO_DEG = 180.0f / (float)Math.PI;
+	
 	/*
 	 * Multiplayer game constants
 	 */
@@ -29,8 +31,22 @@ public class Constants {
 	public static final float EDGE_INNER_X_END = WORLD_WIDTH - EDGE_WIDTH;
 	public static final float EDGE_INNER_Y_END = WORLD_HEIGHT - EDGE_WIDTH;
 	
+	// Ship values
+	public static final float SHIP_WIDTH = 8f;
+	public static final float SHIP_HEIGHT = 8f; 	
+	public static final float SHIP_DENSITY = 1.5f;
+	
+	public static final float SHIP_ANGULAR_IMPULSE = 80;
+	public static final float SHIP_ANGULAR_DAMPING = 6f;
+	public static final float SHIP_ENGINE_FORCE = 10000;
+	public static final float SHIP_LINEAR_DAMPING = 1f;
 	
 	
+	/*
+	 * Texture file paths
+	 */
+	
+	public static final String IMAGE_SHIP = "ship_player_1.png";
 	
 	
 	/*

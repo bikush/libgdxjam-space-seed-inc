@@ -25,6 +25,7 @@ import com.starseed.util.WorldUtils;
 public class GameMultiplayerStage extends Stage implements ContactListener {
 	
 	private Array<Edge> edges = new Array<Edge>(EdgeSideType.values().length);
+	private Ship player1 = null;
 		
 	private World world;
 	private Runner runner;
@@ -86,6 +87,9 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
     private void setUpRunner() {
         runner = new Runner(WorldUtils.createRunner(world));
         addActor(runner);
+        
+        player1 = new Ship( WorldUtils.createPlayerShip(world) );
+        addActor(player1);
     }
 
 	private void setupCamera() {
@@ -220,6 +224,31 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 	}
 	
 	@Override
+	public boolean keyDown(int keyCode) {
+		super.keyDown(keyCode);
+	
+		switch (keyCode) {
+		case Input.Keys.W:
+			player1.setEngineOn(true);
+			break;
+			
+		case Input.Keys.A:
+			player1.setTurnLeft(true);
+			break;
+			
+		case Input.Keys.D:
+			player1.setTurnRight(true);
+			break;
+			
+		default:
+			break;
+		
+		}
+		
+		return false;
+	}
+	
+	@Override
 	public boolean keyUp(int keyCode) {
 		// TODO Auto-generated method stub
 		super.keyUp(keyCode);
@@ -230,6 +259,19 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 			gameScreen.goBack = true;
 			retVal = true;
 			break;
+			
+		case Input.Keys.W:
+			player1.setEngineOn(false);
+			break;
+			
+		case Input.Keys.A:
+			player1.setTurnLeft(false);
+			break;
+			
+		case Input.Keys.D:
+			player1.setTurnRight(false);
+			break;
+			
 		default:
 			break;
 		

@@ -32,6 +32,31 @@ public class WorldUtils {
 		shape.dispose();
 		return body;
 	}
+	
+	public static Body createPlayerShip(World world) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(new Vector2(Constants.WORLD_WIDTH / 2, Constants.WORLD_HEIGHT / 2));
+        
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(Constants.SHIP_WIDTH / 2, Constants.SHIP_HEIGHT / 2);
+        Vector2[] triangle = new Vector2[] { 
+        		new Vector2( -Constants.SHIP_WIDTH * 0.3f, -Constants.SHIP_HEIGHT * 0.41f ), 
+        		new Vector2(  Constants.SHIP_WIDTH * 0.3f, -Constants.SHIP_HEIGHT * 0.41f ),
+        		new Vector2(  Constants.SHIP_WIDTH * 0.05f, Constants.SHIP_HEIGHT * 0.47f ),
+        		new Vector2( -Constants.SHIP_WIDTH * 0.05f, Constants.SHIP_HEIGHT * 0.47f ) };
+        shape.set( triangle );
+        
+        Body body = world.createBody(bodyDef);
+        body.createFixture(shape, Constants.SHIP_DENSITY);
+        body.resetMassData();
+        body.setUserData(new RunnerUserData( Constants.SHIP_WIDTH, Constants.SHIP_WIDTH ));
+        body.setAngularDamping(Constants.SHIP_ANGULAR_DAMPING);
+        body.setLinearDamping(Constants.SHIP_LINEAR_DAMPING);
+        
+        shape.dispose();
+        return body;
+    }
 		
 	public static Body createRunner(World world) {
         BodyDef bodyDef = new BodyDef();

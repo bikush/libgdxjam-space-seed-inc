@@ -59,6 +59,8 @@ public class Constants {
 	public static final String ATLAS_SHIP_EXHAUST_REGION = "exhaust";
 	public static final int ATLAS_SHIP_EXHAUST_COUNT = 4;
 	
+	public static final String IMAGE_SEED = "seed_%d.png";
+	
 	
 	/*
 	 *  MartianRun tutorial constants

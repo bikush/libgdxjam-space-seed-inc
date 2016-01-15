@@ -110,4 +110,18 @@ public class Ship extends GameActor {
 		return playerIndex;
 	}
 	
+	public Vector2 getFrontOfShip()
+	{
+		Vector2 direction = getDirection();
+		direction.setLength(getUserData().getHeight() * 0.5f);
+		direction.add( body.getPosition() );
+		return direction;
+	}
+	
+	public Vector2 getDirection()
+	{
+		Vector2 direction = new Vector2( 0, 1 );
+		direction.setAngle( 90f + body.getAngle() * Constants.RAD_TO_DEG );
+		return direction;
+	}
 }

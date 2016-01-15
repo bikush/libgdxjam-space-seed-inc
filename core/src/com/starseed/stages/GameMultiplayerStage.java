@@ -27,6 +27,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 	private Ship player1 = null;
 	private Ship player2 = null;
 	private Array<Asteroid> asteroids = new Array<Asteroid>();
+	private Array<Seed> seeds = new Array<Seed>();
 		
 	private World world;
 	private Runner runner;
@@ -115,6 +116,20 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
 		camera.update();
 	}
+	
+	private void createSeed( Ship sourceShip ) {		
+		int playerIndex = sourceShip.getPlayerIndex();
+		Vector2 position = sourceShip.getFrontOfShip();
+		Vector2 direction = sourceShip.getDirection();
+		float offset = Constants.SEED_RADIUS * 1.05f;
+		position.add( direction.scl(offset, offset));
+		
+		Seed newSeed = new Seed( WorldUtils.createSeed(world, position, direction), playerIndex );
+		addActor(newSeed);	
+		
+		seeds.add(newSeed);
+	}
+	
 
 	@Override
 	public void act(float delta) {
@@ -244,6 +259,10 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 			player1.setTurnRight(false);
 			break;
 			
+		case Input.Keys.Q:
+			createSeed(player1);
+			break;
+			
 		case Input.Keys.UP:
 			player2.setEngineOn(false);
 			break;
@@ -254,6 +273,10 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 			
 		case Input.Keys.RIGHT:
 			player2.setTurnRight(false);
+			break;
+			
+		case Input.Keys.SHIFT_RIGHT:
+			createSeed(player2);
 			break;
 			
 		default:

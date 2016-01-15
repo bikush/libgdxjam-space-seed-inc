@@ -16,9 +16,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.actors.*;
 import com.starseed.enums.AsteroidType;
 import com.starseed.enums.EdgeSideType;
+import com.starseed.enums.UserDataType;
 import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
+import com.starseed.util.Pair;
 import com.starseed.util.WorldUtils;
 
 public class GameMultiplayerStage extends Stage implements ContactListener {
@@ -28,6 +30,8 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 	private Ship player2 = null;
 	private Array<Asteroid> asteroids = new Array<Asteroid>();
 	private Array<Seed> seeds = new Array<Seed>();
+
+	private Array< Pair<Asteroid, Seed> > seedContactList = new Array<Pair<Asteroid,Seed>>();
 		
 	private World world;
 	private Runner runner;
@@ -130,6 +134,57 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 		seeds.add(newSeed);
 	}
 	
+	private Asteroid findAsteroid( Body aBody )
+	{
+		for( Asteroid asteroid : asteroids )
+		{
+			if( asteroid.getBody() == aBody )
+			{
+				return asteroid;
+			}
+		}
+		return null;
+	}
+	
+	private Seed findSeed( Body aBody )
+	{
+		for( Seed seed : seeds )
+		{
+			if( seed.getBody() == aBody )
+			{
+				return seed;
+			}
+		}
+		return null;
+	}
+		
+	private void addSeedAsteroidContact( Body a, Body b )
+	{
+		Asteroid asteroid = null;
+		if( BodyUtils.bodyIsOfType(a, UserDataType.ASTEROID) )
+		{
+			asteroid = findAsteroid(a);
+		}
+		else if( BodyUtils.bodyIsOfType(b, UserDataType.ASTEROID) )
+		{
+			asteroid = findAsteroid(b);
+		}
+		
+		Seed seed = null;
+		if( BodyUtils.bodyIsOfType(a, UserDataType.SEED) )
+		{
+			seed = findSeed(a);
+		}
+		else if( BodyUtils.bodyIsOfType(b, UserDataType.SEED) )
+		{
+			seed = findSeed(b);
+		}
+		
+		if( asteroid != null && seed != null )
+		{
+			seedContactList.add( new Pair<Asteroid,Seed>(asteroid,seed) );
+		}		
+	}
 
 	@Override
 	public void act(float delta) {
@@ -140,6 +195,18 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 
         for (Body body : bodies) {
             update(body);
+        }
+        
+        if( seedContactList.size > 0 )
+        {
+	        for( Pair<Asteroid,Seed> contact : seedContactList )
+	        {
+	        	contact.first.ensemenate( contact.second.getPlayerIndex());
+	        	
+	        	world.destroyBody(contact.second.getBody());
+	        	contact.second.remove();
+	        }
+	        seedContactList.clear();
         }
 
 		// Fixed timestep
@@ -161,7 +228,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
             world.destroyBody(body);
         }
 	}
-
+	
 	@Override
 	public void draw() {
 		super.draw();
@@ -172,8 +239,13 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 	@Override
 	public void beginContact(Contact contact) {
 		
-//		Body a = contact.getFixtureA().getBody();
-//        Body b = contact.getFixtureB().getBody();
+		Body a = contact.getFixtureA().getBody();
+        Body b = contact.getFixtureB().getBody();
+        
+        if( BodyUtils.bodiesAreOfTypes(a, b, UserDataType.ASTEROID, UserDataType.SEED) )
+        {
+        	addSeedAsteroidContact(a, b);
+        }
 
 //        if ((BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsEnemy(b)) ||
 //                (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsRunner(b))) {

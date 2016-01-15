@@ -20,23 +20,27 @@ public class BodyUtils {
 
         return true;
     }
+	
+	public static boolean bodiesAreOfTypes( Body first, Body second, UserDataType typeOne, UserDataType typeTwo )
+	{
+		UserData userDataFirst = (UserData) first.getUserData();
+		UserData userDataSecond = (UserData) second.getUserData();
+		
+		UserDataType typeFirst = userDataFirst != null ? userDataFirst.getUserDataType() : UserDataType.NONE;
+		UserDataType typeSecond = userDataSecond != null ? userDataSecond.getUserDataType() : UserDataType.NONE;
 
-    public static boolean bodyIsEnemy(Body body) {
+        return (typeFirst == typeOne && typeSecond == typeTwo) || (typeFirst == typeTwo && typeSecond == typeOne);		
+	}
+	
+	public static boolean bodiesAreOfType( Body first, Body second, UserDataType type )
+	{
+		return bodiesAreOfTypes(first, second, type, type);
+	}
+
+    public static boolean bodyIsOfType(Body body, UserDataType type) {
         UserData userData = (UserData) body.getUserData();
 
-        return userData != null && userData.getUserDataType() == UserDataType.ENEMY;
+        return userData != null && userData.getUserDataType() == type;
     }
     
-    public static boolean bodyIsRunner(Body body) {
-        UserData userData = (UserData) body.getUserData();
-
-        return userData != null && userData.getUserDataType() == UserDataType.RUNNER;
-    }
-
-    public static boolean bodyIsGround(Body body) {
-        UserData userData = (UserData) body.getUserData();
-
-        return userData != null && userData.getUserDataType() == UserDataType.GROUND;
-    }
-
 }

@@ -12,6 +12,7 @@ public class Asteroid extends GameActor {
 	
 	private TextureRegion asteroidFace;
 	private AsteroidType aType;
+	private int owningPlayer = 0;
 	
 	private static TextureAtlas asteroidAtlas = null;
 	private static TextureRegion getAsteroidTexture( AsteroidType type )
@@ -41,6 +42,14 @@ public class Asteroid extends GameActor {
 				
 		float scale = aType.getImageSize() / screenRectangle.width;
 		
+		if( owningPlayer == 1 )
+		{
+			batch.setColor( 1.0f, 0.55f, 0.0f, 1.0f);
+		}
+		if( owningPlayer == 2 )
+		{
+			batch.setColor( 0.85f, 0.0f, 0.5f, 1.0f);
+		}
 		batch.draw(
 				asteroidFace, 
 				screenRectangle.x, screenRectangle.y, 
@@ -49,6 +58,18 @@ public class Asteroid extends GameActor {
 				scale, scale, 
 				body.getAngle() * Constants.RAD_TO_DEG 
 			);
+		if( owningPlayer != 0 )
+		{
+			batch.setColor( 1.0f, 1.0f, 1.0f, 1.0f);
+		}
+	}
+	
+	public void ensemenate( int playerIndex )
+	{
+		if( owningPlayer == 0 )
+		{
+			owningPlayer = playerIndex;
+		}
 	}
 
 }

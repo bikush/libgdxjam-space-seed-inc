@@ -18,6 +18,10 @@ public abstract class GameActor extends Actor {
         screenRectangle = new Rectangle();
     }
     
+    public Body getBody() {
+    	return this.body;
+    }
+    
     @Override
     public void act(float delta) {
         super.act(delta);

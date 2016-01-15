@@ -1,0 +1,26 @@
+
+rightRocketButton.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+r2
+  rotate: false
+  xy: 1, 105
+  size: 256, 128
+  orig: 256, 128
+  offset: 0, 0
+  index: -1
+r0
+  rotate: false
+  xy: 1, 1
+  size: 204, 102
+  orig: 204, 102
+  offset: 0, 0
+  index: -1
+r1
+  rotate: false
+  xy: 259, 131
+  size: 204, 102
+  orig: 204, 102
+  offset: 0, 0
+  index: -1

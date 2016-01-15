@@ -36,10 +36,11 @@ public class WorldUtils {
 		return body;
 	}
 	
-	public static Body createPlayerShip(World world) {
+	public static Body createPlayerShip(World world, Vector2 position) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(new Vector2(Constants.WORLD_WIDTH / 2, Constants.WORLD_HEIGHT / 2));
+        bodyDef.position.set(position);
+        bodyDef.angle = (float)Math.PI * 1.5f;
         
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(Constants.SHIP_WIDTH / 2, Constants.SHIP_HEIGHT / 2);

@@ -20,10 +20,10 @@ public class Ship extends GameActor {
 	private float engineOnTime = 0.0f;
 	private Animation exhaustAnimation;
 
-	public Ship(Body body) {
+	public Ship(Body body, int playerIndex) {
 		super(body);
 		
-		shipTexture = new TextureRegion(new Texture(Gdx.files.internal(Constants.IMAGE_SHIP)));
+		shipTexture = new TextureRegion(new Texture(Gdx.files.internal( String.format(Constants.IMAGE_SHIP, playerIndex) )));
 		
 		TextureAtlas exhaustAtlas = new TextureAtlas(Constants.ATLAS_SHIP_EXHAUST);
         TextureRegion[] exhaustFrames = new TextureRegion[Constants.ATLAS_SHIP_EXHAUST_COUNT];

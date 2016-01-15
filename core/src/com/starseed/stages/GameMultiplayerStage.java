@@ -28,6 +28,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 	
 	private Array<Edge> edges = new Array<Edge>(EdgeSideType.values().length);
 	private Ship player1 = null;
+	private Ship player2 = null;
 	private Array<Asteroid> asteroids = new Array<Asteroid>();
 		
 	private World world;
@@ -86,8 +87,12 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
         runner = new Runner(WorldUtils.createRunner(world));
         addActor(runner);
         
-        player1 = new Ship( WorldUtils.createPlayerShip(world) );
+        player1 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH / 3, Constants.WORLD_HEIGHT * 0.25f)), 1 );
         addActor(player1);
+        
+        player2 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH / 3, Constants.WORLD_HEIGHT * 0.75f)), 2 );
+        addActor(player2);
+        
     }    
 
     private void setUpAsteroids() {
@@ -257,6 +262,18 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 			player1.setTurnRight(true);
 			break;
 			
+		case Input.Keys.UP:
+			player2.setEngineOn(true);
+			break;
+			
+		case Input.Keys.LEFT:
+			player2.setTurnLeft(true);
+			break;
+			
+		case Input.Keys.RIGHT:
+			player2.setTurnRight(true);
+			break;
+			
 		default:
 			break;
 		
@@ -287,6 +304,18 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 			
 		case Input.Keys.D:
 			player1.setTurnRight(false);
+			break;
+			
+		case Input.Keys.UP:
+			player2.setEngineOn(false);
+			break;
+			
+		case Input.Keys.LEFT:
+			player2.setTurnLeft(false);
+			break;
+			
+		case Input.Keys.RIGHT:
+			player2.setTurnRight(false);
 			break;
 			
 		default:

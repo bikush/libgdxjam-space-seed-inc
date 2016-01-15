@@ -45,13 +45,13 @@ public class MainScreenStage extends Stage {
 	}
 	private void defineActionMap() {
 		actionMap.put(0, 0.75f);  // fire seed
-		actionMap.put(1, 0.5f);  // go up
-		actionMap.put(2, 0.5f);  // stop
+		actionMap.put(1, 0.6f);  // go up
+		actionMap.put(2, 0.2f);  // stop
 		actionMap.put(3, 0.5f);  // go left
 		actionMap.put(4, 0.5f);  // stop going left, position: pi
 		actionMap.put(5, 0.75f);  // fire lasers
-		actionMap.put(6, 0.5f);  // go down
-		actionMap.put(7, 0.5f);  // stop
+		actionMap.put(6, 0.6f);  // go down
+		actionMap.put(7, 0.2f);  // stop
 		actionMap.put(8, 0.5f);  // go right
 		actionMap.put(9, 0.5f);  // stop going right, position: 0
 		time = -1.0f;
@@ -68,14 +68,14 @@ public class MainScreenStage extends Stage {
 		addLabel(credits, 28, Color.WHITE,
 				 130, 50, false);
 		String var_text = "Player 1:  W          Player 2:  Up";
-		variableLabel = addLabel(var_text, 28, Color.WHITE, 580, 400, false);
+		variableLabel = addLabel(var_text, 28, Color.WHITE, 580, 430, false);
 		setUpShips();
 	}
 	
     private void setUpShips() {
-        player1 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH * 0.65f, Constants.WORLD_HEIGHT * 0.1f), 0f), 1 );
+        player1 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH * 0.65f, Constants.WORLD_HEIGHT * 0.09f), 0f), 1 );
         addActor(player1);
-        player2 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH * 0.85f, Constants.WORLD_HEIGHT * 0.1f), 0f), 2 );
+        player2 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH * 0.85f, Constants.WORLD_HEIGHT * 0.09f), 0f), 2 );
         addActor(player2);
     }
 	

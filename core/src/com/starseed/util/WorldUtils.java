@@ -54,7 +54,7 @@ public class WorldUtils {
         Body body = world.createBody(bodyDef);
         body.createFixture(shape, Constants.SHIP_DENSITY);
         body.resetMassData();
-        body.setUserData(new RunnerUserData( Constants.SHIP_WIDTH, Constants.SHIP_WIDTH ));
+        body.setUserData(new ShipUserData( Constants.SHIP_WIDTH, Constants.SHIP_WIDTH ));
         body.setAngularDamping(Constants.SHIP_ANGULAR_DAMPING);
         body.setLinearDamping(Constants.SHIP_LINEAR_DAMPING);
         

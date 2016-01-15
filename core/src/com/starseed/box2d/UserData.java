@@ -2,7 +2,7 @@ package com.starseed.box2d;
 
 import com.starseed.enums.UserDataType;
 
-public abstract class UserData {
+public class UserData {
 
 	protected UserDataType userDataType;
 	protected float width;
@@ -11,6 +11,12 @@ public abstract class UserData {
     public UserData(float width, float height) {
         this.width = width;
         this.height = height;
+    }
+    
+    public UserData(float width, float height, UserDataType type) {
+        this.width = width;
+        this.height = height;
+        this.userDataType = type;
     }
 
     public float getWidth() {

@@ -42,6 +42,8 @@ public class Constants {
 	public static final float SHIP_ENGINE_FORCE = 10000;
 	public static final float SHIP_LINEAR_DAMPING = 1f;
 	
+	// Asteroid values
+	public static final float ASTEROID_DENSITY = 5f;
 	
 	/*
 	 * Texture file paths
@@ -85,4 +87,5 @@ public class Constants {
     public static final String RUNNER_HIT_REGION_NAME = "alienGreen_hit";
     public static final String RUNNER_JUMPING_REGION_NAME = "alienGreen_jump";
    
+	public static final String ASTEROID_ATLAS = "asteroids.atlas";
 }

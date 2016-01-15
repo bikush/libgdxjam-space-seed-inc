@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.actors.*;
+import com.starseed.enums.AsteroidType;
 import com.starseed.enums.EdgeSideType;
 import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.util.BodyUtils;
@@ -26,6 +28,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 	
 	private Array<Edge> edges = new Array<Edge>(EdgeSideType.values().length);
 	private Ship player1 = null;
+	private Array<Asteroid> asteroids = new Array<Asteroid>();
 		
 	private World world;
 	private Runner runner;
@@ -60,9 +63,10 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
         setUpBackground();
         setUpEdges();
         setUpRunner();
+        setUpAsteroids();
     }
 
-    private void setUpBackground() {
+	private void setUpBackground() {
     	addActor(new Background());
 	}
 
@@ -84,9 +88,33 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
         
         player1 = new Ship( WorldUtils.createPlayerShip(world) );
         addActor(player1);
-    }
+    }    
 
-	private void setupCamera() {
+    private void setUpAsteroids() {
+    	asteroids.clear();
+    	
+    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+    			world, AsteroidType.SMALL_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.2f))) );
+    	
+    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+    			world, AsteroidType.SMALL_2, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.35f))) );
+    	
+    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+    			world, AsteroidType.MEDIUM_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.5f))) );
+    	
+    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+    			world, AsteroidType.LARGE_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.65f))) );
+    	
+    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+    			world, AsteroidType.LARGE_2, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.8f))) );
+    	
+    	for( Asteroid asteroid : asteroids )
+    	{
+    		addActor(asteroid);
+    	}
+	}
+
+	private void setupCamera() 	{
 		camera = new OrthographicCamera(Constants.APP_WIDTH/Constants.WORLD_TO_SCREEN, Constants.APP_HEIGHT/Constants.WORLD_TO_SCREEN);
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
 		camera.update();

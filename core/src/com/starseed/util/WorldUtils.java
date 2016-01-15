@@ -1,12 +1,16 @@
 package com.starseed.util;
 
+import java.util.Random;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.starseed.box2d.*;
+import com.starseed.enums.AsteroidType;
 import com.starseed.enums.EdgeSideType;
 
 public class WorldUtils {
@@ -53,6 +57,27 @@ public class WorldUtils {
         body.setAngularDamping(Constants.SHIP_ANGULAR_DAMPING);
         body.setLinearDamping(Constants.SHIP_LINEAR_DAMPING);
         
+        shape.dispose();
+        return body;
+    }
+	
+	private static float angle = 0;
+	public static Body createAsteroid(World world, AsteroidType aType, Vector2 position) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(position);
+       
+        bodyDef.angle = angle;
+        angle += 3.1415926f * 0.5f;
+        
+        CircleShape shape = new CircleShape();
+        shape.setRadius(aType.getRadius());
+                
+        Body body = world.createBody(bodyDef);
+        body.createFixture(shape, Constants.ASTEROID_DENSITY);
+        body.resetMassData();
+        body.setUserData(new AsteroidUserData( aType.getRadius() * 2, aType.getRadius() * 2, aType ));
+        body.setAngularVelocity( (new Random()).nextFloat() * 5f - 2.5f );
         shape.dispose();
         return body;
     }

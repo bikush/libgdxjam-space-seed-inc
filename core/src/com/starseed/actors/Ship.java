@@ -13,6 +13,8 @@ import com.starseed.util.Constants;
 
 public class Ship extends GameActor {
 	
+	private int playerIndex = 0;
+	
 	private TextureRegion shipTexture = null;
 	private boolean engineOn = false;
 	private boolean turnLeft = false;
@@ -23,6 +25,7 @@ public class Ship extends GameActor {
 	public Ship(Body body, int playerIndex) {
 		super(body);
 		
+		this.playerIndex = playerIndex;
 		shipTexture = new TextureRegion(new Texture(Gdx.files.internal( String.format(Constants.IMAGE_SHIP, playerIndex) )));
 		
 		TextureAtlas exhaustAtlas = new TextureAtlas(Constants.ATLAS_SHIP_EXHAUST);
@@ -101,4 +104,10 @@ public class Ship extends GameActor {
 	{
 		turnRight = value;
 	}
+	
+	public int getPlayerIndex()
+	{
+		return playerIndex;
+	}
+	
 }

@@ -54,6 +54,10 @@ public class Constants {
 	 * Texture file paths
 	 */
 	
+	public static final String ATLAS_SHIP = "ship_and_seed.atlas";
+	public static final String ATLAS_SHIP_PLAYER_REGION = "ship_player";
+	public static final String ATLAS_SHIP_SEED_REGION = "seed";
+	
 	public static final String IMAGE_SHIP = "ship_player_%d.png";
 	public static final String ATLAS_SHIP_EXHAUST = "exhaust.atlas";
 	public static final String ATLAS_SHIP_EXHAUST_REGION = "exhaust";

@@ -1,7 +1,6 @@
 package com.starseed.actors;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -21,12 +20,22 @@ public class Ship extends GameActor {
 	private boolean turnRight = false;
 	private float engineOnTime = 0.0f;
 	private Animation exhaustAnimation;
+	
+	private static TextureAtlas shipSeedAtlas = null;
+	public static TextureRegion getShipTextureRegion( String regionName, int index )
+	{
+		if( shipSeedAtlas == null )
+		{
+			shipSeedAtlas = new TextureAtlas(Constants.ATLAS_SHIP);
+		}
+		return shipSeedAtlas.findRegion( regionName, index );
+	}
 
 	public Ship(Body body, int playerIndex) {
 		super(body);
 		
 		this.playerIndex = playerIndex;
-		shipTexture = new TextureRegion(new Texture(Gdx.files.internal( String.format(Constants.IMAGE_SHIP, playerIndex) )));
+		shipTexture = getShipTextureRegion(Constants.ATLAS_SHIP_PLAYER_REGION, playerIndex);
 		
 		TextureAtlas exhaustAtlas = new TextureAtlas(Constants.ATLAS_SHIP_EXHAUST);
         TextureRegion[] exhaustFrames = new TextureRegion[Constants.ATLAS_SHIP_EXHAUST_COUNT];

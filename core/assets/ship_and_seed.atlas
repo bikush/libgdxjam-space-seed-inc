@@ -1,0 +1,47 @@
+
+ship_and_seed.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+seed
+  rotate: false
+  xy: 1, 1
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 1
+seed
+  rotate: false
+  xy: 203, 1
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 2
+ship_player
+  rotate: false
+  xy: 405, 73
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 1
+ship_player
+  rotate: false
+  xy: 535, 73
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 2
+ship_player
+  rotate: false
+  xy: 665, 73
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 3
+ship_player
+  rotate: false
+  xy: 795, 73
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 4

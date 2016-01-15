@@ -45,6 +45,11 @@ public class Constants {
 	// Asteroid values
 	public static final float ASTEROID_DENSITY = 5f;
 	
+	// Seed values
+	public static final float SEED_RADIUS = 0.5f;
+	public static final float SEED_DENSITY = 0.5f;
+	public static final float SEED_SPEED = 150f;
+	
 	/*
 	 * Texture file paths
 	 */

@@ -10,15 +10,8 @@ import com.starseed.box2d.RunnerUserData;
 import com.starseed.util.Constants;
 
 public class Runner extends GameActor {
-	
-	private boolean jumping = false;
-	private boolean dodging = false;
-	private boolean hit;
-	
+		
 	private Animation runningAnimation;
-    private TextureRegion jumpingTexture;
-    private TextureRegion dodgingTexture;
-    private TextureRegion hitTexture;
     private float stateTime;
 
     public Runner(Body body) {
@@ -32,9 +25,6 @@ public class Runner extends GameActor {
         }
         runningAnimation = new Animation(0.1f, runningFrames);
         stateTime = 0f;
-        jumpingTexture = textureAtlas.findRegion(Constants.RUNNER_JUMPING_REGION_NAME);
-        dodgingTexture = textureAtlas.findRegion(Constants.RUNNER_DODGING_REGION_NAME);
-        hitTexture = textureAtlas.findRegion(Constants.RUNNER_HIT_REGION_NAME);
     }
     
     @Override
@@ -59,49 +49,7 @@ public class Runner extends GameActor {
     
     @Override
 	public RunnerUserData getUserData() {
-		// TODO Auto-generated method stub
 		return (RunnerUserData)userData;
 	}
-    
-    public void jump() {
-
-        if (!jumping && !dodging && !hit) {
-            body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(), body.getWorldCenter(), true);
-            jumping = true;
-        }
-
-    }
-
-    public void landed() {
-        jumping = false;
-    }
-    
-    public void dodge() {
-        if (!jumping && !hit) {
-            body.setTransform(getUserData().getDodgePosition(), getUserData().getDodgeAngle());
-            dodging = true;
-        }
-    }
-
-    public void stopDodge() {
-        dodging = false;
-        if( !hit )
-        {
-        	body.setTransform(getUserData().getRunningPosition(), 0f);
-        }
-    }
-
-    public boolean isDodging() {
-        return dodging;
-    }
-    
-    public void hit() {
-        body.applyAngularImpulse(getUserData().getHitAngularImpulse(), true);
-        hit = true;
-    }
-
-    public boolean isHit() {
-        return hit;
-    }
-
+  
 }

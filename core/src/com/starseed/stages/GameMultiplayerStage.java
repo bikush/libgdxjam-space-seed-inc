@@ -1,11 +1,8 @@
 package com.starseed.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -39,12 +36,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 
 	private OrthographicCamera camera;
 	private Box2DDebugRenderer renderer;
-	
-	private Rectangle screenLeftSide;
-	private Rectangle screenRightSide;
-
-    private Vector3 touchPoint;
-    
+	    
     private GameMultiplayerScreen gameScreen;
     
 	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
@@ -54,7 +46,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 		this.gameScreen = gameScreen;
         setUpWorld();
         setupCamera();
-        setupTouchControlAreas();
         renderer = new Box2DDebugRenderer();
     }
 
@@ -124,14 +115,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
 		camera.update();
 	}
-	
-	private void setupTouchControlAreas() {
-        touchPoint = new Vector3();
-        screenLeftSide = new Rectangle(0, 0, getCamera().viewportWidth / 2, getCamera().viewportHeight);
-        screenRightSide = new Rectangle(getCamera().viewportWidth / 2, 0, getCamera().viewportWidth / 2,
-                getCamera().viewportHeight);
-        Gdx.input.setInputProcessor(this);
-    }
 
 	@Override
 	public void act(float delta) {
@@ -170,78 +153,34 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 		renderer.render(world, camera.combined);
 	}
 	
-	@Override
-    public boolean touchDown(int x, int y, int pointer, int button) {
-
-        // Need to get the actual coordinates
-        translateScreenToWorldCoordinates(x, y);
-
-        if (rightSideTouched(touchPoint.x, touchPoint.y)) {
-            runner.jump();
-        } else if (leftSideTouched(touchPoint.x, touchPoint.y)) {
-            runner.dodge();
-        }
-
-        return super.touchDown(x, y, pointer, button);
-    }
-	
-	@Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-
-        if (runner.isDodging()) {
-            runner.stopDodge();
-        }
-
-        return super.touchUp(screenX, screenY, pointer, button);
-    }
-
-    private boolean rightSideTouched(float x, float y) {
-        return screenRightSide.contains(x, y);
-    }
-    
-    private boolean leftSideTouched(float x, float y) {
-        return screenLeftSide.contains(x, y);
-    }
-    
-    /**
-     * Helper function to get the actual coordinates in my world
-     * @param x
-     * @param y
-     */
-    private void translateScreenToWorldCoordinates(int x, int y) {
-        getCamera().unproject(touchPoint.set(x, y, 0));
-    }
-
+  
 	@Override
 	public void beginContact(Contact contact) {
 		
-		Body a = contact.getFixtureA().getBody();
-        Body b = contact.getFixtureB().getBody();
+//		Body a = contact.getFixtureA().getBody();
+//        Body b = contact.getFixtureB().getBody();
 
-        if ((BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsEnemy(b)) ||
-                (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsRunner(b))) {
-            runner.hit();
-        } else if ((BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsGround(b)) ||
-                (BodyUtils.bodyIsGround(a) && BodyUtils.bodyIsRunner(b))) {
-            runner.landed();
-        }
+//        if ((BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsEnemy(b)) ||
+//                (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsRunner(b))) {
+//            runner.hit();
+//        } else if ((BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsGround(b)) ||
+//                (BodyUtils.bodyIsGround(a) && BodyUtils.bodyIsRunner(b))) {
+//            runner.landed();
+//        }
 	}
 
 	@Override
 	public void endContact(Contact contact) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -284,7 +223,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 	
 	@Override
 	public boolean keyUp(int keyCode) {
-		// TODO Auto-generated method stub
 		super.keyUp(keyCode);
 		Boolean retVal = false;
 		

@@ -1,19 +1,27 @@
 package com.starseed.util;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.UserData;
 import com.starseed.enums.UserDataType;
 
 public class BodyUtils {
 	
+	private static Rectangle gameRect = new Rectangle(
+    		-Constants.WORLD_HALF_WIDTH, 
+    		-Constants.WORLD_HALF_HEIGHT, 
+    		Constants.WORLD_WIDTH * 2f,
+    		Constants.WORLD_HEIGHT * 2f);
+	
 	public static boolean bodyInBounds(Body body) {
-        UserData userData = (UserData) body.getUserData();
-
-        switch (userData.getUserDataType()) {
-            case RUNNER:
-            case ENEMY:
-                return body.getPosition().x + userData.getWidth() / 2 > 0;
-            case GROUND:
+        UserDataType type = bodyType(body);
+        switch (type) {
+        	case SEED:
+        	case ASTEROID:
+        	case RUNNER:
+        		return gameRect.contains( body.getPosition() );
+        		        		
+        	case GROUND:
             default:
             		break;
         }

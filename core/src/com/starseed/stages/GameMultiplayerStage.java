@@ -257,6 +257,23 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 
 	private void update(Body body) {
 		if (!BodyUtils.bodyInBounds(body)) {
+			
+			UserDataType type = BodyUtils.bodyType(body);
+			switch( type ){
+			case SEED:
+				Seed seed = findSeed(body);
+				seeds.removeValue(seed, true);
+				seed.remove();
+				break;
+				
+			case ASTEROID:
+				Asteroid asteroid = findAsteroid(body);
+				asteroid.remove();
+				break;
+				
+			default:
+				break;
+			}
             
 			// Destroy bodies outside of the playing field?
             world.destroyBody(body);

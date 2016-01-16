@@ -13,5 +13,20 @@ public class Pair<K, V> {
         this.first = first;
         this.second = second;
     }
+    
+    @Override
+    public int hashCode() {
+    	return (first.hashCode() ^ second.hashCode());
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if( obj != null &&  obj instanceof Pair<?,?> ){
+    		 Pair<?,?> otherPair = (Pair<?,?>)obj;
+    		 return otherPair.first.equals(first) && otherPair.second.equals(second) ||
+    				 otherPair.second.equals(first) && otherPair.first.equals(second);
+    	}
+    	return false;
+    }
 
 }

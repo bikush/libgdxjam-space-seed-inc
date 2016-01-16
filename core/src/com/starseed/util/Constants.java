@@ -66,6 +66,11 @@ public class Constants {
 	
 	public static final String IMAGE_SEED = "seed_%d.png";
 	
+	public static final String ATLAS_FLOWER_FORMAT = "flower_player_%d.atlas";
+	public static final String ATLAS_FLOWER_REGION = "flower";
+	public static final int ATLAS_FLOWER_FRAME_COUNT = 7;
+	public static final int ATLAS_FLOWER_START_INDEX = 1;
+	
 	
 	/*
 	 *  MartianRun tutorial constants

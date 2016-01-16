@@ -83,12 +83,12 @@ public class MainScreenStage extends Stage {
 		world = WorldUtils.createWorld();
 		addActor(new Background());
 		addRocketButtons();
-		this.addActor(style.addLabel("Space seed INC.", 52, Color.WHITE, 100, 680, true));
+		this.addActor(style.addLabel("Space seed INC.", 52, Color.WHITE, 80, 680, true));
 		String introText = generateSubtitleText();
-		introText += "\nPlay nice. Don't shoot the oponent. You'll loose points, too.";
-		this.addActor(style.addLabel(introText, 30, Color.WHITE, 130, 590, false));
+		introText += "\nPlay nice. Don't shoot at the oponent. You'll loose points, too.";
+		this.addActor(style.addLabel(introText, 30, Color.WHITE, 110, 590, false));
 		String credits = "Coders:\n    Bruno Mikus\n    Marija Dragojevic\nArtist:\n    Ivana Berkovic\n\nlibGDX JAM: January 2016";
-		this.addActor(style.addLabel(credits, 28, Color.WHITE, 130, 50, false));
+		this.addActor(style.addLabel(credits, 28, Color.WHITE, 110, 50, false));
 		String var_text = "Player 1:  W          Player 2:  Up";
 		variableLabel = style.addLabel(var_text, 28, Color.WHITE, 580, 430, false);
 		this.addActor(variableLabel);

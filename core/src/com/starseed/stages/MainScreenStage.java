@@ -90,7 +90,7 @@ public class MainScreenStage extends Stage {
 	}
 	
 	private void addRocketButtons() {
-		final TextButton startButton=new TextButton("PLAY", style.getRightRocketButtonStyle());
+		final TextButton startButton=new TextButton("", style.getRightRocketButtonStyle());
 		startButton.setPosition(100, 390);
 		this.addActor(startButton);
 		startButton.addListener(new ChangeListener() {
@@ -98,7 +98,7 @@ public class MainScreenStage extends Stage {
 				mainScreen.goToNextScreen = true;
 			}
 		});
-		final TextButton quitButton=new TextButton("QUIT", style.getLeftRocketButtonStyle());
+		final TextButton quitButton=new TextButton("", style.getLeftRocketButtonStyle());
 		quitButton.setPosition(100, 288);
 		this.addActor(quitButton);
 		quitButton.addListener(new ChangeListener() {

@@ -88,10 +88,7 @@ public class Constants {
     public static final String BACKGROUND_IMAGE_PATH = "background.png";
     public static final String GROUND_IMAGE_PATH = "ground.png";
     
-    public static final String BUTTON_ATLAS_PATH = "button.atlas";
-    public static final String R_BUTTON_ATLAS_PATH = "rightRocketButton.atlas";
-    public static final String L_BUTTON_ATLAS_PATH = "leftRocketButton.atlas";
-    public static final String  ROCKET_BUTTON_ATLAS_PATH = "rocket_button.atlas";
+    public static final String  ROCKET_BUTTON_ATLAS_PATH = "rocket_buttons.atlas";
     
     public static final String GAME_FONT_TITLE = "falconpunchcond.ttf";
     public static final String GAME_FONT = "zorque.ttf";

@@ -32,17 +32,16 @@ public class UIStyle {
 	}
 	private void addRocketButtonStyle() {
 		TextButtonStyle rigthButtonStyle = new TextButtonStyle();
-		skin.addRegions(new TextureAtlas(Gdx.files.internal(Constants.R_BUTTON_ATLAS_PATH)));
-		rigthButtonStyle.up = skin.newDrawable("r0");
-		rigthButtonStyle.down = skin.newDrawable("r1");
-		rigthButtonStyle.over = skin.newDrawable("r2");
+		skin.addRegions(new TextureAtlas(Gdx.files.internal(Constants.ROCKET_BUTTON_ATLAS_PATH)));
+		rigthButtonStyle.up = skin.newDrawable("play_no_flames");
+		rigthButtonStyle.down = skin.newDrawable("play_with_flames_pressed");
+		rigthButtonStyle.over = skin.newDrawable("play_with_flames_over");
 		rigthButtonStyle.font = getFont(18);
 		skin.add("rightRocketButton", rigthButtonStyle);
 		TextButtonStyle leftButtonStyle = new TextButtonStyle();
-		skin.addRegions(new TextureAtlas(Gdx.files.internal(Constants.L_BUTTON_ATLAS_PATH)));
-		leftButtonStyle.up = skin.newDrawable("l0");
-		leftButtonStyle.down = skin.newDrawable("l1");
-		leftButtonStyle.over = skin.newDrawable("l2");
+		leftButtonStyle.up = skin.newDrawable("quit_no_flames");
+		leftButtonStyle.over = skin.newDrawable("quit_with_flames_over");
+		leftButtonStyle.down = skin.newDrawable("quit_with_flames_pressed");
 		leftButtonStyle.font = getFont(20);
 		skin.add("leftRocketButton", leftButtonStyle);
 	}

@@ -1,0 +1,47 @@
+
+rocket_buttons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+play_no_flames
+  rotate: false
+  xy: 1, 104
+  size: 210, 101
+  orig: 210, 101
+  offset: 0, 0
+  index: -1
+play_with_flames_over
+  rotate: false
+  xy: 1, 1
+  size: 210, 101
+  orig: 210, 101
+  offset: 0, 0
+  index: -1
+play_with_flames_pressed
+  rotate: false
+  xy: 213, 104
+  size: 210, 101
+  orig: 210, 101
+  offset: 0, 0
+  index: -1
+quit_no_flames
+  rotate: false
+  xy: 213, 1
+  size: 210, 101
+  orig: 210, 101
+  offset: 0, 0
+  index: -1
+quit_with_flames_over
+  rotate: false
+  xy: 425, 104
+  size: 210, 101
+  orig: 210, 101
+  offset: 0, 0
+  index: -1
+quit_with_flames_pressed
+  rotate: false
+  xy: 425, 1
+  size: 210, 101
+  orig: 210, 101
+  offset: 0, 0
+  index: -1

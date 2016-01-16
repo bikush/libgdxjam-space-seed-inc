@@ -35,6 +35,8 @@ public class Constants {
 	public static final float EDGE_INNER_X_END = WORLD_WIDTH - EDGE_WIDTH;
 	public static final float EDGE_INNER_Y_END = WORLD_HEIGHT - EDGE_WIDTH;
 	
+	// Runners
+	public static final int NUMBER_OF_RUNNERS = 10;
 	// Ship values
 	public static final float SHIP_WIDTH = 8f;
 	public static final float SHIP_HEIGHT = 8f; 	

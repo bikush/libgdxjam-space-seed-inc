@@ -27,7 +27,6 @@ import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.Pair;
 import com.starseed.util.WorldUtils;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 public class GameMultiplayerStage extends Stage implements ContactListener, ContactFilter {
 	
@@ -35,6 +34,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	private Ship player1 = null;
 	private Ship player2 = null;
 	private Array<Asteroid> asteroids = new Array<Asteroid>();
+	private Array<Runner> runners= new Array<Runner>(Constants.NUMBER_OF_RUNNERS);
 	private Array<Seed> seeds = new Array<Seed>();
 
 	private Array< Pair<Asteroid, Seed> > seedContactList = new Array<Pair<Asteroid,Seed>>();
@@ -42,7 +42,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	private HashMap<Pair<UserDataType, UserDataType>, Boolean> contactMap = new HashMap<Pair<UserDataType,UserDataType>, Boolean>();
 		
 	private World world;
-	private Runner runner;
 
 	private final float TIME_STEP = 1 / 300f;
 	private float accumulator = 0f;
@@ -153,8 +152,11 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
     }
 
     private void setUpRunner() {
-        runner = new Runner(WorldUtils.createRunner(world));
-        addActor(runner);
+    	
+    	for (int i=0; i < Constants.NUMBER_OF_RUNNERS; i++) {
+    		runners.add(new Runner(WorldUtils.createRunner(world)));
+    		addActor(runners.get(i));
+    	}
         
         player1 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH / 3, Constants.WORLD_HEIGHT * 0.25f), (float)Math.PI * 1.5f), 1 );
         addActor(player1);

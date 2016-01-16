@@ -8,14 +8,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.starseed.actors.Asteroid;
 import com.starseed.actors.Background;
+import com.starseed.actors.Runner;
 import com.starseed.actors.Seed;
 import com.starseed.actors.Ship;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
 import com.starseed.util.WorldUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -38,6 +39,9 @@ public class MainScreenStage extends Stage {
 	private Vector2 shipInitPos1;
 	private Vector2 shipInitPos2;
 	HashMap<Integer,Float> actionMap;
+	private Array<Asteroid> asteroids = new Array<Asteroid>();
+	private Array<Runner> runners= new Array<Runner>(Constants.NUMBER_OF_RUNNERS);
+	
 	public MainScreenStage(MainScreen mainScreen) {
 		super(new FitViewport(
 			  Constants.APP_WIDTH, Constants.APP_HEIGHT ));
@@ -89,8 +93,15 @@ public class MainScreenStage extends Stage {
 		variableLabel = style.addLabel(var_text, 28, Color.WHITE, 580, 430, false);
 		this.addActor(variableLabel);
 		setUpShips();
+		setUpRunners();
 	}
 	
+	private void setUpRunners() {
+		for (int i=0; i < Constants.NUMBER_OF_RUNNERS; i++) {
+    		runners.add(new Runner(WorldUtils.createRunner(world)));
+    		addActor(runners.get(i));
+    	}
+	}
     private void setUpShips() {
     	shipInitPos1 = new Vector2(Constants.WORLD_WIDTH * 0.65f, Constants.WORLD_HEIGHT * 0.125f);
     	shipInitPos2 = new Vector2(Constants.WORLD_WIDTH * 0.85f, Constants.WORLD_HEIGHT * 0.125f);

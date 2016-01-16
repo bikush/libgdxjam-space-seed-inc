@@ -86,13 +86,14 @@ public class WorldUtils {
 	public static Body createRunner(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(new Vector2(Constants.RUNNER_X, Constants.RUNNER_Y));
+        bodyDef.position.set(new Vector2((new Random().nextFloat()) * Constants.WORLD_WIDTH, (new Random().nextFloat()) * Constants.WORLD_HEIGHT));
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(Constants.RUNNER_WIDTH / 2, Constants.RUNNER_HEIGHT / 2);
         Body body = world.createBody(bodyDef);
         body.createFixture(shape, Constants.RUNNER_DENSITY);
         body.setGravityScale(Constants.RUNNER_GRAVITY_SCALE);
         body.resetMassData();
+        body.setAngularVelocity((new Random()).nextFloat() * 5f - 2.5f);
         body.setUserData(new RunnerUserData( Constants.RUNNER_WIDTH, Constants.RUNNER_HEIGHT ));
         shape.dispose();
         return body;

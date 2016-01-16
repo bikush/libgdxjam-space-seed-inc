@@ -76,9 +76,9 @@ public class Asteroid extends GameActor {
 		{
 			owningPlayer = playerIndex;
 			float asteroidSize = aType.getRadius() * Constants.WORLD_TO_SCREEN;
-			
-			for( int i = 0; i<aType.getFlowerCount(); i++ ){
-				Flower flower = new Flower(asteroidSize, playerIndex);
+			int flowerCount = aType.getFlowerCount();
+			for( int i = 0; i<flowerCount; i++ ){
+				Flower flower = new Flower(asteroidSize, playerIndex, i, flowerCount);
 				flowers.add(flower);
 			}
 		}

@@ -48,9 +48,7 @@ public class Flower extends Actor {
 	
 	float delay = 0.0f;
 	
-	private static int startingAngle = 0;
-	
-	public Flower( float asteroidSize, int playerIndex )	{
+	public Flower( float asteroidSize, int playerIndex, int flowerNumber, int flowerCount )	{
 		super();
 		
 		TextureRegion[] bloomFrames = new TextureRegion[Constants.ATLAS_FLOWER_FRAME_COUNT];
@@ -70,10 +68,7 @@ public class Flower extends Actor {
         frameHeight = bloomFrames[0].getRegionHeight() * scale;        
         
         flowerOffset.setLength( distanceFactor * asteroidSize );
-		flowerOffset.setAngle( startingAngle + rand.nextInt(60) );
-		startingAngle += 100;
-		startingAngle %= 360;
-		
+		flowerOffset.setAngle( flowerNumber * 360 / flowerCount + rand.nextInt(60) );		
 		
 		delay = rand.nextFloat() * 2f;        
 	}

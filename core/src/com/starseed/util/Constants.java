@@ -25,6 +25,8 @@ public class Constants {
 	// Multiplayer game space is 128 * 84 meters
 	public static final float WORLD_WIDTH = APP_WIDTH / WORLD_TO_SCREEN;
 	public static final float WORLD_HEIGHT = (APP_HEIGHT - GAME_UI_HEIGHT) / WORLD_TO_SCREEN;
+	public static final float WORLD_HALF_WIDTH = WORLD_WIDTH * 0.5f;
+	public static final float WORLD_HALF_HEIGHT = WORLD_HEIGHT * 0.5f;
 
 	// Border around the game field
 	public static final float EDGE_WIDTH = WORLD_WIDTH * 0.025f;

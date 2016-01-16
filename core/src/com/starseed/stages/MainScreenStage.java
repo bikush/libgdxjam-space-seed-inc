@@ -8,14 +8,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.starseed.actors.Asteroid;
 import com.starseed.actors.Background;
+import com.starseed.actors.Runner;
 import com.starseed.actors.Seed;
 import com.starseed.actors.Ship;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
 import com.starseed.util.WorldUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -35,7 +36,12 @@ public class MainScreenStage extends Stage {
 	private int actionID=0;
 	private Label variableLabel=null;
 	private Array<Seed> seeds = new Array<Seed>();
+	private Vector2 shipInitPos1;
+	private Vector2 shipInitPos2;
 	HashMap<Integer,Float> actionMap;
+	private Array<Asteroid> asteroids = new Array<Asteroid>();
+	private Array<Runner> runners= new Array<Runner>(Constants.NUMBER_OF_RUNNERS);
+	
 	public MainScreenStage(MainScreen mainScreen) {
 		super(new FitViewport(
 			  Constants.APP_WIDTH, Constants.APP_HEIGHT ));
@@ -47,16 +53,16 @@ public class MainScreenStage extends Stage {
 		
 	}
 	private void defineActionMap() {
-		actionMap.put(0, 0.75f);  // fire seed
+		actionMap.put(0, 0.7f);  // fire seed
 		actionMap.put(1, 0.6f);  // go up
-		actionMap.put(2, 0.2f);  // stop
-		actionMap.put(3, 0.5f);  // go left
-		actionMap.put(4, 0.5f);  // stop going left, position: pi
-		actionMap.put(5, 0.75f);  // fire lasers
+		actionMap.put(2, 0.4f);  // stop
+		actionMap.put(3, 0.505f);  // go left
+		actionMap.put(4, 0.75f);  // stop going left, position: pi
+		actionMap.put(5, 0.7f);  // fire lasers
 		actionMap.put(6, 0.6f);  // go down
-		actionMap.put(7, 0.2f);  // stop
-		actionMap.put(8, 0.5f);  // go right
-		actionMap.put(9, 0.5f);  // stop going right, position: 0
+		actionMap.put(7, 0.4f);  // stop
+		actionMap.put(8, 0.505f);  // go right
+		actionMap.put(9, 0.75f);  // stop going right, position: 0
 		time = -1.0f;
 	}
 	
@@ -77,24 +83,31 @@ public class MainScreenStage extends Stage {
 		world = WorldUtils.createWorld();
 		addActor(new Background());
 		addRocketButtons();
-		addLabel("Space seed INC.", 52, Color.WHITE,
-				 100, 680, true);
+		this.addActor(style.addLabel("Space seed INC.", 52, Color.WHITE, 80, 680, true));
 		String introText = generateSubtitleText();
-		introText += "\nPlay nice. Don't shoot the oponent. You'll loose points too.";
-		addLabel(introText, 30, Color.WHITE,
-				 130, 590, false);
+		introText += "\nPlay nice. Don't shoot at the oponent. You'll loose points, too.";
+		this.addActor(style.addLabel(introText, 30, Color.WHITE, 110, 590, false));
 		String credits = "Coders:\n    Bruno Mikus\n    Marija Dragojevic\nArtist:\n    Ivana Berkovic\n\nlibGDX JAM: January 2016";
-		addLabel(credits, 28, Color.WHITE,
-				 130, 50, false);
+		this.addActor(style.addLabel(credits, 28, Color.WHITE, 110, 50, false));
 		String var_text = "Player 1:  W          Player 2:  Up";
-		variableLabel = addLabel(var_text, 28, Color.WHITE, 580, 430, false);
+		variableLabel = style.addLabel(var_text, 28, Color.WHITE, 580, 430, false);
+		this.addActor(variableLabel);
 		setUpShips();
+		setUpRunners();
 	}
 	
+	private void setUpRunners() {
+		for (int i=0; i < Constants.NUMBER_OF_RUNNERS; i++) {
+    		runners.add(new Runner(WorldUtils.createRunner(world)));
+    		addActor(runners.get(i));
+    	}
+	}
     private void setUpShips() {
-        player1 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH * 0.65f, Constants.WORLD_HEIGHT * 0.09f), 0f), 1 );
+    	shipInitPos1 = new Vector2(Constants.WORLD_WIDTH * 0.65f, Constants.WORLD_HEIGHT * 0.125f);
+    	shipInitPos2 = new Vector2(Constants.WORLD_WIDTH * 0.85f, Constants.WORLD_HEIGHT * 0.125f);
+        player1 = new Ship( WorldUtils.createPlayerShip(world, shipInitPos1, 0f), 1 );
         addActor(player1);
-        player2 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH * 0.85f, Constants.WORLD_HEIGHT * 0.09f), 0f), 2 );
+        player2 = new Ship( WorldUtils.createPlayerShip(world, shipInitPos2, 0f), 2 );
         addActor(player2);
     }
 	
@@ -125,16 +138,6 @@ public class MainScreenStage extends Stage {
 				Gdx.app.exit();
 			}
 		});
-	}
-	
-	private Label addLabel(String text, int fontSize, Color fontColor, 
-						  int posX, int posY, Boolean istitle) {
-		LabelStyle lStyle = (istitle) ? style.getTitleLabelStyle(fontSize, fontColor):
-									  style.getLabelStyle(fontSize, fontColor);
-		final Label label = new Label(text, lStyle);
-		label.setPosition(posX, posY);
-		this.addActor(label);
-		return label;
 	}
 	
 	@Override
@@ -168,9 +171,9 @@ public class MainScreenStage extends Stage {
 		String var_text;
 		switch (actionID) {
 		case 0:
-			player1.getBody().setTransform(player1.getBody().getPosition(), 0f);
+			player1.getBody().setTransform(shipInitPos1, 0f);
 			player1.getBody().setAngularVelocity(0f);
-			player2.getBody().setTransform(player2.getBody().getPosition(), 0f);
+			player2.getBody().setTransform(shipInitPos2, 0f);
 			player2.getBody().setAngularVelocity(0f);
 			player1.setEngineOn(false);
 			player2.setEngineOn(false);

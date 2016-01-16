@@ -79,8 +79,10 @@ public class MainScreenStage extends Stage {
 		addRocketButtons();
 		addLabel("Space seed INC.", 52, Color.WHITE,
 				 100, 680, true);
-		addLabel(generateSubtitleText(), 30, Color.WHITE,
-				 130, 630, false);
+		String introText = generateSubtitleText();
+		introText += "\nPlay nice. Don't shoot the oponent. You'll loose points too.";
+		addLabel(introText, 30, Color.WHITE,
+				 130, 590, false);
 		String credits = "Coders:\n    Bruno Mikus\n    Marija Dragojevic\nArtist:\n    Ivana Berkovic\n\nlibGDX JAM: January 2016";
 		addLabel(credits, 28, Color.WHITE,
 				 130, 50, false);

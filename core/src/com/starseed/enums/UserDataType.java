@@ -8,6 +8,7 @@ public enum UserDataType {
 	PLAYER,
 	ASTEROID,
 	SEED,
+	LASER,
 	
 	GROUND,
 	RUNNER,

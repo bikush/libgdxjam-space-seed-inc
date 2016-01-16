@@ -3,7 +3,7 @@ package com.starseed.actors;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.starseed.box2d.SeedUserData;
+import com.starseed.box2d.ProjectileUserData;
 import com.starseed.util.Constants;
 
 public class Seed extends GameActor {
@@ -16,8 +16,8 @@ public class Seed extends GameActor {
 	}
 
 	@Override
-	public SeedUserData getUserData() {
-		return (SeedUserData)userData;
+	public ProjectileUserData getUserData() {
+		return (ProjectileUserData)userData;
 	}
 	
 	public int getPlayerIndex()

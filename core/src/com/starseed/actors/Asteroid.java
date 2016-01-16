@@ -15,7 +15,8 @@ public class Asteroid extends GameActor {
 	private TextureRegion asteroidFace;
 	private AsteroidType aType;
 	private int owningPlayer = 0;
-	
+	private int health = 0;
+		
 	private Array<Flower> flowers = new Array<Flower>();
 	
 	private static TextureAtlas asteroidAtlas = null;
@@ -31,7 +32,9 @@ public class Asteroid extends GameActor {
 		super(body);
 		
 		aType = getUserData().getAsteroidType();
-		asteroidFace = getAsteroidTexture(aType);        
+		asteroidFace = getAsteroidTexture(aType); 
+		// TODO: specify health for every asteroid
+		health = Math.round( aType.getRadius() * 2f );
 	}
 
 	@Override
@@ -82,6 +85,16 @@ public class Asteroid extends GameActor {
 				flowers.add(flower);
 			}
 		}
+	}
+	
+	public void takeDamage()
+	{
+		health--;
+	}
+	
+	public boolean isDestroyed()
+	{
+		return health <= 0;
 	}
 
 }

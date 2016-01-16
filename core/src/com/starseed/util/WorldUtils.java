@@ -110,14 +110,36 @@ public class WorldUtils {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(shape, Constants.SEED_DENSITY);
 		body.resetMassData();
-		body.setUserData( new SeedUserData( Constants.SEED_RADIUS * 2f, Constants.SEED_RADIUS * 2f, playerIndex ));
+		body.setUserData( new ProjectileUserData( Constants.SEED_RADIUS * 2f, Constants.SEED_RADIUS * 2f, playerIndex, true ));
 		
 		Vector2 exitSpeed = new Vector2(direction);
 		exitSpeed.scl( Constants.SEED_SPEED );
 		body.setLinearVelocity( exitSpeed );
 		
-		shape.dispose();
+		shape.dispose();		
+		return body;
+	}
+	
+	public static Body createLaser(World world, Vector2 position, Vector2 direction, int playerIndex) {
 		
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyDef.BodyType.DynamicBody;
+		bodyDef.position.set(position);
+		bodyDef.angle = direction.angleRad();
+				
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox( Constants.LASER_WIDTH * 0.5f, Constants.LASER_HEIGHT * 0.5f);
+		
+		Body body = world.createBody(bodyDef);
+		body.createFixture(shape, Constants.LASER_DENSITY);
+		body.resetMassData();
+		body.setUserData( new ProjectileUserData( Constants.LASER_WIDTH, Constants.LASER_HEIGHT, playerIndex, false ));
+		
+		Vector2 exitSpeed = new Vector2(direction);
+		exitSpeed.scl( Constants.LASER_SPEED );
+		body.setLinearVelocity( exitSpeed );
+		
+		shape.dispose();		
 		return body;
 	}
 	

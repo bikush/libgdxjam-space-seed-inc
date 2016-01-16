@@ -27,7 +27,7 @@ public class Constants {
 	public static final float WORLD_HEIGHT = (APP_HEIGHT - GAME_UI_HEIGHT) / WORLD_TO_SCREEN;
 
 	// Border around the game field
-	public static final float EDGE_WIDTH = WORLD_WIDTH * 0.05f;
+	public static final float EDGE_WIDTH = WORLD_WIDTH * 0.025f;
 	public static final float EDGE_INNER_X_START = EDGE_WIDTH;
 	public static final float EDGE_INNER_Y_START = EDGE_WIDTH;
 	public static final float EDGE_INNER_X_END = WORLD_WIDTH - EDGE_WIDTH;

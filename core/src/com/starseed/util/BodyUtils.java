@@ -52,4 +52,14 @@ public class BodyUtils {
         return userData != null ? userData.getUserDataType(): UserDataType.NONE; 
     }
     
+    public static Body getBodyOfType( Body a, Body b, UserDataType type ){
+		if( bodyIsOfType(a, type) ){
+			return a;
+		}
+		if( bodyIsOfType(b, type) ){
+			return b;
+		}
+		return null;
+	}
+    
 }

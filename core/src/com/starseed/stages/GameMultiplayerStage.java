@@ -1,13 +1,16 @@
 package com.starseed.stages;
 
+import java.util.HashMap;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactFilter;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,7 +26,7 @@ import com.starseed.util.Constants;
 import com.starseed.util.Pair;
 import com.starseed.util.WorldUtils;
 
-public class GameMultiplayerStage extends Stage implements ContactListener {
+public class GameMultiplayerStage extends Stage implements ContactListener, ContactFilter {
 	
 	private Array<Edge> edges = new Array<Edge>(EdgeSideType.values().length);
 	private Ship player1 = null;
@@ -32,6 +35,8 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 	private Array<Seed> seeds = new Array<Seed>();
 
 	private Array< Pair<Asteroid, Seed> > seedContactList = new Array<Pair<Asteroid,Seed>>();
+	
+	private HashMap<Pair<UserDataType, UserDataType>, Boolean> contactMap = new HashMap<Pair<UserDataType,UserDataType>, Boolean>();
 		
 	private World world;
 	private Runner runner;
@@ -49,14 +54,43 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 				Constants.APP_WIDTH, Constants.APP_HEIGHT ));
 				//, new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
 		this.gameScreen = gameScreen;
+		setupContactMap();
         setUpWorld();
         setupCamera();
-        renderer = new Box2DDebugRenderer();
+        renderer = new Box2DDebugRenderer();       
+        
     }
 
-    private void setUpWorld() {
+    private void setupContactMap() {
+		contactMap.clear();
+		
+		// Asteroid contacts
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.ASTEROID), true);
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.PLAYER), true);
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.SEED), true);
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.EDGE), false);
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.RUNNER), true);
+		
+		// Seed contacts
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.SEED, UserDataType.PLAYER), true);
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.SEED, UserDataType.SEED), true);
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.SEED, UserDataType.EDGE), false);
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.SEED, UserDataType.RUNNER), true);
+		
+		// Player ship contacts
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.PLAYER, UserDataType.PLAYER), true);
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.PLAYER, UserDataType.EDGE), true);
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.PLAYER, UserDataType.RUNNER), true);
+		
+		// Edge contacts
+		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.EDGE, UserDataType.RUNNER), false);
+		
+	}
+
+	private void setUpWorld() {
         world = WorldUtils.createWorld();
         world.setContactListener(this);
+        world.setContactFilter(this);
         setUpBackground();
         setUpEdges();
         setUpRunner();
@@ -356,5 +390,14 @@ public class GameMultiplayerStage extends Stage implements ContactListener {
 		
 		}
 		return retVal;
+	}
+
+	@Override
+	public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
+		Body a = fixtureA.getBody();
+        Body b = fixtureB.getBody();
+        
+        Boolean contact = contactMap.get( new Pair<UserDataType, UserDataType>( BodyUtils.bodyType(a), BodyUtils.bodyType(b) ) );
+        return contact != null ? contact.booleanValue() : false;
 	}
 }

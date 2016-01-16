@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.starseed.util.Constants;
@@ -29,6 +30,16 @@ public class UIStyle {
 		}
 		return singleton;
 	}
+	
+	public Label addLabel(String text, int fontSize, Color fontColor, 
+			               int posX, int posY, Boolean istitle) {
+		LabelStyle lStyle = (istitle) ? getTitleLabelStyle(fontSize, fontColor):
+								        getLabelStyle(fontSize, fontColor);
+		final Label label = new Label(text, lStyle);
+		label.setPosition(posX, posY);
+		return label;
+	}
+	
 	private void addRocketButtonStyle() {
 		TextButtonStyle rigthButtonStyle = new TextButtonStyle();
 		skin.addRegions(new TextureAtlas(Gdx.files.internal(Constants.ROCKET_BUTTON_ATLAS_PATH)));

@@ -2,6 +2,7 @@ package com.starseed.stages;
 
 import java.util.HashMap;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.actors.*;
@@ -25,6 +27,7 @@ import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.Pair;
 import com.starseed.util.WorldUtils;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 public class GameMultiplayerStage extends Stage implements ContactListener, ContactFilter {
 	
@@ -49,6 +52,14 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	    
     private GameMultiplayerScreen gameScreen;
     
+    private float time;
+    private Label timeLabel;
+    
+    private Label player1Points;
+    private int p1Points = 0;
+    private int p2Points = 0;
+    private Label player2Points;
+    
 	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
 		super(new FitViewport(
 				Constants.APP_WIDTH, Constants.APP_HEIGHT ));
@@ -57,9 +68,24 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		setupContactMap();
         setUpWorld();
         setupCamera();
+        setupUI();
         renderer = new Box2DDebugRenderer();       
         
     }
+	
+	private void setupUI() {
+		UIStyle style = UIStyle.getSingleton();
+		this.addActor(style.addLabel("Player 1:", 30, Color.WHITE, 55, 720, false));
+		this.addActor(style.addLabel("Player 2:", 30, Color.WHITE, 360, 720, false));
+		this.addActor(style.addLabel("Time left", 30, Color.WHITE, 730, 720, false));
+		timeLabel = style.addLabel("02 : 00", 30, Color.WHITE, 885, 720, false);
+		time = 120f;
+		this.addActor(timeLabel);
+		player1Points = style.addLabel("0", 30, Color.WHITE, 205, 720, false);
+		this.addActor(player1Points);
+		player2Points = style.addLabel("0", 30, Color.WHITE, 510, 720, false);
+		this.addActor(player2Points);
+	}
 
     private void setupContactMap() {
 		contactMap.clear();
@@ -86,6 +112,19 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.EDGE, UserDataType.RUNNER), false);
 		
 	}
+    
+    private void updatePlayerPoints(int deltaPlayer1, int deltaPlayer2) {
+    	p1Points += deltaPlayer1;
+    	p2Points += deltaPlayer2;
+    	
+    	if (deltaPlayer1 != 0) {
+    		player1Points.setText(String.format("%d", p1Points));
+    	}
+    	
+    	if (deltaPlayer2 != 0) {
+    		player2Points.setText(String.format("%d", p2Points));
+    	}
+    }
 
 	private void setUpWorld() {
         world = WorldUtils.createWorld();
@@ -222,6 +261,13 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 
 	@Override
 	public void act(float delta) {
+		if (delta > Constants.DELTA_MAX) {
+			delta = Constants.DELTA_MAX;
+		}
+		time -= delta;
+		if (time >= 0f) {
+			timeLabel.setText(String.format("%02d : %02d", (int)time/60, (int)time%60));
+		}
 		super.act(delta);
 		
 		Array<Body> bodies = new Array<Body>(world.getBodyCount());

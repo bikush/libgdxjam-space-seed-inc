@@ -67,7 +67,7 @@ public class MainScreenStage extends Stage {
 		float offset = Constants.SEED_RADIUS * 1.05f;
 		position.add( direction.scl(offset, offset));
 		
-		Seed newSeed = new Seed( WorldUtils.createSeed(world, position, direction), playerIndex );
+		Seed newSeed = new Seed( WorldUtils.createSeed(world, position, direction, playerIndex) );
 		addActor(newSeed);	
 		
 		seeds.add(newSeed);

@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.starseed.box2d.*;
 import com.starseed.enums.AsteroidType;
 import com.starseed.enums.EdgeSideType;
-import com.starseed.enums.UserDataType;
 
 public class WorldUtils {
 	
@@ -99,7 +98,7 @@ public class WorldUtils {
         return body;
     }
 	
-	public static Body createSeed(World world, Vector2 position, Vector2 direction) {
+	public static Body createSeed(World world, Vector2 position, Vector2 direction, int playerIndex) {
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -111,7 +110,7 @@ public class WorldUtils {
 		Body body = world.createBody(bodyDef);
 		body.createFixture(shape, Constants.SEED_DENSITY);
 		body.resetMassData();
-		body.setUserData(new UserData( Constants.SEED_RADIUS * 2f, Constants.SEED_RADIUS * 2f, UserDataType.SEED ));
+		body.setUserData( new SeedUserData( Constants.SEED_RADIUS * 2f, Constants.SEED_RADIUS * 2f, playerIndex ));
 		
 		Vector2 exitSpeed = new Vector2(direction);
 		exitSpeed.scl( Constants.SEED_SPEED );

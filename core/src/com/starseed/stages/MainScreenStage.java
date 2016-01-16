@@ -6,8 +6,10 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.actors.Background;
+import com.starseed.actors.Seed;
 import com.starseed.actors.Ship;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
@@ -32,6 +34,7 @@ public class MainScreenStage extends Stage {
 	private float time;
 	private int actionID=0;
 	private Label variableLabel=null;
+	private Array<Seed> seeds = new Array<Seed>();
 	HashMap<Integer,Float> actionMap;
 	public MainScreenStage(MainScreen mainScreen) {
 		super(new FitViewport(
@@ -56,6 +59,20 @@ public class MainScreenStage extends Stage {
 		actionMap.put(9, 0.5f);  // stop going right, position: 0
 		time = -1.0f;
 	}
+	
+	private void createSeed( Ship sourceShip ) {		
+		int playerIndex = sourceShip.getPlayerIndex();
+		Vector2 position = sourceShip.getFrontOfShip();
+		Vector2 direction = sourceShip.getDirection();
+		float offset = Constants.SEED_RADIUS * 1.05f;
+		position.add( direction.scl(offset, offset));
+		
+		Seed newSeed = new Seed( WorldUtils.createSeed(world, position, direction), playerIndex );
+		addActor(newSeed);	
+		
+		seeds.add(newSeed);
+	}
+	
 	public void setUpMainStage() {
 		world = WorldUtils.createWorld();
 		addActor(new Background());
@@ -156,6 +173,8 @@ public class MainScreenStage extends Stage {
 			player1.setEngineOn(false);
 			player2.setEngineOn(false);
 			var_text = "Player 1:  Q          Player 2:  Shift";
+			createSeed(player1);
+			createSeed(player2);
 			variableLabel.setText(var_text);
 			break;
 		case 1:
@@ -187,6 +206,8 @@ public class MainScreenStage extends Stage {
 			player2.setEngineOn(false);
 			var_text = "Player 1:  Q          Player 2:  Shift";
 			variableLabel.setText(var_text);
+			createSeed(player1);
+			createSeed(player2);
 			break;
 		case 6:
 			player1.setEngineOn(true);

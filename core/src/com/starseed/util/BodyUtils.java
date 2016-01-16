@@ -23,11 +23,8 @@ public class BodyUtils {
 	
 	public static boolean bodiesAreOfTypes( Body first, Body second, UserDataType typeOne, UserDataType typeTwo )
 	{
-		UserData userDataFirst = (UserData) first.getUserData();
-		UserData userDataSecond = (UserData) second.getUserData();
-		
-		UserDataType typeFirst = userDataFirst != null ? userDataFirst.getUserDataType() : UserDataType.NONE;
-		UserDataType typeSecond = userDataSecond != null ? userDataSecond.getUserDataType() : UserDataType.NONE;
+		UserDataType typeFirst = bodyType(first);
+		UserDataType typeSecond = bodyType(second);
 
         return (typeFirst == typeOne && typeSecond == typeTwo) || (typeFirst == typeTwo && typeSecond == typeOne);		
 	}
@@ -38,9 +35,13 @@ public class BodyUtils {
 	}
 
     public static boolean bodyIsOfType(Body body, UserDataType type) {
-        UserData userData = (UserData) body.getUserData();
-
-        return userData != null && userData.getUserDataType() == type;
+         return bodyType(body) == type;
+    }
+    
+    public static UserDataType bodyType( Body body )
+    {
+    	UserData userData = (UserData) body.getUserData();
+        return userData != null ? userData.getUserDataType(): UserDataType.NONE; 
     }
     
 }

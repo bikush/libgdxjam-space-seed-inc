@@ -46,6 +46,10 @@ public class Flower extends Actor {
 	float bloomTime = 0f;
 	float scale = 1.0f;
 	
+	float delay = 0.0f;
+	
+	private static int startingAngle = 0;
+	
 	public Flower( float asteroidSize, int playerIndex )	{
 		super();
 		
@@ -54,7 +58,7 @@ public class Flower extends Actor {
         {
         	bloomFrames[i] = getFlowerRegion(playerIndex, Constants.ATLAS_FLOWER_START_INDEX + i );    
         }
-        bloomAnimation = new Animation(0.1f, bloomFrames);
+        bloomAnimation = new Animation(0.05f, bloomFrames);
         bloomAnimation.setPlayMode( PlayMode.NORMAL );
 
         Random rand = new Random();        
@@ -66,12 +70,22 @@ public class Flower extends Actor {
         frameHeight = bloomFrames[0].getRegionHeight() * scale;        
         
         flowerOffset.setLength( distanceFactor * asteroidSize );
-		flowerOffset.setAngle( rand.nextInt(360) );
-        
+		flowerOffset.setAngle( startingAngle + rand.nextInt(60) );
+		startingAngle += 100;
+		startingAngle %= 360;
+		
+		
+		delay = rand.nextFloat() * 2f;        
 	}
 	
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
+		
+		if( delay > 0.0f )
+		{
+			delay -= Gdx.graphics.getDeltaTime();
+			return;
+		}
 		
 		bloomTime += Gdx.graphics.getDeltaTime();	
 		

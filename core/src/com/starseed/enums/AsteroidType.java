@@ -5,8 +5,8 @@ public enum AsteroidType {
 	SMALL_1( 2f, 120f, "small", 1, 1 ),
 	SMALL_2( 2f, 42f, "small", 2, 1 ),
 	MEDIUM_1( 4f, 140f, "medium", 1, 2 ),
-	LARGE_1( 6f, 195f, "large", 1, 3 ),
-	LARGE_2( 6f, 165f, "large", 2, 3 );
+	LARGE_1( 6f, 195f, "large", 1, 4 ),
+	LARGE_2( 6f, 165f, "large", 2, 4 );
 	
 	private float radius;
 	private float imageSize;

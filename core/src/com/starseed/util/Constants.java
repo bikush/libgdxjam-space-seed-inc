@@ -12,6 +12,7 @@ public class Constants {
 	
 	public static final float RAD_TO_DEG = 180.0f / (float)Math.PI;
 	
+	public static final float DELTA_MAX = 1.0f/ 30.0f;
 	/*
 	 * Multiplayer game constants
 	 */

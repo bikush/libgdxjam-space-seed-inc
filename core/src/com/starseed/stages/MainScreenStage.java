@@ -215,6 +215,9 @@ public class MainScreenStage extends Stage {
 	
 	@Override
 	public void act(float delta) {
+		if (delta > Constants.DELTA_MAX) {
+			delta = Constants.DELTA_MAX;
+		}
 		super.act(delta);
 		time -= delta;
 		if (time < 0f) {

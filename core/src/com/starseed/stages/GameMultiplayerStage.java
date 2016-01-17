@@ -336,18 +336,24 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 				timeLabel.setText(String.format("%02d : %02d", (int)time/60, (int)time%60));
 			} else {
 				gameInProgress = false;
+				player1.setEngineOn(false);
+				player2.setEngineOn(false);
 				showEndingWindow();
 			}
 			
 			nextAsteroidIn -= delta;
 			if( nextAsteroidIn <= 0.0f ){
-				nextAsteroidIn += RandomUtils.rangeFloat( Constants.ASTEROID_SPAWN_DELAY_MIN, Constants.ASTEROID_SPAWN_DELAY_MAX);
+				if( Constants.GAME_DURATION - time < 10f ){
+					nextAsteroidIn += Constants.ASTEROID_SPAWN_DELAY_MIN;
+				}else{				
+					nextAsteroidIn += RandomUtils.rangeFloat( Constants.ASTEROID_SPAWN_DELAY_MIN, Constants.ASTEROID_SPAWN_DELAY_MAX);
+				}
 				
 				Vector2 position = new Vector2();
 				Vector2 velocity = new Vector2();
 				if( time > Constants.GAME_DURATION * 0.5f ){
 					position = new Vector2( 
-							Constants.WORLD_WIDTH + Constants.WORLD_HALF_WIDTH * 0.5f,
+							Constants.WORLD_WIDTH + Constants.WORLD_HALF_WIDTH * 0.25f,
 							Constants.WORLD_HEIGHT * RandomUtils.rangeFloat( 0.1f, 0.9f)
 							);
 					velocity = new Vector2(
@@ -356,7 +362,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 							);
 				}else{
 					position = new Vector2( 
-							-Constants.WORLD_HALF_WIDTH * 0.5f,
+							-Constants.WORLD_HALF_WIDTH * 0.25f,
 							Constants.WORLD_HEIGHT * RandomUtils.rangeFloat( 0.1f, 0.9f)
 							);
 					velocity = new Vector2(
@@ -565,8 +571,8 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         	Ship target = findPlayerShip(shipBody);
         	int targetedPlayer = target.getPlayerIndex();
         	if( laser.getUserData().getPlayerIndex() != targetedPlayer ){
-        		int deltaPoints1 = targetedPlayer == 2 ? -100 : 0;
-        		int deltaPoints2 = targetedPlayer == 1 ? -100 : 0;
+        		int deltaPoints1 = targetedPlayer == 2 ? -250 : 0;
+        		int deltaPoints2 = targetedPlayer == 1 ? -250 : 0;
         		updatePlayerPoints(deltaPoints1, deltaPoints2);
         	}
         	

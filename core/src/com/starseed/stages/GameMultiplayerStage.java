@@ -66,7 +66,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	    
     private GameMultiplayerScreen gameScreen;
     
-    private float time = 120f;
+    private float time = Constants.GAME_DURATION;
     private Label timeLabel;
     
     private float nextAsteroidIn = 0.0f;
@@ -339,14 +339,27 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			if( nextAsteroidIn <= 0.0f ){
 				nextAsteroidIn += RandomUtils.rangeFloat( Constants.ASTEROID_SPAWN_DELAY_MIN, Constants.ASTEROID_SPAWN_DELAY_MAX);
 				
-				Vector2 position = new Vector2( 
-						Constants.WORLD_WIDTH + Constants.WORLD_HALF_WIDTH * 0.5f,
-						Constants.WORLD_HEIGHT * RandomUtils.rangeFloat( 0.1f, 0.9f)
-						);
-				Vector2 velocity = new Vector2(
-						RandomUtils.rangeFloat(-20, -5),
-						RandomUtils.rangeFloat(-3, 3)
-						);
+				Vector2 position = new Vector2();
+				Vector2 velocity = new Vector2();
+				if( time > Constants.GAME_DURATION * 0.5f ){
+					position = new Vector2( 
+							Constants.WORLD_WIDTH + Constants.WORLD_HALF_WIDTH * 0.5f,
+							Constants.WORLD_HEIGHT * RandomUtils.rangeFloat( 0.1f, 0.9f)
+							);
+					velocity = new Vector2(
+							RandomUtils.rangeFloat(-15f, -2.5f),
+							RandomUtils.rangeFloat(-3f, 3f)
+							);
+				}else{
+					position = new Vector2( 
+							-Constants.WORLD_HALF_WIDTH * 0.5f,
+							Constants.WORLD_HEIGHT * RandomUtils.rangeFloat( 0.1f, 0.9f)
+							);
+					velocity = new Vector2(
+							RandomUtils.rangeFloat(15f, 2.5f),
+							RandomUtils.rangeFloat(-3f, 3f)
+							);
+				}
 				Asteroid newAsteroid =  new Asteroid( WorldUtils.createAsteroid( world, AsteroidType.getRandomType(), position) );
 				newAsteroid.getBody().setLinearVelocity( velocity );
 				asteroids.add( newAsteroid );

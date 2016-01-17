@@ -7,6 +7,8 @@ public class Constants {
 	
 	public static final String TITLE = "Space Seed Inc.";
 	
+	public static final float GAME_DURATION = 120f;
+	
 	public static final int APP_WIDTH = 1024;
 	public static final int APP_HEIGHT = 768;
 	public static final float WORLD_TO_SCREEN = 8;

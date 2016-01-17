@@ -338,14 +338,16 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		Body b = contact.second;
 		
         if( BodyUtils.bodiesAreOfTypes(a, b, UserDataType.ASTEROID, UserDataType.SEED) )
-        {
-        	//addSeedAsteroidContact(a, b);
-        	
+        {        	
         	Asteroid asteroid = findAsteroid( BodyUtils.getBodyOfType(a, b, UserDataType.ASTEROID) );
     		Seed seed = findSeed( BodyUtils.getBodyOfType(a, b, UserDataType.SEED) );
     		
-        	asteroid.ensemenate( seed.getPlayerIndex());
-        	// TODO: give points if ensemenated
+    		int playerSeedIndex = seed.getPlayerIndex();
+        	if( asteroid.ensemenate( playerSeedIndex ) ){
+        		int deltaPlayer1 = playerSeedIndex == 1 ? asteroid.getAsteroidType().getPoints() : 0;
+        		int deltaPlayer2 = playerSeedIndex == 2 ? asteroid.getAsteroidType().getPoints() : 0;
+        		updatePlayerPoints(deltaPlayer1, deltaPlayer2);
+        	}
         	
         	world.destroyBody(seed.getBody());
         	seed.remove();

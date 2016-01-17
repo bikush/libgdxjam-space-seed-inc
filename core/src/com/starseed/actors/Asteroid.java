@@ -73,9 +73,9 @@ public class Asteroid extends GameActor {
 		}
 	}
 	
-	public void ensemenate( int playerIndex )
+	public boolean ensemenate( int playerIndex )
 	{
-		if( owningPlayer == 0 )
+		if( owningPlayer == 0 && !isDestroyed() )
 		{
 			owningPlayer = playerIndex;
 			float asteroidSize = aType.getRadius() * Constants.WORLD_TO_SCREEN;
@@ -84,7 +84,10 @@ public class Asteroid extends GameActor {
 				Flower flower = new Flower(asteroidSize, playerIndex, i, flowerCount);
 				flowers.add(flower);
 			}
+			
+			return true;
 		}
+		return false;
 	}
 	
 	public void takeDamage()
@@ -95,6 +98,16 @@ public class Asteroid extends GameActor {
 	public boolean isDestroyed()
 	{
 		return health <= 0;
+	}
+	
+	public int getOwningPlayer()
+	{
+		return owningPlayer;
+	}
+	
+	public AsteroidType getAsteroidType()
+	{
+		return aType;
 	}
 
 }

@@ -13,15 +13,23 @@ public class BodyUtils {
     		Constants.WORLD_WIDTH * 2f,
     		Constants.WORLD_HEIGHT * 2f);
 	
+	private static Rectangle projectileRect = new Rectangle(
+    		-Constants.PROJECTILE_WIDHT, 
+    		-Constants.PROJECTILE_WIDHT, 
+    		Constants.WORLD_WIDTH + 2 * Constants.PROJECTILE_WIDHT,
+    		Constants.WORLD_HEIGHT + 2 * Constants.PROJECTILE_WIDHT);
+	
 	public static boolean bodyInBounds(Body body) {
         UserDataType type = bodyType(body);
         switch (type) {
+        	case LASER:
         	case SEED:
+        		return projectileRect.contains( body.getPosition() );
+        		
         	case ASTEROID:
         	case RUNNER:
         		return gameRect.contains( body.getPosition() );
-        		        		
-        	case GROUND:
+        		        	
             default:
             		break;
         }

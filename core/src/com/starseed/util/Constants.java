@@ -65,6 +65,8 @@ public class Constants {
 	public static final float LASER_DENSITY = 0f;
 	public static final float LASER_SPEED = SEED_SPEED * 1.75f;
 	
+	public static final float PROJECTILE_WIDHT = 2.0f;
+	
 	// Asteroid spawn values
 	public static final float ASTEROID_SPAWN_DELAY_MAX = 3f;
 	public static final float ASTEROID_SPAWN_DELAY_MIN = 1f;

@@ -696,13 +696,13 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			}
 			break;
 			
-		case Input.Keys.Q:
+		case Input.Keys.SHIFT_LEFT:
 			if (gameInProgress) {
 				createSeed(player1);
 			}
 			break;
 			
-		case Input.Keys.E:
+		case Input.Keys.CONTROL_LEFT:
 			if (gameInProgress) {
 				createLaser(player1);
 			}

@@ -253,14 +253,14 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 			player1.setEngineOn(false);
 			player2.setEngineOn(false);
 			if (seedTurn) {
-				var_text = "Mr. Orange:  Q          Ms. Purple:  Shift";
+				var_text = "Mr. Orange:  Shift    Ms. Purple:  Shift";
 				seedTurn = false;
 				shootSeed = true;
 				shootLaser = false;
 				createSeed(player1);
 				createSeed(player2);
 			} else {
-				var_text = String.format( "Mr. Orange:  E          Ms. Purple:  %s", isMac ? "Alt" : "Ctrl" );
+				var_text = String.format( "Mr. Orange:  Ctrl    Ms. Purple:  %s", isMac ? "Alt" : "Ctrl" );
 				seedTurn = true;
 				shootSeed = false;
 				shootLaser = true;

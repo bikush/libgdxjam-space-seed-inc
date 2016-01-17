@@ -3,6 +3,7 @@ package com.starseed.game.desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.starseed.game.StarSeedGame;
@@ -23,6 +24,10 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = width;
         config.height = height;
+        config.title = Constants.TITLE;
+        config.addIcon("icon_128.png", FileType.Internal);
+        config.addIcon("icon_32.png", FileType.Internal);
+        config.addIcon("icon_16.png", FileType.Internal);
         new LwjglApplication(new StarSeedGame(), config);
         
 	}

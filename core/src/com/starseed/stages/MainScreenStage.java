@@ -132,6 +132,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		addActor(newSeed);	
 		
 		seeds.add(newSeed);
+		SoundManager.playSound(Constants.SOUND_SEED_SHOT, 0.7f);
 	}
 	
 	private void createLaser( Ship sourceShip ){

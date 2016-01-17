@@ -231,6 +231,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		addActor(newSeed);	
 		
 		seeds.add(newSeed);
+		SoundManager.playSound(Constants.SOUND_SEED_SHOT, 0.7f);
 	}
 	
 	private void createLaser( Ship sourceShip ){

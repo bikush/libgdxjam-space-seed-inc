@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.starseed.util.Constants;
+import com.starseed.util.RandomUtils;
+import com.starseed.util.SoundManager;
 
 public class Flower extends Actor {
 	// Damnit, this is getting ridiculous...
@@ -47,6 +49,7 @@ public class Flower extends Actor {
 	float scale = 1.0f;
 	
 	float delay = 0.0f;
+	private boolean didPlaySound = false;
 	
 	public Flower( float asteroidSize, int playerIndex, int flowerNumber, int flowerCount )	{
 		super();
@@ -80,6 +83,10 @@ public class Flower extends Actor {
 		{
 			delay -= Gdx.graphics.getDeltaTime();
 			return;
+		}
+		if( !didPlaySound ){
+			SoundManager.playSound(Constants.SOUND_BLOOMING, 0.25f, RandomUtils.rangeFloat(0.75f, 1.25f));
+			didPlaySound = true;
 		}
 		
 		bloomTime += Gdx.graphics.getDeltaTime();	

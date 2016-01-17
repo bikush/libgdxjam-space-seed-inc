@@ -34,6 +34,7 @@ import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.Pair;
+import com.starseed.util.RandomUtils;
 import com.starseed.util.WorldUtils;
 
 public class GameMultiplayerStage extends Stage implements ContactListener, ContactFilter {
@@ -65,6 +66,8 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
     
     private float time;
     private Label timeLabel;
+    
+    private float nextAsteroidIn = 0.0f;
     
     private Label player1Points;
     private int p1Points = 0;
@@ -177,25 +180,25 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
     private void setUpAsteroids() {
     	asteroids.clear();
     	
-    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-    			world, AsteroidType.SMALL_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.2f))) );
-    	
-    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-    			world, AsteroidType.SMALL_2, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.35f))) );
-    	
-    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-    			world, AsteroidType.MEDIUM_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.5f))) );
-    	
-    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-    			world, AsteroidType.LARGE_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.65f))) );
-    	
-    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-    			world, AsteroidType.LARGE_2, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.8f))) );
-    	
-    	for( Asteroid asteroid : asteroids )
-    	{
-    		addActor(asteroid);
-    	}
+//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+//    			world, AsteroidType.SMALL_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.2f))) );
+//    	
+//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+//    			world, AsteroidType.SMALL_2, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.35f))) );
+//    	
+//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+//    			world, AsteroidType.MEDIUM_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.5f))) );
+//    	
+//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+//    			world, AsteroidType.LARGE_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.65f))) );
+//    	
+//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+//    			world, AsteroidType.LARGE_2, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.8f))) );
+//    	
+//    	for( Asteroid asteroid : asteroids )
+//    	{
+//    		addActor(asteroid);
+//    	}
 	}
 
 	private void setupCamera() 	{
@@ -297,7 +300,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		}
 		return null;
 	}
-	
+		
 	@Override
 	public void act(float delta) {
 		if (delta > Constants.DELTA_MAX) {
@@ -310,6 +313,24 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			} else {
 				gameInProgress = false;
 				showEndingWindow();
+			}
+			
+			nextAsteroidIn -= delta;
+			if( nextAsteroidIn <= 0.0f ){
+				nextAsteroidIn += RandomUtils.rangeFloat( Constants.ASTEROID_SPAWN_DELAY_MIN, Constants.ASTEROID_SPAWN_DELAY_MAX);
+				
+				Vector2 position = new Vector2( 
+						Constants.WORLD_WIDTH + Constants.WORLD_HALF_WIDTH * 0.5f,
+						Constants.WORLD_HEIGHT * RandomUtils.rangeFloat( 0.1f, 0.9f)
+						);
+				Vector2 velocity = new Vector2(
+						RandomUtils.rangeFloat(-20, -5),
+						RandomUtils.rangeFloat(-3, 3)
+						);
+				Asteroid newAsteroid =  new Asteroid( WorldUtils.createAsteroid( world, AsteroidType.getRandomType(), position) );
+				newAsteroid.getBody().setLinearVelocity( velocity );
+				asteroids.add( newAsteroid );
+				addActor( newAsteroid );
 			}
 		}
 		super.act(delta);

@@ -10,6 +10,10 @@ public class RandomUtils {
 		return rand.nextFloat() * (max - min) + min;
 	}
 	
+	public static float nextFloat(){
+		return rand.nextFloat();
+	}
+	
 	/**
 	 * Produce a random integer within the min/max. Borders are inclusive.
 	 * @param min Lower limit.

@@ -9,10 +9,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+//import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactFilter;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -60,7 +59,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	private float accumulator = 0f;
 
 	private OrthographicCamera camera;
-	private Box2DDebugRenderer renderer;
+	//private Box2DDebugRenderer renderer;
 	    
     private GameMultiplayerScreen gameScreen;
     
@@ -87,7 +86,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         setUpWorld();
         setupCamera();
         setupUI();
-        renderer = new Box2DDebugRenderer();       
+        //renderer = new Box2DDebugRenderer();       
         
     }
 	

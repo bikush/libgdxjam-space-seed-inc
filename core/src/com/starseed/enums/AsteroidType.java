@@ -1,7 +1,5 @@
 package com.starseed.enums;
 
-import java.util.Random;
-
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.starseed.util.RandomUtils;

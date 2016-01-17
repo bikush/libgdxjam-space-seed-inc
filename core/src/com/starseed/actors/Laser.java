@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.ProjectileUserData;
-import com.starseed.box2d.UserData;
 import com.starseed.util.Constants;
 
 public class Laser extends GameActor {

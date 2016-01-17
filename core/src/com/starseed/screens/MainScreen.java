@@ -16,7 +16,6 @@ public class MainScreen extends AbstractScreen {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		goToNextScreen = false;
 		Gdx.input.setInputProcessor(stage);
 	}
@@ -32,31 +31,26 @@ public class MainScreen extends AbstractScreen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
 		stage.getViewport().update(width, height, true);
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 
 	}
 }

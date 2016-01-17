@@ -9,7 +9,6 @@ public abstract class AbstractScreen implements Screen {
 	private AbstractScreen nextScreen;
 	
 	public AbstractScreen() {
-		// TODO Auto-generated constructor stub
 		goBack = false;
 		goToNextScreen = false;
 	}

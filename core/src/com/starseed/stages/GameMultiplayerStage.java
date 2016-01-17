@@ -291,11 +291,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 				break;
 				
 			case ASTEROID:
-				Asteroid asteroid = findAsteroid(body);
-				oldAsteroids.add(asteroid);
-				asteroids.removeValue(asteroid, true);
-				asteroid.remove();
-				world.destroyBody(body);
+				removeAsteroidByBody(body, false);
 				break;
 				
 			case LASER:				
@@ -318,6 +314,25 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			lasers.removeValue(laser, true);
 			laser.remove();
 			world.destroyBody(laser.getBody());
+		}
+	}
+	
+	private void removeAsteroidByBody( Body asteroidBody, boolean wasDestroyed ) {
+		Asteroid asteroid = findAsteroid(asteroidBody);
+		if( !wasDestroyed )
+		{
+			oldAsteroids.add(asteroid);
+		}
+		asteroids.removeValue(asteroid, true);
+		asteroid.remove();
+		world.destroyBody(asteroidBody);
+		
+		// TODO: dumb placement, move somwhere better
+		if( wasDestroyed )
+		{
+			Asteroid newAsteroid =  new Asteroid( WorldUtils.createAsteroid( world, AsteroidType.SMALL_1, asteroidBody.getPosition()) );
+			asteroids.add( newAsteroid );
+			addActor( newAsteroid );
 		}
 	}
 	
@@ -365,6 +380,16 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         	Asteroid asteroid = findAsteroid(asteroidBody);
         	asteroid.takeDamage();
         	// TODO: damaging update image, ah
+        	
+        	if( asteroid.isDestroyed() ){
+        		int asteroidPlayerIndex = asteroid.getOwningPlayer();
+        		int deltaPlayer1 = asteroidPlayerIndex == 1 ? -asteroid.getAsteroidType().getPoints() : 0;
+        		int deltaPlayer2 = asteroidPlayerIndex == 2 ? -asteroid.getAsteroidType().getPoints() : 0;
+        		updatePlayerPoints(deltaPlayer1, deltaPlayer2);
+        		
+        		removeAsteroidByBody(asteroidBody, true);        		
+        	}
+        	
         	return;
         }
         

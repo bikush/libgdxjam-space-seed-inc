@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -198,6 +199,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		startButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				mainScreen.goToNextScreen = true;
+				SoundManager.playSound(Constants.BUTTON_PRESSED, 0.5f);
 			}
 		});
 		final TextButton quitButton=new TextButton("", style.getLeftRocketButtonStyle());
@@ -205,6 +207,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		this.addActor(quitButton);
 		quitButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
+				SoundManager.playSound(Constants.BUTTON_PRESSED, 0.5f);
 				Gdx.app.exit();
 			}
 		});

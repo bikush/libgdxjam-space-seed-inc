@@ -33,7 +33,7 @@ public class Runner extends GameActor {
 
         float x = screenRectangle.x - (screenRectangle.width * 0.1f);
         float y = screenRectangle.y;
-        float width = screenRectangle.width * 1.2f;
+        float width = screenRectangle.width * 1.4f;
         float height = screenRectangle.height * 1.2f;
         
         // Running

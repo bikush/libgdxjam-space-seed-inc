@@ -45,7 +45,7 @@ public class Constants {
 	public static final float SHIP_HEIGHT = 8f; 	
 	public static final float SHIP_DENSITY = 1.5f;
 	
-	public static final float SHIP_ANGULAR_IMPULSE = 80;
+	public static final float SHIP_ANGULAR_IMPULSE = 70;
 	public static final float SHIP_ANGULAR_DAMPING = 6f;
 	public static final float SHIP_ENGINE_FORCE = 10000;
 	public static final float SHIP_LINEAR_DAMPING = 1f;

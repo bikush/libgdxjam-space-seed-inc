@@ -112,12 +112,12 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		actionMap.put(0, 1f);  // fire seed or laser
 		actionMap.put(1, 0.6f);  // go up
 		actionMap.put(2, 0.4f);  // stop
-		actionMap.put(3, 0.506f);  // go left
+		actionMap.put(3, 0.6f);  // go left
 		actionMap.put(4, 0.5f);  // stop going left, position: pi
 		actionMap.put(5, 0.1f);
 		actionMap.put(6, 0.6f);  // go down
 		actionMap.put(7, 0.4f);  // stop
-		actionMap.put(8, 0.506f);  // go right
+		actionMap.put(8, 0.6f);  // go right
 		actionMap.put(9, 0.5f);  // stop going right, position: 0
 		time = -1.0f;
 	}

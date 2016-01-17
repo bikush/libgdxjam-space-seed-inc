@@ -3,6 +3,7 @@ package com.starseed.stages;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -63,7 +64,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	    
     private GameMultiplayerScreen gameScreen;
     
-    private float time;
+    private float time = 120f;
     private Label timeLabel;
     
     private float nextAsteroidIn = 0.0f;
@@ -96,7 +97,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		this.addActor(style.addLabel("Ms. Purple:", 30, Color.WHITE, 380, 720, false));
 		this.addActor(style.addLabel("Time left", 30, Color.WHITE, 730, 720, false));
 		timeLabel = style.addLabel("02 : 00", 30, Color.WHITE, 885, 720, false);
-		time = 120f;
 		this.addActor(timeLabel);
 		player1Points = style.addLabel("0", 30, Color.WHITE, 240, 720, false);
 		this.addActor(player1Points);
@@ -107,7 +107,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	
 	private void setUpInstructionWindow() {
 		Pixmap pixWindow = new Pixmap((int)(Constants.APP_WIDTH*0.8), (int)(Constants.APP_HEIGHT*0.7), Format.RGBA8888);
-		pixWindow.setColor(0.2f, 0.2f, 0.2f, 0.3f);
+		pixWindow.setColor(0.05f, 0.05f, 0.1f, 0.8f);
 		pixWindow.fill();
 		instructionWindow = new Image( new Texture( pixWindow ) );
 		instructionWindow.setPosition(100, 80);
@@ -125,14 +125,18 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	
 	private void showEndingWindow() {
 		String endText = (this.p1Points > this.p2Points) ? "Mr. Orange, " : "Ms. Purple, ";
-		endText += "Victory!\nCongratulations!\nYou're the greatest\ninseminator!";
-		instruction = style.addLabel(endText, 50, Color.WHITE, 130, 310, true);
+		endText += "Victory!\nCongratulations!\n\nYou're the greatest\ninseminator!";
+		instruction = style.addLabel(endText, 50, Color.WHITE, 130, 300, true);
 		this.addActor(instruction);
 		instructionWindow.setVisible(true);
 		instruction.setVisible(true);
 		String returnToMain = "Press escape to return to the main screen.";
-		this.addActor(style.addLabel(returnToMain, 36, Color.WHITE, 130, 150, false));
-		
+		this.addActor(style.addLabel(returnToMain, 36, Color.WHITE, 130, 130, false));
+		String imagePath = (this.p1Points > this.p2Points) ? "orange_winner.png" : "purple_winner.png";
+		Image winner = new Image(new Texture(Gdx.files.internal(imagePath)));
+		winner.setPosition(500, 150);
+		winner.setRotation(30);
+		this.addActor(winner);
 	}
 	
 	private void setUpWorld() {

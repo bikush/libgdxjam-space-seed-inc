@@ -91,7 +91,6 @@ public class WorldUtils {
         shape.setAsBox(Constants.RUNNER_WIDTH / 2, Constants.RUNNER_HEIGHT / 2);
         Body body = world.createBody(bodyDef);
         body.createFixture(shape, Constants.RUNNER_DENSITY);
-        body.setGravityScale(Constants.RUNNER_GRAVITY_SCALE);
         body.resetMassData();
         body.setAngularVelocity( RandomUtils.rangeFloat(-2.5f, 2.5f) );
         body.setUserData(new RunnerUserData( Constants.RUNNER_WIDTH, Constants.RUNNER_HEIGHT ));

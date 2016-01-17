@@ -1,7 +1,6 @@
 package com.starseed.util;
 
 import com.badlogic.gdx.math.Vector2;
-import com.starseed.martianrun.MConstants;
 
 public class Constants {
 	
@@ -73,6 +72,11 @@ public class Constants {
 	public static final float ASTEROID_SPAWN_DELAY_MAX = 3f;
 	public static final float ASTEROID_SPAWN_DELAY_MIN = 1f;
 	
+	// Aline values
+	public static final float RUNNER_WIDTH = 1.5f;
+    public static final float RUNNER_HEIGHT = 3f;  
+    public static final float RUNNER_DENSITY = 0.5f;
+	
 	/*
 	 * Texture file paths
 	 */
@@ -95,7 +99,14 @@ public class Constants {
 	public static final int ATLAS_FLOWER_FRAME_COUNT = 7;
 	public static final int ATLAS_FLOWER_START_INDEX = 1;
 	
-	public static final String ATLAS_DEBRIS = "asteroid_debris.atlas";
+	public static final String ATLAS_DEBRIS = "asteroid_debris.atlas";	
+
+    public static final String CHARACTERS_ATLAS_PATH = "characters.atlas";
+    public static final String[] RUNNER_RUNNING_REGION_NAMES = new String[] {"alienGreen_run1", "alienGreen_run2"};
+
+    public static final String BACKGROUND_IMAGE_PATH = "background.png";
+    
+    public static final String  ROCKET_BUTTON_ATLAS_PATH = "rocket_buttons.atlas";
 	
 	/*
 	 * Fonts
@@ -127,33 +138,4 @@ public class Constants {
 	public static final String SOUND_ENGINE_1 = "sounds/engines_1.ogg";
 	public static final String SOUND_ENGINE_2 = "sounds/engines_2.ogg";
 	
-	
-	/*
-	 *  MartianRun tutorial constants
-	 */
-	
-	public static final float RUNNER_WIDTH = 1.5f;
-    public static final float RUNNER_HEIGHT = 3f;  
-    public static final float RUNNER_X = WORLD_WIDTH * 0.1f;
-    public static final float RUNNER_Y = MConstants.GROUND_TOP + RUNNER_HEIGHT * 0.5f;  
-    public static final float RUNNER_GRAVITY_SCALE = 3f;
-    public static final float RUNNER_DENSITY = 0.5f;
-    public static final float RUNNER_DODGE_HEIGHT = RUNNER_WIDTH * 0.5f;
-    public static final float RUNNER_DODGE_X = RUNNER_X;
-    public static final float RUNNER_DODGE_Y = RUNNER_Y - RUNNER_DODGE_HEIGHT;
-    public static final Vector2 RUNNER_JUMPING_LINEAR_IMPULSE = new Vector2(0, RUNNER_HEIGHT * RUNNER_WIDTH * 9f);
-    public static final float RUNNER_HIT_ANGULAR_IMPULSE = 10f;
-    
-    public static final String BACKGROUND_IMAGE_PATH = "background.png";
-    public static final String GROUND_IMAGE_PATH = "ground.png";
-    
-    public static final String  ROCKET_BUTTON_ATLAS_PATH = "rocket_buttons.atlas";
-    
-    
-    public static final String CHARACTERS_ATLAS_PATH = "characters.atlas";
-    public static final String[] RUNNER_RUNNING_REGION_NAMES = new String[] {"alienGreen_run1", "alienGreen_run2"};
-    public static final String RUNNER_DODGING_REGION_NAME = "alienGreen_dodge";
-    public static final String RUNNER_HIT_REGION_NAME = "alienGreen_hit";
-    public static final String RUNNER_JUMPING_REGION_NAME = "alienGreen_jump";
-   
 }

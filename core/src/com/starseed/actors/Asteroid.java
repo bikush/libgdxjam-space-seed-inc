@@ -23,7 +23,7 @@ public class Asteroid extends GameActor {
 	private static TextureAtlas asteroidAtlas = null;
 	private static TextureRegion getAsteroidTexture( AsteroidType type, int health ) {
 		if( asteroidAtlas == null )	{
-			asteroidAtlas = new TextureAtlas(Constants.ASTEROID_ATLAS);
+			asteroidAtlas = new TextureAtlas(Constants.ATLAS_ASTEROID);
 		}
 		return asteroidAtlas.findRegion( type.getBaseRegionName(), type.getRegionIndex( health ) );
 	}

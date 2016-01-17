@@ -78,6 +78,8 @@ public class Constants {
 	
 	public static final String IMAGE_SEED = "seed_%d.png";
 	
+	public static final String ATLAS_ASTEROID = "asteroids.atlas";
+	
 	public static final String ATLAS_FLOWER_FORMAT = "flower_player_%d.atlas";
 	public static final String ATLAS_FLOWER_REGION = "flower";
 	public static final int ATLAS_FLOWER_FRAME_COUNT = 7;
@@ -116,5 +118,4 @@ public class Constants {
     public static final String RUNNER_HIT_REGION_NAME = "alienGreen_hit";
     public static final String RUNNER_JUMPING_REGION_NAME = "alienGreen_jump";
    
-	public static final String ASTEROID_ATLAS = "asteroids.atlas";
 }

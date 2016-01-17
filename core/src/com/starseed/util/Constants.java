@@ -104,8 +104,7 @@ public class Constants {
      * Sounds
      */
     
-	public static final String MAIN_SOUND_FILE = "teru_-_Velvet_Sun.mp3";
-	
+	public static final String MAIN_SOUND_FILE = "sounds/teru_-_Velvet_Sun.ogg";
 	
 	
 	/*

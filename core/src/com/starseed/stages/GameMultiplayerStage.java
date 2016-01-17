@@ -35,6 +35,7 @@ import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.Pair;
 import com.starseed.util.RandomUtils;
+import com.starseed.util.SoundManager;
 import com.starseed.util.WorldUtils;
 
 public class GameMultiplayerStage extends Stage implements ContactListener, ContactFilter {
@@ -521,7 +522,9 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         		int deltaPlayer2 = asteroidPlayerIndex == 2 ? -asteroid.getAsteroidType().getPoints() : 0;
         		updatePlayerPoints(deltaPlayer1, deltaPlayer2);
         		
-        		removeAsteroidByBody(asteroidBody, true);        		
+        		removeAsteroidByBody(asteroidBody, true);    
+        		
+        		SoundManager.playSound(Constants.SOUND_ASTEROID_DESTROY, 0.2f);
         	}
         	
         	return;

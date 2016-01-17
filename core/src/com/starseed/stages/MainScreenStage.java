@@ -21,6 +21,7 @@ import com.starseed.screens.MainScreen;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.Pair;
+import com.starseed.util.RandomUtils;
 import com.starseed.util.WorldUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.graphics.Color;
@@ -333,7 +334,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 	
     private void createAsteroid() {
     	float pos_y = Constants.WORLD_HEIGHT * 0.77f;
-    	pos_y += (new Random()).nextFloat()* Constants.WORLD_HEIGHT * 0.15f - Constants.WORLD_HEIGHT * 0.075f;
+    	pos_y += Constants.WORLD_HEIGHT * RandomUtils.rangeFloat(-0.075f, 0.075f);
     	Asteroid asteroid = new Asteroid( WorldUtils.createAsteroid(
     			world, AsteroidType.SMALL_1, new Vector2(Constants.WORLD_WIDTH * 0f, pos_y)));
     	asteroid.getBody().setLinearVelocity(10f, 0f);
@@ -361,7 +362,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		
 		ateroidTime -= delta;
 		if (ateroidTime < 0f) {
-			ateroidTime = (new Random()).nextFloat() * (Constants.ASTEROID_CREATION_END -Constants.ASTEROID_CREATION_START) + Constants.ASTEROID_CREATION_START;
+			ateroidTime = RandomUtils.rangeFloat(Constants.ASTEROID_CREATION_START, Constants.ASTEROID_CREATION_END);
 			createAsteroid();
 		}
 		shoot();

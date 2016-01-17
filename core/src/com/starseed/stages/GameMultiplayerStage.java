@@ -89,6 +89,9 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         setUpWorld();
         setupCamera();
         setupUI();
+        
+        SoundManager.stopEngine(1);
+        SoundManager.stopEngine(2);
         //renderer = new Box2DDebugRenderer();       
         
     }

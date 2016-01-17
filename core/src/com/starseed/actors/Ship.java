@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.ShipUserData;
 import com.starseed.util.Constants;
+import com.starseed.util.SoundManager;
 
 public class Ship extends GameActor {
 	
@@ -20,7 +21,7 @@ public class Ship extends GameActor {
 	private boolean turnRight = false;
 	private float engineOnTime = 0.0f;
 	private Animation exhaustAnimation;
-	
+		
 	private static TextureAtlas shipSeedAtlas = null;
 	public static TextureRegion getShipTextureRegion( String regionName, int index )
 	{
@@ -100,7 +101,12 @@ public class Ship extends GameActor {
 		engineOn = value;
 		if( value )
 		{
+			SoundManager.playEngine(playerIndex);
 			engineOnTime = 0.0f;
+		}
+		else
+		{
+			SoundManager.stopEngine(playerIndex);
 		}
 	}
 	 

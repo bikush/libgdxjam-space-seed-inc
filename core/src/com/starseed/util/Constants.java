@@ -122,6 +122,8 @@ public class Constants {
 			"sounds/ship_cling_4.ogg" };
 	public static final String SOUND_SEED_SHOT = "sounds/seed_shot.ogg";
 	public static final String SOUND_BLOOMING = "sounds/blooming.ogg";
+	public static final String SOUND_ENGINE_1 = "sounds/engines_1.ogg";
+	public static final String SOUND_ENGINE_2 = "sounds/engines_2.ogg";
 	
 	
 	/*

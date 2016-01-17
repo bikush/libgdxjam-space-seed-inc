@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.UserData;
 import com.starseed.util.Constants;
@@ -32,11 +33,15 @@ public class Laser extends GameActor {
 	
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-		// TODO: check if position alright
+		
+		Vector2 offset = new Vector2(1,0);
+		offset.rotateRad(body.getAngle());
+		offset.setLength(width * 0.5f);
+		
 		batch.draw(
 				laserImage, 
-				screenRectangle.x, screenRectangle.y, 
-				screenRectangle.width * 0.5f, -screenRectangle.height * 0.5f,
+				screenRectangle.x - offset.x, screenRectangle.y - offset.y, 
+				screenRectangle.width * 0.5f, -screenRectangle.height * 0.5f + height * 0.5f,
 				width, height, 
 				1.0f, 1.0f, 
 				body.getAngle() * Constants.RAD_TO_DEG 

@@ -6,8 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 public enum AsteroidType {
-	
-	
+		
 	SMALL_1( AsteroidSizeType.SMALL, 120f, "small", 1 ),
 	SMALL_2( AsteroidSizeType.SMALL, 42f, "small", 2 ),
 	MEDIUM_1( AsteroidSizeType.MEDIUM, 140f, "medium", 1 ),
@@ -27,6 +26,16 @@ public enum AsteroidType {
 		this.index = index;
 	}
 	
+	public static AsteroidType getRandomType(){
+		Array<AsteroidType> types = new Array<AsteroidType>();
+		types.add(MEDIUM_1);
+		types.add(LARGE_1);
+		types.add(LARGE_2);
+		types.add(SMALL_1);
+		types.add(SMALL_2);	
+		return types.get( (new Random()).nextInt(types.size) );
+	}
+	
 	public static AsteroidType getRandomType( AsteroidSizeType sType ){
 		Array<AsteroidType> types = new Array<AsteroidType>();
 		switch (sType) {
@@ -38,13 +47,7 @@ public enum AsteroidType {
 			types.add(LARGE_2);
 			break;
 		case SMALL:	
-			types.add(SMALL_1);
-			types.add(SMALL_2);	
-			break;
 		default:
-			types.add(MEDIUM_1);
-			types.add(LARGE_1);
-			types.add(LARGE_2);
 			types.add(SMALL_1);
 			types.add(SMALL_2);	
 			break;

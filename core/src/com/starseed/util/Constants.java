@@ -55,13 +55,13 @@ public class Constants {
 	// Seed values
 	public static final float SEED_RADIUS = 0.5f;
 	public static final float SEED_DENSITY = 0.5f;
-	public static final float SEED_SPEED = 150f;
+	public static final float SEED_SPEED = 125f;
 	
 	// Laser values
 	public static final float LASER_WIDTH = 1.0f;
 	public static final float LASER_HEIGHT = 0.05f;
 	public static final float LASER_DENSITY = 0f;
-	public static final float LASER_SPEED = SEED_SPEED * 1.5f;
+	public static final float LASER_SPEED = SEED_SPEED * 1.75f;
 	
 	/*
 	 * Texture file paths

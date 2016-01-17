@@ -108,7 +108,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		instructionWindow.setPosition(100, 80);
 		this.addActor(instructionWindow);
 		String rules = "\nPlay nice. Don't shoot at the oponent.\nYou'll loose points, too.\n";
-		rules += "\nTo start the game, press SPACE.";
+		rules += "\nPress SPACE to start the game.";
 		instruction = style.addLabel(rules, 40, Color.WHITE, 130, 400, false);
 		this.addActor(instruction);
 	}

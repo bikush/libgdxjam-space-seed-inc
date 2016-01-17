@@ -78,7 +78,7 @@ public class WorldUtils {
         body.createFixture(shape, Constants.ASTEROID_DENSITY);
         body.resetMassData();
         body.setUserData(new AsteroidUserData( aType.getRadius() * 2, aType.getRadius() * 2, aType ));
-        body.setAngularVelocity( (new Random()).nextFloat() * 5f - 2.5f );
+        body.setAngularVelocity( RandomUtils.rangeFloat(-2.5f, 2.5f) );
         shape.dispose();
         return body;
     }
@@ -93,7 +93,7 @@ public class WorldUtils {
         body.createFixture(shape, Constants.RUNNER_DENSITY);
         body.setGravityScale(Constants.RUNNER_GRAVITY_SCALE);
         body.resetMassData();
-        body.setAngularVelocity((new Random()).nextFloat() * 5f - 2.5f);
+        body.setAngularVelocity( RandomUtils.rangeFloat(-2.5f, 2.5f) );
         body.setUserData(new RunnerUserData( Constants.RUNNER_WIDTH, Constants.RUNNER_HEIGHT ));
         shape.dispose();
         return body;

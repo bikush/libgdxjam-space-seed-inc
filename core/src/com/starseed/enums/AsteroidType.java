@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.starseed.util.RandomUtils;
 
 public enum AsteroidType {
 		
@@ -33,7 +34,7 @@ public enum AsteroidType {
 		types.add(LARGE_2);
 		types.add(SMALL_1);
 		types.add(SMALL_2);	
-		return types.get( (new Random()).nextInt(types.size) );
+		return types.get( RandomUtils.nextInt(types.size) );
 	}
 	
 	public static AsteroidType getRandomType( AsteroidSizeType sType ){
@@ -52,7 +53,7 @@ public enum AsteroidType {
 			types.add(SMALL_2);	
 			break;
 		}
-		return types.get( (new Random()).nextInt(types.size) );
+		return types.get( RandomUtils.nextInt(types.size) );
 	}
 	
 	public AsteroidSizeType getSize(){

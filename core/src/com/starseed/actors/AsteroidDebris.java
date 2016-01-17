@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.starseed.enums.AsteroidSizeType;
 import com.starseed.util.Constants;
+import com.starseed.util.RandomUtils;
 
 
 public class AsteroidDebris extends Actor {
@@ -31,7 +32,7 @@ public class AsteroidDebris extends Actor {
 			return regionName;
 		}
 		public int randomIndex(){
-			return (new Random()).nextInt(maxIndex-minIndex) + minIndex;
+			return RandomUtils.rangeInt(minIndex, maxIndex);
 		}
 		public int validateIndex( int index ){
 			return MathUtils.clamp(index, minIndex, maxIndex);

@@ -569,15 +569,16 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         if( BodyUtils.getBodyOfType(a, b, UserDataType.EDGE) == null )
         {
         	contactsToHandle.add( new Pair<Body,Body>(a,b) );
+        	if( BodyUtils.getBodyOfType(a, b, UserDataType.PLAYER) != null )
+            {
+        		if( hitSounds < 6.0f ){
+                 	hitSounds += 1.0f;
+             		SoundManager.playSound( RandomUtils.randomElement(Constants.SOUND_SHIP_HIT), 0.3f );
+             	}
+            }
         }
         
-        if( BodyUtils.getBodyOfType(a, b, UserDataType.PLAYER) != null )
-        {
-        	if( hitSounds < 6.0f ){
-            	hitSounds += 1.0f;
-        		SoundManager.playSound( RandomUtils.randomElement(Constants.SOUND_SHIP_HIT), 1.0f );
-        	}
-        }
+       
         
 //		Body a = contact.getFixtureA().getBody();
 //        Body b = contact.getFixtureB().getBody();

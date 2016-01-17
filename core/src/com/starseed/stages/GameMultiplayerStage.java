@@ -226,8 +226,8 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	}	
 
     private void updatePlayerPoints(int deltaPlayer1, int deltaPlayer2) {
-    	p1Points += deltaPlayer1;
-    	p2Points += deltaPlayer2;
+    	p1Points = Math.max( p1Points + deltaPlayer1, 0 );
+    	p2Points = Math.max( p2Points + deltaPlayer2, 0 );
     	
     	if (deltaPlayer1 != 0) {
     		player1Points.setText(String.format("%d", p1Points));
@@ -279,6 +279,16 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			{
 				return laser;
 			}
+		}
+		return null;
+	}
+	
+	private Ship findPlayerShip( Body aBody ){
+		if( player1.getBody() == aBody ){
+			return player1;
+		}
+		if( player2.getBody() == aBody ){
+			return player2;
 		}
 		return null;
 	}
@@ -424,7 +434,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 
         	Asteroid asteroid = findAsteroid(asteroidBody);
         	asteroid.takeDamage();
-        	// TODO: damaging update image, ah
         	
         	if( asteroid.isDestroyed() ){
         		int asteroidPlayerIndex = asteroid.getOwningPlayer();
@@ -441,8 +450,20 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         if( BodyUtils.bodiesAreOfTypes(a, b, UserDataType.PLAYER, UserDataType.LASER) )
         {
         	Body laserBody = BodyUtils.getBodyOfType(a, b, UserDataType.LASER);        	
+        	Body shipBody = BodyUtils.getBodyOfType(a, b, UserDataType.PLAYER);
+        	
+        	Laser laser = findLaser(laserBody);
+        	Ship target = findPlayerShip(shipBody);
+        	int targetedPlayer = target.getPlayerIndex();
+        	if( laser.getUserData().getPlayerIndex() != targetedPlayer ){
+        		int deltaPoints1 = targetedPlayer == 2 ? -100 : 0;
+        		int deltaPoints2 = targetedPlayer == 1 ? -100 : 0;
+        		updatePlayerPoints(deltaPoints1, deltaPoints2);
+        	}
+        	
         	removeLaserByBody(laserBody);
-        	// TODO: reduce points
+
+        	
         	return;
         }
 	}

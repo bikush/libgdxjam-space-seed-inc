@@ -1,6 +1,9 @@
 package com.starseed.enums;
 
+import java.util.Random;
+
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 
 public enum AsteroidType {
 	
@@ -22,6 +25,31 @@ public enum AsteroidType {
 		this.imageSize = imageSize;
 		this.sizeName = sizeName;
 		this.index = index;
+	}
+	
+	public static AsteroidType getRandomType( AsteroidSizeType sType ){
+		Array<AsteroidType> types = new Array<AsteroidType>();
+		switch (sType) {
+		case MEDIUM:
+			types.add(MEDIUM_1);
+			break;
+		case LARGE:
+			types.add(LARGE_1);
+			types.add(LARGE_2);
+			break;
+		case SMALL:	
+			types.add(SMALL_1);
+			types.add(SMALL_2);	
+			break;
+		default:
+			types.add(MEDIUM_1);
+			types.add(LARGE_1);
+			types.add(LARGE_2);
+			types.add(SMALL_1);
+			types.add(SMALL_2);	
+			break;
+		}
+		return types.get( (new Random()).nextInt(types.size) );
 	}
 	
 	public AsteroidSizeType getSize(){

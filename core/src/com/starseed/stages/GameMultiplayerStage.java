@@ -1,6 +1,8 @@
 package com.starseed.stages;
 
 import java.util.HashMap;
+import java.util.Random;
+
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -24,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.actors.*;
+import com.starseed.enums.AsteroidSizeType;
 import com.starseed.enums.AsteroidType;
 import com.starseed.enums.EdgeSideType;
 import com.starseed.enums.UserDataType;
@@ -400,14 +403,40 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		}
 		asteroids.removeValue(asteroid, true);
 		asteroid.remove();
+		
+		Vector2 velocity = new Vector2( asteroidBody.getLinearVelocity() );
 		world.destroyBody(asteroidBody);
 		
 		// TODO: add some new asteroids
 		if( wasDestroyed )
 		{
-//			Asteroid newAsteroid =  new Asteroid( WorldUtils.createAsteroid( world, AsteroidType.SMALL_1, asteroidBody.getPosition()) );
-//			asteroids.add( newAsteroid );
-//			addActor( newAsteroid );
+			int asteroidCount = 0;
+			AsteroidSizeType createType = null;
+			AsteroidSizeType aSize = asteroid.getAsteroidType().getSize();
+			if( aSize == AsteroidSizeType.LARGE ){
+				createType = AsteroidSizeType.MEDIUM;
+				asteroidCount = 2;
+			}else if( aSize == AsteroidSizeType.MEDIUM ){
+				createType = AsteroidSizeType.SMALL;
+				asteroidCount = 3;
+			}
+			if( asteroidCount > 0 && createType != null )
+			{
+				Random rand = new Random();
+				Vector2 position = asteroidBody.getPosition();
+				Vector2 offset = new Vector2( aSize.getRadius() * 0.5f, 0);
+				offset.rotateRad( rand.nextFloat() * (float)Math.PI );
+				
+				float angleDiff = 360 / asteroidCount;
+				for( ; asteroidCount > 0; asteroidCount-- ){
+					position.add( offset );
+					offset.rotate( angleDiff );
+					Asteroid newAsteroid =  new Asteroid( WorldUtils.createAsteroid( world, AsteroidType.getRandomType(createType), position) );
+					newAsteroid.getBody().setLinearVelocity( velocity );
+					asteroids.add( newAsteroid );
+					addActor( newAsteroid );
+				}
+			}
 		}
 	}
 	

@@ -1,8 +1,5 @@
 package com.starseed.game;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;

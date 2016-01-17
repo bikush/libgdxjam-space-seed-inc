@@ -738,7 +738,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			}
 			break;
 			
-		case Input.Keys.ALT_LEFT:
+		case Input.Keys.ALT_RIGHT:
 			if( gameInProgress && isMac ) {
 				createLaser(player2);
 			}

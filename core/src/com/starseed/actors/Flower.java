@@ -70,7 +70,7 @@ public class Flower extends Actor {
         flowerOffset.setLength( distanceFactor * asteroidSize );
 		flowerOffset.setAngle( flowerNumber * 360 / flowerCount + rand.nextInt(60) );		
 		
-		delay = rand.nextFloat() * 2f;        
+		delay = flowerNumber * rand.nextFloat() * 2f / flowerCount;        
 	}
 	
 	public void draw(Batch batch, float parentAlpha) {

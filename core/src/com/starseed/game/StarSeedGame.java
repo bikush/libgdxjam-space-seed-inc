@@ -2,15 +2,15 @@ package com.starseed.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.audio.Music;
 import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
 import com.starseed.screens.AbstractScreen;
 
 public class StarSeedGame extends Game {
-	private Sound sound;
-	private long soundID;
+	private Music bgMusic;
+	
 	@Override
 	public void create () {	
 		// TODO: resize initial window to respond well to different desktop screen sizes
@@ -29,17 +29,17 @@ public class StarSeedGame extends Game {
 	}
 	
 	private void setUpSound() {
-		sound = Gdx.audio.newSound(Gdx.files.internal(Constants.MAIN_SOUND_FILE));
-		soundID = sound.play(1.0f);      // plays the sound a second time, this is treated as a different instance
-		sound.setVolume(soundID, 0.1f); 
-		sound.setLooping(soundID, true); // keeps the sound looping
+		bgMusic = Gdx.audio.newMusic(Gdx.files.internal(Constants.MAIN_SOUND_FILE));
+		bgMusic.play();      // plays the sound a second time, this is treated as a different instance
+		bgMusic.setVolume(0.1f); 
+		bgMusic.setLooping(true); // keeps the sound looping
 	}
 	
 	@Override
 	public void dispose() {
 		super.dispose();
-		sound.stop(soundID);
-		sound.dispose();
+		bgMusic.stop();
+		bgMusic.dispose();
 	}
 	@Override
     public void render() {

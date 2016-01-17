@@ -33,8 +33,7 @@ public class Asteroid extends GameActor {
 		
 		aType = getUserData().getAsteroidType();
 		asteroidFace = getAsteroidTexture(aType); 
-		// TODO: specify health for every asteroid
-		health = Math.round( aType.getRadius() * 2f );
+		health = aType.getHealth();
 	}
 
 	@Override

@@ -155,7 +155,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		String credits = "Coders:\n    Bruno Mikus\n    Marija Dragojevic\nArtist:\n    Ivana Berkovic\n\nlibGDX JAM: January 2016";
 		this.addActor(style.addLabel(credits, 28, Color.WHITE, 110, 50, false));
 		String var_text = "Mr. Orange:  W          Ms. Purple:  Up";
-		variableLabel = style.addLabel(var_text, 28, Color.WHITE, 530, 430, false);
+		variableLabel = style.addLabel(var_text, 28, Color.WHITE, 510, 430, false);
 		this.addActor(variableLabel);
 		setUpShips();
 		setUpRunners();
@@ -177,9 +177,9 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
     }
 	
 	private String generateSubtitleText() {
-		String texts [] = {"Resistance is futile. Your solar system will be inseminated.",
+		String texts [] = {"Your solar system will be inseminated.",
 						   "Bringing life to you starborhood.",
-						   "Need for seed.",
+						   "Space has a need ... Need for seed.",
 						   "Every seed is needed in your starborhood."};
 		
 		return texts[new Random().nextInt(texts.length)];

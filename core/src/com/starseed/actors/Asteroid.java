@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.Array;
 import com.starseed.box2d.AsteroidUserData;
 import com.starseed.enums.AsteroidType;
 import com.starseed.util.Constants;
+import com.starseed.util.RandomUtils;
+import com.starseed.util.SoundManager;
 
 public class Asteroid extends GameActor {
 	
@@ -84,6 +86,7 @@ public class Asteroid extends GameActor {
 				flowers.add(flower);
 			}
 			
+			SoundManager.playSound( Constants.SOUND_ASTEROID_HIT[ RandomUtils.nextInt(Constants.SOUND_ASTEROID_HIT.length) ] , 0.15f );
 			return true;
 		}
 		return false;
@@ -96,6 +99,7 @@ public class Asteroid extends GameActor {
 	
 	public void takeDamage()
 	{
+		SoundManager.playSound( Constants.SOUND_ASTEROID_HIT[ RandomUtils.nextInt(Constants.SOUND_ASTEROID_HIT.length) ] , 0.2f);
 		setHealth(health-1);		
 	}
 	

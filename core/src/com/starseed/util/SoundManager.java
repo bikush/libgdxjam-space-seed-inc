@@ -11,8 +11,13 @@ public class SoundManager {
 	}
 	
 	public static void playSound( String soundPath, float volume ){
-		Sound sound = Gdx.audio.newSound( Gdx.files.getFileHandle(soundPath, FileType.Internal) );
-		long soundId = sound.play( volume, 1.0f, 0f );
+		playSound(soundPath, volume, 1.0f);
 	}
+
+	public static void playSound( String soundPath, float volume, float pitch ){
+		Sound sound = Gdx.audio.newSound( Gdx.files.getFileHandle(soundPath, FileType.Internal) );
+		long soundId = sound.play( volume, pitch, 0f );
+	}
+	
 
 }

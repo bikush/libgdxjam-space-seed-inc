@@ -106,6 +106,11 @@ public class Constants {
     
 	public static final String MAIN_SOUND_FILE = "sounds/teru_-_Velvet_Sun.ogg";
 	public static final String SOUND_ASTEROID_DESTROY = "sounds/asteroid_boom.ogg";
+	public static final String[] SOUND_ASTEROID_HIT = { 
+			"sounds/asteroid_hit_1.ogg", 
+			"sounds/asteroid_hit_2.ogg",
+			"sounds/asteroid_hit_3.ogg", 
+			"sounds/asteroid_hit_4.ogg" };
 	
 	
 	/*

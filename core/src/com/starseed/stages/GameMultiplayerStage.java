@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 //import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -313,6 +314,8 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		}
 		return null;
 	}
+	
+	private float hitSounds = 0;
 		
 	@Override
 	public void act(float delta) {
@@ -382,6 +385,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			asteroidDebris.removeAll(toRemove, true);
 		}
 
+		hitSounds = MathUtils.clamp(hitSounds-delta, 0f, 10f);
 	}
 	
 	private void update(Body body) {
@@ -565,6 +569,14 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         if( BodyUtils.getBodyOfType(a, b, UserDataType.EDGE) == null )
         {
         	contactsToHandle.add( new Pair<Body,Body>(a,b) );
+        }
+        
+        if( BodyUtils.getBodyOfType(a, b, UserDataType.PLAYER) != null )
+        {
+        	if( hitSounds < 6.0f ){
+            	hitSounds += 1.0f;
+        		SoundManager.playSound( RandomUtils.randomElement(Constants.SOUND_SHIP_HIT), 1.0f );
+        	}
         }
         
 //		Body a = contact.getFixtureA().getBody();

@@ -31,7 +31,23 @@ public class RandomUtils {
 	public static int nextInt( int n ){
 		return rand.nextInt(n);
 	}
-
+	
+	public static int randomElement( int[] anArray ){
+		if( anArray.length == 0 ){
+			return 0;
+		}
+		return anArray[ nextInt(anArray.length) ];
+	}
+	
+	public static String randomElement( String[] anArray ){
+		if( anArray.length == 0 ){
+			return "";
+		}
+		return anArray[ nextInt(anArray.length) ];
+	}
+	
+	
+	
     /**
      * @see [Stack Overflow](http://stackoverflow.com/a/1973018)
      * @param <E>

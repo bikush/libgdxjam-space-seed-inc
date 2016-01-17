@@ -86,7 +86,7 @@ public class Asteroid extends GameActor {
 				flowers.add(flower);
 			}
 			
-			SoundManager.playSound( Constants.SOUND_ASTEROID_HIT[ RandomUtils.nextInt(Constants.SOUND_ASTEROID_HIT.length) ] , 0.15f );
+			SoundManager.playSound( RandomUtils.randomElement(Constants.SOUND_ASTEROID_HIT), 0.15f );
 			return true;
 		}
 		return false;

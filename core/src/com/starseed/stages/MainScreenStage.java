@@ -146,7 +146,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		addActor(newLaser);	
 		
 		lasers.add(newLaser);
-		SoundManager.playSound(Constants.SOUND_LASER, 0.05f);
+		SoundManager.playSound(Constants.SOUND_LASER, 0.03f);
 	}
 	
 	public void setUpMainStage() {

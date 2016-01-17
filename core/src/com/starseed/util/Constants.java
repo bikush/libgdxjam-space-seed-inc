@@ -113,6 +113,11 @@ public class Constants {
 			"sounds/asteroid_hit_3.ogg", 
 			"sounds/asteroid_hit_4.ogg" };
 	public static final String SOUND_LASER = "sounds/laser.ogg";
+	public static final String[] SOUND_SHIP_HIT = { 
+			"sounds/ship_cling_1.ogg", 
+			"sounds/ship_cling_2.ogg",
+			"sounds/ship_cling_3.ogg", 
+			"sounds/ship_cling_4.ogg" };
 	
 	
 	/*

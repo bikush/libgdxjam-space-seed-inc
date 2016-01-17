@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.actors.Asteroid;
+import com.starseed.actors.AsteroidDebris;
 import com.starseed.actors.Background;
 import com.starseed.actors.Laser;
 import com.starseed.actors.Runner;
@@ -55,6 +56,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 	private Array<Asteroid> asteroids = new Array<Asteroid>();
 	private Array<Runner> runners= new Array<Runner>(Constants.NUMBER_OF_RUNNERS);
 	private Array<Laser> lasers = new Array<Laser>();
+	private Array<AsteroidDebris> asteroidDebris = new Array<AsteroidDebris>();
 	private Boolean seedTurn = true;
 	private boolean shootSeed = false;
 	private boolean shootLaser = false;
@@ -385,6 +387,17 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 			world.step(TIME_STEP, 6, 2);
 			accumulator -= TIME_STEP;
 		}
+		
+		if( asteroidDebris.size > 0 ){
+			Array<AsteroidDebris> toRemove = new Array<AsteroidDebris>();
+			for( AsteroidDebris aDebris : asteroidDebris ){
+				if( aDebris.isFinished() ){
+					toRemove.add(aDebris);
+					aDebris.remove();					
+				}
+			}
+			asteroidDebris.removeAll(toRemove, true);
+		}
 	}
 	
 	private void update(Body body) {
@@ -428,11 +441,20 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 	
 	private void removeAsteroidByBody( Body asteroidBody, boolean wasDestroyed ) {
 		Asteroid asteroid = findAsteroid(asteroidBody);
-		if (asteroid != null) {
-			asteroids.removeValue(asteroid, true);
-			asteroid.remove();
-			world.destroyBody(asteroidBody);
+		if( asteroid == null ){
+			return;
 		}
+		
+		if( wasDestroyed ){
+			AsteroidDebris debris = new AsteroidDebris(asteroid);
+			asteroidDebris.add(debris);
+			addActor(debris);
+		}
+		
+		asteroids.removeValue(asteroid, true);
+		asteroid.remove();
+		world.destroyBody(asteroidBody);
+				
 	}
 	
 	private Asteroid findAsteroid( Body aBody )

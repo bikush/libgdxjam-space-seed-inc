@@ -35,10 +35,9 @@ public class Constants {
 	public static final float EDGE_INNER_X_END = WORLD_WIDTH - EDGE_WIDTH;
 	public static final float EDGE_INNER_Y_END = WORLD_HEIGHT - EDGE_WIDTH;
 	
-	// Sound
-	public static final String MAIN_SOUND_FILE = "teru_-_Velvet_Sun.mp3";
 	// Runners
 	public static final int NUMBER_OF_RUNNERS = 10;
+	
 	// Ship values
 	public static final float SHIP_WIDTH = 8f;
 	public static final float SHIP_HEIGHT = 8f; 	
@@ -87,12 +86,25 @@ public class Constants {
 	
 	
 	/*
+	 * Fonts
+	 */
+
+    public static final String GAME_FONT_TITLE = "falconpunchcond.ttf";
+    public static final String GAME_FONT = "zorque.ttf";
+
+    /*
+     * Sounds
+     */
+    
+	public static final String MAIN_SOUND_FILE = "teru_-_Velvet_Sun.mp3";
+	
+	
+	
+	/*
 	 *  MartianRun tutorial constants
 	 */
 	
-	
-
-    public static final float RUNNER_WIDTH = 1.5f;
+	public static final float RUNNER_WIDTH = 1.5f;
     public static final float RUNNER_HEIGHT = 3f;  
     public static final float RUNNER_X = WORLD_WIDTH * 0.1f;
     public static final float RUNNER_Y = MConstants.GROUND_TOP + RUNNER_HEIGHT * 0.5f;  
@@ -109,8 +121,6 @@ public class Constants {
     
     public static final String  ROCKET_BUTTON_ATLAS_PATH = "rocket_buttons.atlas";
     
-    public static final String GAME_FONT_TITLE = "falconpunchcond.ttf";
-    public static final String GAME_FONT = "zorque.ttf";
     
     public static final String CHARACTERS_ATLAS_PATH = "characters.atlas";
     public static final String[] RUNNER_RUNNING_REGION_NAMES = new String[] {"alienGreen_run1", "alienGreen_run2"};

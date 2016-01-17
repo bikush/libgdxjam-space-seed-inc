@@ -34,6 +34,7 @@ import com.starseed.enums.UserDataType;
 import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
+import com.starseed.util.OSUtils;
 import com.starseed.util.Pair;
 import com.starseed.util.RandomUtils;
 import com.starseed.util.SoundManager;
@@ -79,6 +80,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
     private Image instructionWindow = null;
     private Label instruction = null;
     private UIStyle style;
+    private boolean isMac = false;
     
 	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
 		super(new FitViewport(
@@ -93,7 +95,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         SoundManager.stopEngine(1);
         SoundManager.stopEngine(2);
         //renderer = new Box2DDebugRenderer();       
-        
+        isMac = OSUtils.isMac();
     }
 	
 	private void setupUI() {
@@ -733,6 +735,11 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 				createLaser(player2);
 			}
 			break;
+			
+		case Input.Keys.ALT_LEFT:
+			if( gameInProgress && isMac ) {
+				createLaser(player2);
+			}
 			
 		default:
 			break;

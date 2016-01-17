@@ -20,6 +20,7 @@ import com.starseed.enums.UserDataType;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
+import com.starseed.util.OSUtils;
 import com.starseed.util.Pair;
 import com.starseed.util.RandomUtils;
 import com.starseed.util.SoundManager;
@@ -62,6 +63,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 	private Boolean seedTurn = true;
 	private boolean shootSeed = false;
 	private boolean shootLaser = false;
+    private boolean isMac = false;
 	
 	private Array< Pair<Body,Body> > contactsToHandle = new Array< Pair<Body,Body> >();
 	private HashMap<Pair<UserDataType, UserDataType>, Boolean> contactMap = new HashMap<Pair<UserDataType,UserDataType>, Boolean>();
@@ -74,7 +76,8 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		setUpMainStage();
 		setupContactMap();
 		actionMap = new HashMap<Integer,Float>();
-		defineActionMap();
+		defineActionMap();   
+        isMac = OSUtils.isMac();
 	}
 	
 	private void setupContactMap() {
@@ -257,7 +260,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 				createSeed(player1);
 				createSeed(player2);
 			} else {
-				var_text = "Mr. Orange:  E          Ms. Purple:  CTRL";
+				var_text = String.format( "Mr. Orange:  E          Ms. Purple:  %s", isMac ? "Alt" : "Ctrl" );
 				seedTurn = true;
 				shootSeed = false;
 				shootLaser = true;

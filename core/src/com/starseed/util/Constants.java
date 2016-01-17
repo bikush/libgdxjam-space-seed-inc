@@ -50,7 +50,8 @@ public class Constants {
 	
 	// Asteroid values
 	public static final float ASTEROID_DENSITY = 10f;
-	
+	public static final float ASTEROID_CREATION_START = 0.5f;
+	public static final float ASTEROID_CREATION_END = 1.5f;
 	// Seed values
 	public static final float SEED_RADIUS = 0.5f;
 	public static final float SEED_DENSITY = 0.5f;

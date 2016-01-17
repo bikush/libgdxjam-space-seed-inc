@@ -45,6 +45,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 	private Ship player1 = null;
 	private Ship player2 = null;
 	private float time;
+	private float ateroidTime = Constants.ASTEROID_CREATION_START;
 	private int actionID = 1;
 	private Label variableLabel=null;
 	private Array<Seed> seeds = new Array<Seed>();
@@ -70,7 +71,6 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		setupContactMap();
 		actionMap = new HashMap<Integer,Float>();
 		defineActionMap();
-		setUpAsteroids();
 	}
 	
 	private void setupContactMap() {
@@ -159,6 +159,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		this.addActor(variableLabel);
 		setUpShips();
 		setUpRunners();
+		createAsteroid();
 	}
 	
 	private void setUpRunners() {
@@ -314,7 +315,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 	}
 	
 	public void shoot() {
-		if (((int)(time*100f)) % 25 == 0) {
+		if (((int)(time*100f)) % 20 == 0) {
 			if (shootLaser) {
 				createLaser(player1);
 				createLaser(player2);
@@ -328,22 +329,15 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		}
 	}
 	
-    private void setUpAsteroids() {
-    	asteroids.clear();
+    private void createAsteroid() {
+    	float pos_y = Constants.WORLD_HEIGHT * 0.77f;
+    	pos_y += (new Random()).nextFloat()* Constants.WORLD_HEIGHT * 0.15f - Constants.WORLD_HEIGHT * 0.075f;
+    	Asteroid asteroid = new Asteroid( WorldUtils.createAsteroid(
+    			world, AsteroidType.SMALL_1, new Vector2(Constants.WORLD_WIDTH * 0f, pos_y)));
+    	asteroid.getBody().setLinearVelocity(10f, 0f);
+    	asteroids.add(asteroid);
+    	addActor(asteroid);
     	
-    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-    			world, AsteroidType.SMALL_1, new Vector2(Constants.WORLD_WIDTH * 0.85f, Constants.WORLD_HEIGHT * 0.75f))) );
-    	
-    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-    			world, AsteroidType.SMALL_2, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.75f))) );
-    	
-    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-    			world, AsteroidType.MEDIUM_1, new Vector2(Constants.WORLD_WIDTH * 0.65f, Constants.WORLD_HEIGHT * 0.75f))) );
-    	
-    	for( Asteroid asteroid : asteroids )
-    	{
-    		addActor(asteroid);
-    	}
 	}
 	
 	@Override
@@ -352,6 +346,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 			delta = Constants.DELTA_MAX;
 		}
 		super.act(delta);
+		
 		time -= delta;
 		if (time < 0f) {
 			time = actionMap.get(actionID);
@@ -360,6 +355,12 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 			if (actionID > 9) {
 				actionID = 0;
 			}
+		}
+		
+		ateroidTime -= delta;
+		if (ateroidTime < 0f) {
+			ateroidTime = (new Random()).nextFloat() * (Constants.ASTEROID_CREATION_END -Constants.ASTEROID_CREATION_START) + Constants.ASTEROID_CREATION_START;
+			createAsteroid();
 		}
 		shoot();
 		

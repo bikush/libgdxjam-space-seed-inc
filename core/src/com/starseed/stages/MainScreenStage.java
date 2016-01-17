@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.actors.Asteroid;
 import com.starseed.actors.Background;
+import com.starseed.actors.Laser;
 import com.starseed.actors.Runner;
 import com.starseed.actors.Seed;
 import com.starseed.actors.Ship;
@@ -42,6 +43,7 @@ public class MainScreenStage extends Stage {
 	HashMap<Integer,Float> actionMap;
 	private Array<Asteroid> asteroids = new Array<Asteroid>();
 	private Array<Runner> runners= new Array<Runner>(Constants.NUMBER_OF_RUNNERS);
+	private Array<Laser> lasers = new Array<Laser>();
 	
 	public MainScreenStage(MainScreen mainScreen) {
 		super(new FitViewport(
@@ -80,18 +82,30 @@ public class MainScreenStage extends Stage {
 		seeds.add(newSeed);
 	}
 	
+	private void createLaser( Ship sourceShip ){
+		int playerIndex = sourceShip.getPlayerIndex();
+		Vector2 position = sourceShip.getFrontOfShip();
+		Vector2 direction = sourceShip.getDirection();
+		float offset = Constants.LASER_WIDTH * 1.05f;
+		position.add( direction.scl(offset, offset));
+		
+		Laser newLaser = new Laser( WorldUtils.createLaser(world, position, direction, playerIndex) );
+		addActor(newLaser);	
+		
+		lasers.add(newLaser);
+	}
+	
 	public void setUpMainStage() {
 		world = WorldUtils.createWorld();
 		addActor(new Background());
 		addRocketButtons();
 		this.addActor(style.addLabel("Space seed INC.", 52, Color.WHITE, 80, 680, true));
 		String introText = generateSubtitleText();
-		introText += "\nPlay nice. Don't shoot at the oponent. You'll loose points, too.";
 		this.addActor(style.addLabel(introText, 30, Color.WHITE, 110, 590, false));
 		String credits = "Coders:\n    Bruno Mikus\n    Marija Dragojevic\nArtist:\n    Ivana Berkovic\n\nlibGDX JAM: January 2016";
 		this.addActor(style.addLabel(credits, 28, Color.WHITE, 110, 50, false));
-		String var_text = "Player 1:  W          Player 2:  Up";
-		variableLabel = style.addLabel(var_text, 28, Color.WHITE, 580, 430, false);
+		String var_text = "Mr. Orange:  W          Ms. Purple:  Up";
+		variableLabel = style.addLabel(var_text, 28, Color.WHITE, 530, 430, false);
 		this.addActor(variableLabel);
 		setUpShips();
 		setUpRunners();
@@ -196,7 +210,7 @@ public class MainScreenStage extends Stage {
 			player2.getBody().setAngularVelocity(0f);
 			player1.setEngineOn(false);
 			player2.setEngineOn(false);
-			var_text = "Player 1:  Q          Player 2:  Shift";
+			var_text = "Mr. Orange:  Q          Ms. Purple:  Shift";
 			createSeed(player1);
 			createSeed(player2);
 			variableLabel.setText(var_text);
@@ -204,7 +218,7 @@ public class MainScreenStage extends Stage {
 		case 1:
 			player1.setEngineOn(true);
 			player2.setEngineOn(true);
-			var_text = "Player 1:  W          Player 2:  Up";
+			var_text = "Mr. Orange:  W          Ms. Purple:  Up";
 			variableLabel.setText(var_text);
 			break;
 		case 2:
@@ -214,7 +228,7 @@ public class MainScreenStage extends Stage {
 		case 3:
 			player1.setTurnLeft(true);
 			player2.setTurnLeft(true);
-			var_text = "Player 1:  A          Player 2:  Left";
+			var_text = "Mr. Orange:  A          Ms. Purple:  Left";
 			variableLabel.setText(var_text);
 			break;
 		case 4:
@@ -228,15 +242,15 @@ public class MainScreenStage extends Stage {
 			player2.getBody().setAngularVelocity(0f);
 			player1.setEngineOn(false);
 			player2.setEngineOn(false);
-			var_text = "Player 1:  Q          Player 2:  Shift";
+			var_text = "Mr. Orange:  E          Ms. Purple:  Ctrl";
 			variableLabel.setText(var_text);
-			createSeed(player1);
-			createSeed(player2);
+			createLaser(player1);
+			createLaser(player2);
 			break;
 		case 6:
 			player1.setEngineOn(true);
 			player2.setEngineOn(true);
-			var_text = "Player 1:  W          Player 2:  Up";
+			var_text = "Mr. Orange:  W          Ms. Purple:  Up";
 			variableLabel.setText(var_text);
 			break;
 		case 7:
@@ -246,7 +260,7 @@ public class MainScreenStage extends Stage {
 		case 8:
 			player1.setTurnRight(true);
 			player2.setTurnRight(true);
-			var_text = "Player 1:  D          Player 2:  Right";
+			var_text = "Mr. Orange:  D          Ms. Purple:  Right";
 			variableLabel.setText(var_text);
 			break;
 		case 9:

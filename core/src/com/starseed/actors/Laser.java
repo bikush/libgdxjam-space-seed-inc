@@ -23,7 +23,6 @@ public class Laser extends GameActor {
 		pixLaser.setColor(0.95f, 0.15f, 0f, 0.75f);
 		pixLaser.fill();
 		laserImage = new TextureRegion( new Texture( pixLaser ) );
-		
 	}
 
 	@Override

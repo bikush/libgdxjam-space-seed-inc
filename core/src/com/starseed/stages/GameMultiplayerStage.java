@@ -4,6 +4,10 @@ import java.util.HashMap;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -15,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -60,6 +65,10 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
     private int p1Points = 0;
     private int p2Points = 0;
     private Label player2Points;
+    private Boolean gameInProgress=false;
+    private Image instructionWindow = null;
+    private Label instruction = null;
+    private UIStyle style;
     
 	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
 		super(new FitViewport(
@@ -75,19 +84,50 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
     }
 	
 	private void setupUI() {
-		UIStyle style = UIStyle.getSingleton();
-		this.addActor(style.addLabel("Player 1:", 30, Color.WHITE, 55, 720, false));
-		this.addActor(style.addLabel("Player 2:", 30, Color.WHITE, 360, 720, false));
+		style = UIStyle.getSingleton();
+		this.addActor(style.addLabel("Mr. Orange:", 30, Color.WHITE, 55, 720, false));
+		this.addActor(style.addLabel("Ms. Purple:", 30, Color.WHITE, 380, 720, false));
 		this.addActor(style.addLabel("Time left", 30, Color.WHITE, 730, 720, false));
 		timeLabel = style.addLabel("02 : 00", 30, Color.WHITE, 885, 720, false);
 		time = 120f;
 		this.addActor(timeLabel);
-		player1Points = style.addLabel("0", 30, Color.WHITE, 205, 720, false);
+		player1Points = style.addLabel("0", 30, Color.WHITE, 240, 720, false);
 		this.addActor(player1Points);
-		player2Points = style.addLabel("0", 30, Color.WHITE, 510, 720, false);
+		player2Points = style.addLabel("0", 30, Color.WHITE, 550, 720, false);
 		this.addActor(player2Points);
+		setUpInstructionWindow();
 	}
-
+	
+	private void setUpInstructionWindow() {
+		Pixmap pixWindow = new Pixmap((int)(Constants.APP_WIDTH*0.8), (int)(Constants.APP_HEIGHT*0.7), Format.RGBA8888);
+		pixWindow.setColor(0.2f, 0.2f, 0.2f, 0.3f);
+		pixWindow.fill();
+		instructionWindow = new Image( new Texture( pixWindow ) );
+		instructionWindow.setPosition(100, 80);
+		this.addActor(instructionWindow);
+		String rules = "\nPlay nice. Don't shoot at the oponent.\nYou'll loose points, too.\n";
+		rules += "\nTo start the game, press SPACE.";
+		instruction = style.addLabel(rules, 40, Color.WHITE, 130, 400, false);
+		this.addActor(instruction);
+	}
+	
+	private void hideInstructionWindow() {
+		instructionWindow.setVisible(false);
+		instruction.remove();
+	}
+	
+	private void showEndingWindow() {
+		String endText = (this.p1Points > this.p2Points) ? "Mr. Orange, " : "Ms. Purple, ";
+		endText += "Victory!\nCongratulations!\nYou're the greatest\ninseminator!";
+		instruction = style.addLabel(endText, 50, Color.WHITE, 130, 310, true);
+		this.addActor(instruction);
+		instructionWindow.setVisible(true);
+		instruction.setVisible(true);
+		String returnToMain = "Press escape to return to the main screen.";
+		this.addActor(style.addLabel(returnToMain, 36, Color.WHITE, 130, 150, false));
+		
+	}
+	
 	private void setUpWorld() {
         world = WorldUtils.createWorld();
         world.setContactListener(this);
@@ -248,9 +288,14 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		if (delta > Constants.DELTA_MAX) {
 			delta = Constants.DELTA_MAX;
 		}
-		time -= delta;
-		if (time >= 0f) {
-			timeLabel.setText(String.format("%02d : %02d", (int)time/60, (int)time%60));
+		if (gameInProgress) {
+			time -= delta;
+			if (time >= 0f) {
+				timeLabel.setText(String.format("%02d : %02d", (int)time/60, (int)time%60));
+			} else {
+				gameInProgress = false;
+				showEndingWindow();
+			}
 		}
 		super.act(delta);
 		
@@ -442,37 +487,37 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	@Override
 	public boolean keyDown(int keyCode) {
 		super.keyDown(keyCode);
-	
-		switch (keyCode) {
-		case Input.Keys.W:
-			player1.setEngineOn(true);
-			break;
+		if (gameInProgress) {
+			switch (keyCode) {
+			case Input.Keys.W:
+				player1.setEngineOn(true);
+				break;
+				
+			case Input.Keys.A:
+				player1.setTurnLeft(true);
+				break;
+				
+			case Input.Keys.D:
+				player1.setTurnRight(true);
+				break;
+				
+			case Input.Keys.UP:
+				player2.setEngineOn(true);
+				break;
+				
+			case Input.Keys.LEFT:
+				player2.setTurnLeft(true);
+				break;
+				
+			case Input.Keys.RIGHT:
+				player2.setTurnRight(true);
+				break;
+				
+			default:
+				break;
 			
-		case Input.Keys.A:
-			player1.setTurnLeft(true);
-			break;
-			
-		case Input.Keys.D:
-			player1.setTurnRight(true);
-			break;
-			
-		case Input.Keys.UP:
-			player2.setEngineOn(true);
-			break;
-			
-		case Input.Keys.LEFT:
-			player2.setTurnLeft(true);
-			break;
-			
-		case Input.Keys.RIGHT:
-			player2.setTurnRight(true);
-			break;
-			
-		default:
-			break;
-		
+			}
 		}
-		
 		return false;
 	}
 	
@@ -486,50 +531,76 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			gameScreen.goBack = true;
 			retVal = true;
 			break;
+		
+		case Input.Keys.SPACE:
+			if (!gameInProgress) {
+				gameInProgress = true;
+				hideInstructionWindow();
+			}
+			break;
 			
 		case Input.Keys.W:
-			player1.setEngineOn(false);
+			if (gameInProgress) {
+				player1.setEngineOn(false);
+			}
 			break;
 			
 		case Input.Keys.A:
-			player1.setTurnLeft(false);
+			if (gameInProgress) {
+				player1.setTurnLeft(false);
+			}
 			break;
 			
 		case Input.Keys.D:
-			player1.setTurnRight(false);
+			if (gameInProgress) {
+				player1.setTurnRight(false);
+			}
 			break;
 			
 		case Input.Keys.Q:
-			createSeed(player1);
+			if (gameInProgress) {
+				createSeed(player1);
+			}
 			break;
 			
 		case Input.Keys.E:
-			createLaser(player1);
+			if (gameInProgress) {
+				createLaser(player1);
+			}
 			break;
 			
 		case Input.Keys.UP:
-			player2.setEngineOn(false);
+			if (gameInProgress) {
+				player2.setEngineOn(false);
+			}
 			break;
 			
 		case Input.Keys.LEFT:
-			player2.setTurnLeft(false);
+			if (gameInProgress) {
+				player2.setTurnLeft(false);
+			}
 			break;
 			
 		case Input.Keys.RIGHT:
-			player2.setTurnRight(false);
+			if (gameInProgress) {
+				player2.setTurnRight(false);
+			}
 			break;
 			
 		case Input.Keys.SHIFT_RIGHT:
-			createSeed(player2);
+			if (gameInProgress) {
+				createSeed(player2);
+			}
 			break;
 			
 		case Input.Keys.CONTROL_RIGHT:
-			createLaser(player2);
+			if (gameInProgress) {
+				createLaser(player2);
+			}
 			break;
 			
 		default:
 			break;
-		
 		}
 		return retVal;
 	}
@@ -537,7 +608,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	/*
 	 * Collision and contact data
 	 */
-	
+
 	private void setupContactMap() {
 		contactMap.clear();
 		

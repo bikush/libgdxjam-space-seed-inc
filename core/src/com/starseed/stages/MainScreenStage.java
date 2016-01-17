@@ -537,7 +537,6 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 
         	Asteroid asteroid = findAsteroid(asteroidBody);
         	asteroid.takeDamage();
-        	// TODO: damaging update image, ah
         	
         	if( asteroid.isDestroyed() ){
         		removeAsteroidByBody(asteroidBody, true);        		
@@ -550,7 +549,6 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
         {
         	Body laserBody = BodyUtils.getBodyOfType(a, b, UserDataType.LASER);        	
         	removeLaserByBody(laserBody);
-        	// TODO: reduce points
         	return;
         }
 	}

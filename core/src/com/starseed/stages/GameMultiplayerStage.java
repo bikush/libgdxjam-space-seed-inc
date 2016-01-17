@@ -431,7 +431,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		Vector2 velocity = new Vector2( asteroidBody.getLinearVelocity() );
 		world.destroyBody(asteroidBody);
 		
-		// TODO: add some new asteroids
 		if( wasDestroyed )
 		{
 			int asteroidCount = 0;

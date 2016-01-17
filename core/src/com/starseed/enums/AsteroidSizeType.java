@@ -2,9 +2,9 @@ package com.starseed.enums;
 
 public enum AsteroidSizeType {
 	
-	SMALL( 	2f, 1, 1250, 3, 0, 4, 3 ),
-	MEDIUM(	4f, 2, 2000, 6, 1, 7, 5 ),
-	LARGE( 	6f,	4, 3000, 9, 2, 10, 8 );
+	SMALL( 	2f, 1, 1250, 2, 0, 4, 3 ),
+	MEDIUM(	4f, 2, 2000, 5, 1, 7, 5 ),
+	LARGE( 	6f,	4, 3000, 7, 2, 10, 8 );
 	
 	private float radius;
 	private int flowerCount;

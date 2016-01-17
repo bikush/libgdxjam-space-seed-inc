@@ -158,7 +158,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		String credits = "Coders:\n    Bruno Mikus\n    Marija Dragojevic\nArtist:\n    Ivana Berkovic\n\nlibGDX JAM: January 2016";
 		this.addActor(style.addLabel(credits, 28, Color.WHITE, 110, 50, false));
 		String var_text = "Mr. Orange:  W          Ms. Purple:  Up";
-		variableLabel = style.addLabel(var_text, 28, Color.WHITE, 510, 430, false);
+		variableLabel = style.addLabel(var_text, 28, Color.WHITE, 510, 410, false);
 		this.addActor(variableLabel);
 		setUpShips();
 		setUpRunners();
@@ -191,7 +191,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 	
 	private void addRocketButtons() {
 		final TextButton startButton=new TextButton("", style.getRightRocketButtonStyle());
-		startButton.setPosition(100, 390);
+		startButton.setPosition(100, 370);
 		this.addActor(startButton);
 		startButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -199,7 +199,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 			}
 		});
 		final TextButton quitButton=new TextButton("", style.getLeftRocketButtonStyle());
-		quitButton.setPosition(100, 288);
+		quitButton.setPosition(100, 268);
 		this.addActor(quitButton);
 		quitButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -318,7 +318,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 	}
 	
 	public void shoot() {
-		if (((int)(time*100f)) % 20 == 0) {
+		if (((int)(time*100f)) % 10 == 0) {
 			if (shootLaser) {
 				createLaser(player1);
 				createLaser(player2);
@@ -336,8 +336,9 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
     	float pos_y = Constants.WORLD_HEIGHT * 0.77f;
     	pos_y += Constants.WORLD_HEIGHT * RandomUtils.rangeFloat(-0.075f, 0.075f);
     	Asteroid asteroid = new Asteroid( WorldUtils.createAsteroid(
-    			world, AsteroidType.SMALL_1, new Vector2(Constants.WORLD_WIDTH * 0f, pos_y)));
-    	asteroid.getBody().setLinearVelocity(10f, 0f);
+    			world, AsteroidType.getRandomType(), new Vector2(Constants.WORLD_WIDTH, pos_y)));
+    	asteroid.getBody().setLinearVelocity(-15f, 0f);
+    	asteroid.setHealth((int)(new Random().nextFloat()*asteroid.getAsteroidType().getHealth()));
     	asteroids.add(asteroid);
     	addActor(asteroid);
     	

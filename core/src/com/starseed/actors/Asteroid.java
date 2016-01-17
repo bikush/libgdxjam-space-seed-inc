@@ -89,7 +89,7 @@ public class Asteroid extends GameActor {
 		return false;
 	}
 	
-	private void setHealth( int value ){
+	public void setHealth( int value ){
 		health = MathUtils.clamp( value, 0, aType.getHealth());
 		asteroidFace = getAsteroidTexture(aType, health); 
 	}

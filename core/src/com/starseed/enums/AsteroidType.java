@@ -23,6 +23,10 @@ public enum AsteroidType {
 		this.sizeName = sizeName;
 		this.index = index;
 	}
+	
+	public AsteroidSizeType getSize(){
+		return sizeType;
+	}
 
 	public float getRadius() {
 		return sizeType.getRadius();

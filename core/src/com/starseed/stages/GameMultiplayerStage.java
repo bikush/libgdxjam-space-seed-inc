@@ -46,6 +46,8 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 
 	private Array< Pair<Body,Body> > contactsToHandle = new Array< Pair<Body,Body> >();
 	
+	private Array<AsteroidDebris> asteroidDebris = new Array<AsteroidDebris>();
+	
 	private HashMap<Pair<UserDataType, UserDataType>, Boolean> contactMap = new HashMap<Pair<UserDataType,UserDataType>, Boolean>();
 		
 	private World world;
@@ -330,6 +332,18 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			world.step(TIME_STEP, 6, 2);
 			accumulator -= TIME_STEP;
 		}
+		
+		// TODO: this could be handled better with an observer pattern
+		if( asteroidDebris.size > 0 ){
+			Array<AsteroidDebris> toRemove = new Array<AsteroidDebris>();
+			for( AsteroidDebris aDebris : asteroidDebris ){
+				if( aDebris.isFinished() ){
+					toRemove.add(aDebris);
+					aDebris.remove();					
+				}
+			}
+			asteroidDebris.removeAll(toRemove, true);
+		}
 
 	}
 	
@@ -378,23 +392,29 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		{
 			oldAsteroids.add(asteroid);
 		}
+		else
+		{
+			AsteroidDebris debris = new AsteroidDebris(asteroid);
+			asteroidDebris.add(debris);
+			addActor(debris);
+		}
 		asteroids.removeValue(asteroid, true);
 		asteroid.remove();
 		world.destroyBody(asteroidBody);
 		
-		// TODO: dumb placement, move somwhere better
+		// TODO: add some new asteroids
 		if( wasDestroyed )
 		{
-			Asteroid newAsteroid =  new Asteroid( WorldUtils.createAsteroid( world, AsteroidType.SMALL_1, asteroidBody.getPosition()) );
-			asteroids.add( newAsteroid );
-			addActor( newAsteroid );
+//			Asteroid newAsteroid =  new Asteroid( WorldUtils.createAsteroid( world, AsteroidType.SMALL_1, asteroidBody.getPosition()) );
+//			asteroids.add( newAsteroid );
+//			addActor( newAsteroid );
 		}
 	}
 	
 	@Override
 	public void draw() {
 		super.draw();
-		renderer.render(world, camera.combined);
+		//renderer.render(world, camera.combined);
 	}
 	
 	private void handleContact( Pair<Body, Body> contact ){

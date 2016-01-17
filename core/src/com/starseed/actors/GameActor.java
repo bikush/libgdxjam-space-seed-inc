@@ -46,6 +46,10 @@ public abstract class GameActor extends Actor {
         return Constants.WORLD_TO_SCREEN * n;
     }
     
+    public Rectangle getScreenRectangle(){
+    	return screenRectangle;
+    }
+    
     public abstract UserData getUserData();
 
 }

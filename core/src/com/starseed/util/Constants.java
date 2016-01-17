@@ -84,6 +84,7 @@ public class Constants {
 	public static final int ATLAS_FLOWER_FRAME_COUNT = 7;
 	public static final int ATLAS_FLOWER_START_INDEX = 1;
 	
+	public static final String ATLAS_DEBRIS = "asteroid_debris.atlas";
 	
 	/*
 	 * Fonts

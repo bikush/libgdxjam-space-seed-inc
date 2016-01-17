@@ -112,9 +112,17 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		instructionWindow = new Image( new Texture( pixWindow ) );
 		instructionWindow.setPosition(100, 80);
 		this.addActor(instructionWindow);
-		String rules = "\nPlay nice. Don't shoot at the oponent.\nYou'll loose points, too.\n";
-		rules += "\nPress SPACE to start the game.";
-		instruction = style.addLabel(rules, 40, Color.WHITE, 130, 400, false);
+		String rules = "Welcome Space Seed Inc. pilots!\n\n";
+		rules += "As you know, our company spreads life across the\n";
+		rules += "vastness of the universe.\n\n" ;
+		rules += "Shoot the seeds to give life to the asteroids\n";
+		rules += "and gain points. Shoot the lasers to \n";
+		rules += "break up the asteroids into smaller pieces.\n\n"; 
+		rules += "Play nice, do not shoot your opponent! You will\n";
+		rules += "loose points, too.\n\n";
+		rules += "May the best inseminator win!\n\n\n";
+		rules += "->   Press space to start the game.";
+		instruction = style.addLabel(rules, 32, Color.WHITE, 130, 90, false);
 		this.addActor(instruction);
 	}
 	
@@ -130,7 +138,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		this.addActor(instruction);
 		instructionWindow.setVisible(true);
 		instruction.setVisible(true);
-		String returnToMain = "Press escape to return to the main screen.";
+		String returnToMain = "->   Press escape to return to the main screen.";
 		this.addActor(style.addLabel(returnToMain, 36, Color.WHITE, 130, 130, false));
 		String imagePath = (this.p1Points > this.p2Points) ? "orange_winner.png" : "purple_winner.png";
 		Image winner = new Image(new Texture(Gdx.files.internal(imagePath)));

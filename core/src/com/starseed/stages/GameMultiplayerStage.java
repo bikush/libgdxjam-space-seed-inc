@@ -345,6 +345,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
     		Seed seed = findSeed( BodyUtils.getBodyOfType(a, b, UserDataType.SEED) );
     		
         	asteroid.ensemenate( seed.getPlayerIndex());
+        	// TODO: give points if ensemenated
         	
         	world.destroyBody(seed.getBody());
         	seed.remove();
@@ -369,6 +370,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         {
         	Body laserBody = BodyUtils.getBodyOfType(a, b, UserDataType.LASER);        	
         	removeLaserByBody(laserBody);
+        	// TODO: reduce points
         	return;
         }
 	}

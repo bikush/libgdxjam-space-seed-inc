@@ -13,6 +13,7 @@ import com.starseed.actors.Background;
 import com.starseed.actors.Runner;
 import com.starseed.actors.Seed;
 import com.starseed.actors.Ship;
+import com.starseed.enums.AsteroidType;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
 import com.starseed.util.WorldUtils;
@@ -94,6 +95,25 @@ public class MainScreenStage extends Stage {
 		this.addActor(variableLabel);
 		setUpShips();
 		setUpRunners();
+		setUpAsteroids();
+	}
+	
+    private void setUpAsteroids() {
+    	asteroids.clear();
+    	
+    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+    			world, AsteroidType.SMALL_1, new Vector2(Constants.WORLD_WIDTH * 0.1f, Constants.WORLD_HEIGHT * 0.75f))) );
+    	
+    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+    			world, AsteroidType.SMALL_2, new Vector2(Constants.WORLD_WIDTH * 0.2f, Constants.WORLD_HEIGHT * 0.75f))) );
+    	
+    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
+    			world, AsteroidType.MEDIUM_1, new Vector2(Constants.WORLD_WIDTH * 0.3f, Constants.WORLD_HEIGHT * 0.75f))) );
+    	
+    	for( Asteroid asteroid : asteroids )
+    	{
+    		addActor(asteroid);
+    	}
 	}
 	
 	private void setUpRunners() {
@@ -115,8 +135,7 @@ public class MainScreenStage extends Stage {
 		String texts [] = {"Resistance is futile. Your solar system will be inseminated.",
 						   "Bringing life to you starborhood.",
 						   "Need for seed.",
-						   "Every seed is needed in your starborhood.",
-						   "Every seed is sacred."};
+						   "Every seed is needed in your starborhood."};
 		
 		return texts[new Random().nextInt(texts.length)];
 	}

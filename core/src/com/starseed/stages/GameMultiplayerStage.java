@@ -39,7 +39,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 	private Array<Seed> seeds = new Array<Seed>();
 	private Array<Laser> lasers = new Array<Laser>(); 
 
-	private Array< Contact > contactsToHandle = new Array<Contact>();
+	private Array< Pair<Body,Body> > contactsToHandle = new Array< Pair<Body,Body> >();
 	
 	private HashMap<Pair<UserDataType, UserDataType>, Boolean> contactMap = new HashMap<Pair<UserDataType,UserDataType>, Boolean>();
 		
@@ -262,7 +262,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         }
         
         if( contactsToHandle.size > 0 ){
-        	for( Contact contact : contactsToHandle ){
+        	for(  Pair<Body,Body> contact : contactsToHandle ){
         		handleContact(contact);
         	}
         	contactsToHandle.clear();
@@ -327,13 +327,16 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		renderer.render(world, camera.combined);
 	}
 	
-	private void handleContact( Contact contact ){
-		Fixture fa = contact.getFixtureA();
-		Body a = fa != null ? fa.getBody() : null;
-		
-		Fixture fb = contact.getFixtureB();
-        Body b = fb != null ? fb.getBody() : null;
+	private void handleContact( Pair<Body, Body> contact ){
+//		Fixture fa = contact.getFixtureA();
+//		Body a = fa != null ? fa.getBody() : null;
+//		
+//		Fixture fb = contact.getFixtureB();
+//        Body b = fb != null ? fb.getBody() : null;
         
+		Body a = contact.first;
+		Body b = contact.second;
+		
         if( BodyUtils.bodiesAreOfTypes(a, b, UserDataType.ASTEROID, UserDataType.SEED) )
         {
         	//addSeedAsteroidContact(a, b);
@@ -366,14 +369,25 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
         {
         	Body laserBody = BodyUtils.getBodyOfType(a, b, UserDataType.LASER);        	
         	removeLaserByBody(laserBody);
+        	return;
         }
 	}
 	
   
 	@Override
 	public void beginContact(Contact contact) {		
-		contactsToHandle.add(contact);
 		
+		Fixture fa = contact.getFixtureA();
+		Body a = fa != null ? fa.getBody() : null;
+		
+		Fixture fb = contact.getFixtureB();
+        Body b = fb != null ? fb.getBody() : null;
+        
+        if( BodyUtils.getBodyOfType(a, b, UserDataType.EDGE) == null )
+        {
+        	contactsToHandle.add( new Pair<Body,Body>(a,b) );
+        }
+        
 //		Body a = contact.getFixtureA().getBody();
 //        Body b = contact.getFixtureB().getBody();
 //        if( BodyUtils.getBodyOfType(a, b, UserDataType.LASER) != null ){

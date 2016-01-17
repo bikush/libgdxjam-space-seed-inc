@@ -1,5 +1,7 @@
 package com.starseed.enums;
 
+import com.badlogic.gdx.math.MathUtils;
+
 public enum AsteroidType {
 	
 	
@@ -29,12 +31,14 @@ public enum AsteroidType {
 	public float getImageSize() {
 		return imageSize;
 	}
-
-	public String getRegionName() {
-		return String.format("asteroid_%s", sizeName);
-	}
 	
-	public int getRegionIndex() {
+	public String getBaseRegionName(){
+		return String.format("asteroid_%s_%d_crack", sizeName, index);
+	}
+		
+	public int getRegionIndex( int health ) {
+		int index = ((sizeType.getCrackCount() + 1) * (getHealth() - health)) / getHealth();
+		index = MathUtils.clamp(index, 0, sizeType.getCrackCount());	// Safety check
 		return index;
 	}
 

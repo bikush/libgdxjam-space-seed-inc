@@ -3,38 +3,73 @@ asteroids.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-asteroid_large
+asteroid_large_1_crack
   rotate: false
-  xy: 1, 1
+  xy: 1, 773
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: 0
+asteroid_large_1_crack
+  rotate: false
+  xy: 1, 521
   size: 250, 250
   orig: 250, 250
   offset: 0, 0
   index: 1
-asteroid_large
+asteroid_large_1_crack
   rotate: false
-  xy: 253, 1
+  xy: 253, 773
   size: 250, 250
   orig: 250, 250
   offset: 0, 0
   index: 2
-asteroid_medium
+asteroid_large_2_crack
   rotate: false
-  xy: 505, 51
+  xy: 1, 269
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: 0
+asteroid_large_2_crack
+  rotate: false
+  xy: 253, 521
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: 1
+asteroid_large_2_crack
+  rotate: false
+  xy: 505, 773
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: 2
+asteroid_medium_1_crack
+  rotate: false
+  xy: 1, 67
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 0
+asteroid_medium_1_crack
+  rotate: false
+  xy: 253, 319
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: 1
-asteroid_small
+asteroid_small_1_crack
   rotate: false
-  xy: 707, 101
+  xy: 505, 621
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
-  index: 1
-asteroid_small
+  index: 0
+asteroid_small_2_crack
   rotate: false
-  xy: 859, 187
+  xy: 1, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
-  index: 2
+  index: 0

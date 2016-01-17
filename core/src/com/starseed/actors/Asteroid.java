@@ -3,6 +3,7 @@ package com.starseed.actors;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
@@ -20,11 +21,11 @@ public class Asteroid extends GameActor {
 	private Array<Flower> flowers = new Array<Flower>();
 	
 	private static TextureAtlas asteroidAtlas = null;
-	private static TextureRegion getAsteroidTexture( AsteroidType type ) {
+	private static TextureRegion getAsteroidTexture( AsteroidType type, int health ) {
 		if( asteroidAtlas == null )	{
 			asteroidAtlas = new TextureAtlas(Constants.ASTEROID_ATLAS);
 		}
-		return asteroidAtlas.findRegion( type.getRegionName(), type.getRegionIndex() );
+		return asteroidAtlas.findRegion( type.getBaseRegionName(), type.getRegionIndex( health ) );
 	}
 	
 
@@ -32,8 +33,7 @@ public class Asteroid extends GameActor {
 		super(body);
 		
 		aType = getUserData().getAsteroidType();
-		asteroidFace = getAsteroidTexture(aType); 
-		health = aType.getHealth();
+		setHealth( aType.getHealth() );
 	}
 
 	@Override
@@ -89,9 +89,14 @@ public class Asteroid extends GameActor {
 		return false;
 	}
 	
+	private void setHealth( int value ){
+		health = MathUtils.clamp( value, 0, aType.getHealth());
+		asteroidFace = getAsteroidTexture(aType, health); 
+	}
+	
 	public void takeDamage()
 	{
-		health--;
+		setHealth(health-1);		
 	}
 	
 	public boolean isDestroyed()

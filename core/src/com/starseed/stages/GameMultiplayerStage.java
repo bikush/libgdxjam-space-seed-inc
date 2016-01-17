@@ -243,6 +243,7 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		addActor(newLaser);	
 		
 		lasers.add(newLaser);
+		SoundManager.playSound(Constants.SOUND_LASER, 0.05f);
 	}	
 
     private void updatePlayerPoints(int deltaPlayer1, int deltaPlayer2) {

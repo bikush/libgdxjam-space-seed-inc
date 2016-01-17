@@ -22,6 +22,7 @@ import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.Pair;
 import com.starseed.util.RandomUtils;
+import com.starseed.util.SoundManager;
 import com.starseed.util.WorldUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.graphics.Color;
@@ -144,6 +145,7 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
 		addActor(newLaser);	
 		
 		lasers.add(newLaser);
+		SoundManager.playSound(Constants.SOUND_LASER, 0.05f);
 	}
 	
 	public void setUpMainStage() {
@@ -539,7 +541,8 @@ public class MainScreenStage extends Stage implements ContactListener, ContactFi
         	asteroid.takeDamage();
         	
         	if( asteroid.isDestroyed() ){
-        		removeAsteroidByBody(asteroidBody, true);        		
+        		removeAsteroidByBody(asteroidBody, true);    
+        		SoundManager.playSound(Constants.SOUND_ASTEROID_DESTROY, 0.2f);
         	}
         	
         	return;

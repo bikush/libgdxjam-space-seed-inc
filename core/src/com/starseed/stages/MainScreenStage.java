@@ -31,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MainScreenStage extends GameStage {
 	private MainScreen mainScreen;
-	private UIStyle style;
 	private final float TIME_STEP = 1 / 300f;
 	private float accumulator = 0f;
 	private float time;
@@ -47,17 +46,14 @@ public class MainScreenStage extends GameStage {
 	private Boolean seedTurn = true;
 	private boolean shootSeed = false;
 	private boolean shootLaser = false;
-    private boolean isMac = false;
 	
 	
 	public MainScreenStage(MainScreen mainScreen) {
 		super();
 		this.mainScreen = mainScreen;
-		style = UIStyle.getSingleton();
 		setUpMainStage();
 		actionMap = new HashMap<Integer,Float>();
 		defineActionMap();   
-        isMac = OSUtils.isMac();
 	}
 	
 	private void defineActionMap() {

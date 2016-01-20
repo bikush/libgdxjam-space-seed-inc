@@ -57,8 +57,6 @@ public class GameMultiplayerStage extends GameStage {
     private Boolean gameInProgress=false;
     private Image instructionWindow = null;
     private Label instruction = null;
-    private UIStyle style;
-    private boolean isMac = false;
     
 	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
 		super();
@@ -70,12 +68,10 @@ public class GameMultiplayerStage extends GameStage {
         
         SoundManager.stopEngine(1);
         SoundManager.stopEngine(2);
-        //renderer = new Box2DDebugRenderer();       
-        isMac = OSUtils.isMac();
+        //renderer = new Box2DDebugRenderer();  
     }
 	
 	private void setupUI() {
-		style = UIStyle.getSingleton();
 		this.addActor(style.addLabel("Mr. Orange:", 30, Color.WHITE, 55, 720, false));
 		this.addActor(style.addLabel("Ms. Purple:", 30, Color.WHITE, 380, 720, false));
 		this.addActor(style.addLabel("Time left", 30, Color.WHITE, 730, 720, false));

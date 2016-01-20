@@ -22,6 +22,7 @@ import com.starseed.actors.Ship;
 import com.starseed.enums.UserDataType;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
+import com.starseed.util.OSUtils;
 import com.starseed.util.Pair;
 import com.starseed.util.SoundManager;
 import com.starseed.util.WorldUtils;
@@ -36,11 +37,15 @@ public abstract class GameStage extends Stage implements ContactListener, Contac
 	protected Array<Asteroid> asteroids = new Array<Asteroid>();
 	protected Ship player1 = null;
 	protected Ship player2 = null;
+	protected boolean isMac = false;
+	protected UIStyle style;
 	
 	public GameStage() {
 		super(new FitViewport(
 				  Constants.APP_WIDTH, Constants.APP_HEIGHT ));
 		setupContactMap();
+		isMac = OSUtils.isMac();
+		style = UIStyle.getSingleton();
 	}
 	
 	public void act(float delta) {

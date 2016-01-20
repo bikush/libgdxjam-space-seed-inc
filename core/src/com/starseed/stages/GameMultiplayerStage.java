@@ -1,6 +1,5 @@
 package com.starseed.stages;
 
-import java.util.HashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -15,17 +14,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 //import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactFilter;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.starseed.actors.*;
 import com.starseed.enums.AsteroidSizeType;
 import com.starseed.enums.AsteroidType;
@@ -40,24 +32,10 @@ import com.starseed.util.RandomUtils;
 import com.starseed.util.SoundManager;
 import com.starseed.util.WorldUtils;
 
-public class GameMultiplayerStage extends Stage implements ContactListener, ContactFilter {
+public class GameMultiplayerStage extends GameStage {
 	
 	private Array<Edge> edges = new Array<Edge>(EdgeSideType.values().length);
-	private Ship player1 = null;
-	private Ship player2 = null;
-	private Array<Asteroid> asteroids = new Array<Asteroid>();
-	private Array<Asteroid> oldAsteroids = new Array<Asteroid>();
 	private Array<Runner> runners= new Array<Runner>(Constants.NUMBER_OF_RUNNERS);
-	private Array<Seed> seeds = new Array<Seed>();
-	private Array<Laser> lasers = new Array<Laser>(); 
-
-	private Array< Pair<Body,Body> > contactsToHandle = new Array< Pair<Body,Body> >();
-	
-	private Array<AsteroidDebris> asteroidDebris = new Array<AsteroidDebris>();
-	
-	private HashMap<Pair<UserDataType, UserDataType>, Boolean> contactMap = new HashMap<Pair<UserDataType,UserDataType>, Boolean>();
-		
-	private World world;
 
 	private final float TIME_STEP = 1 / 300f;
 	private float accumulator = 0f;
@@ -83,11 +61,9 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
     private boolean isMac = false;
     
 	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
-		super(new FitViewport(
-				Constants.APP_WIDTH, Constants.APP_HEIGHT ));
+		super();
 				//, new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
 		this.gameScreen = gameScreen;
-		setupContactMap();
         setUpWorld();
         setupCamera();
         setupUI();
@@ -199,26 +175,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 
     private void setUpAsteroids() {
     	asteroids.clear();
-    	
-//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-//    			world, AsteroidType.SMALL_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.2f))) );
-//    	
-//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-//    			world, AsteroidType.SMALL_2, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.35f))) );
-//    	
-//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-//    			world, AsteroidType.MEDIUM_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.5f))) );
-//    	
-//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-//    			world, AsteroidType.LARGE_1, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.65f))) );
-//    	
-//    	asteroids.add( new Asteroid( WorldUtils.createAsteroid(
-//    			world, AsteroidType.LARGE_2, new Vector2(Constants.WORLD_WIDTH * 0.75f, Constants.WORLD_HEIGHT * 0.8f))) );
-//    	
-//    	for( Asteroid asteroid : asteroids )
-//    	{
-//    		addActor(asteroid);
-//    	}
 	}
 
 	private void setupCamera() 	{
@@ -226,34 +182,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
 		camera.update();
 	}
-	
-	private void createSeed( Ship sourceShip ) {		
-		int playerIndex = sourceShip.getPlayerIndex();
-		Vector2 position = sourceShip.getFrontOfShip();
-		Vector2 direction = sourceShip.getDirection();
-		float offset = Constants.SEED_RADIUS * 1.05f;
-		position.add( direction.scl(offset, offset));
-		
-		Seed newSeed = new Seed( WorldUtils.createSeed(world, position, direction, playerIndex) );
-		addActor(newSeed);	
-		
-		seeds.add(newSeed);
-		SoundManager.playSound(Constants.SOUND_SEED_SHOT, 0.7f);
-	}
-	
-	private void createLaser( Ship sourceShip ){
-		int playerIndex = sourceShip.getPlayerIndex();
-		Vector2 position = sourceShip.getFrontOfShip();
-		Vector2 direction = sourceShip.getDirection();
-		float offset = Constants.LASER_WIDTH * 1.05f;
-		position.add( direction.scl(offset, offset));
-		
-		Laser newLaser = new Laser( WorldUtils.createLaser(world, position, direction, playerIndex) );
-		addActor(newLaser);	
-		
-		lasers.add(newLaser);
-		SoundManager.playSound(Constants.SOUND_LASER, 0.05f);
-	}	
 
     private void updatePlayerPoints(int deltaPlayer1, int deltaPlayer2) {
     	p1Points = Math.max( p1Points + deltaPlayer1, 0 );
@@ -267,61 +195,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
     		player2Points.setText(String.format("%d", p2Points));
     	}
     }
-	
-	private Asteroid findAsteroid( Body aBody )
-	{
-		if( aBody == null ){
-			return null;
-		}
-		for( Asteroid asteroid : asteroids )
-		{
-			if( asteroid.getBody() == aBody )
-			{
-				return asteroid;
-			}
-		}
-		return null;
-	}
-	
-	private Seed findSeed( Body aBody )
-	{
-		if( aBody == null ){
-			return null;
-		}
-		for( Seed seed : seeds )
-		{
-			if( seed.getBody() == aBody )
-			{
-				return seed;
-			}
-		}
-		return null;
-	}
-	
-	private Laser findLaser( Body aBody )
-	{
-		if( aBody == null ){
-			return null;
-		}
-		for( Laser laser : lasers )
-		{
-			if( laser.getBody() == aBody )
-			{
-				return laser;
-			}
-		}
-		return null;
-	}
-	
-	private Ship findPlayerShip( Body aBody ){
-		if( player1.getBody() == aBody ){
-			return player1;
-		}
-		if( player2.getBody() == aBody ){
-			return player2;
-		}
-		return null;
-	}
 	
 	private float hitSounds = 0;
 		
@@ -415,62 +288,11 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		hitSounds = MathUtils.clamp(hitSounds-delta, 0f, 10f);
 	}
 	
-	private void update(Body body) {
-		if (!BodyUtils.bodyInBounds(body)) {
-			
-			UserDataType type = BodyUtils.bodyType(body);
-			switch( type ){
-			case SEED:
-				Seed seed = findSeed(body);
-				seeds.removeValue(seed, true);
-				seed.remove();
-				world.destroyBody(body);
-				break;
-				
-			case ASTEROID:
-				removeAsteroidByBody(body, false);
-				break;
-				
-			case LASER:				
-				removeLaserByBody(body);
-				break;
-				
-			default:
-				world.destroyBody(body);
-				break;
-			}
-            
-			// Destroy bodies outside of the playing field?
-            
-        }
-	}
-	
-	private void removeLaserByBody( Body laserBody )	{
-		Laser laser = findLaser(laserBody);
-		if( laser != null ){
-			lasers.removeValue(laser, true);
-			laser.remove();
-			world.destroyBody(laser.getBody());
-		}
-	}
-	
-	private void removeAsteroidByBody( Body asteroidBody, boolean wasDestroyed ) {
-		Asteroid asteroid = findAsteroid(asteroidBody);
-		if( !wasDestroyed )
-		{
-			oldAsteroids.add(asteroid);
-		}
-		else
-		{
-			AsteroidDebris debris = new AsteroidDebris(asteroid);
-			asteroidDebris.add(debris);
-			addActor(debris);
-		}
-		asteroids.removeValue(asteroid, true);
-		asteroid.remove();
-		
+	@Override
+	protected void removeAsteroidByBody( Body asteroidBody, boolean wasDestroyed ) {
 		Vector2 velocity = new Vector2( asteroidBody.getLinearVelocity() );
-		world.destroyBody(asteroidBody);
+		Asteroid asteroid = findAsteroid(asteroidBody);
+		super.removeAsteroidByBody(asteroidBody, wasDestroyed);
 		
 		if( wasDestroyed )
 		{
@@ -503,87 +325,8 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 			}
 		}
 	}
+	  
 	
-	@Override
-	public void draw() {
-		super.draw();
-		//renderer.render(world, camera.combined);
-	}
-	
-	private void handleContact( Pair<Body, Body> contact ){
-//		Fixture fa = contact.getFixtureA();
-//		Body a = fa != null ? fa.getBody() : null;
-//		
-//		Fixture fb = contact.getFixtureB();
-//        Body b = fb != null ? fb.getBody() : null;
-        
-		Body a = contact.first;
-		Body b = contact.second;
-		
-        if( BodyUtils.bodiesAreOfTypes(a, b, UserDataType.ASTEROID, UserDataType.SEED) )
-        {        	
-        	Asteroid asteroid = findAsteroid( BodyUtils.getBodyOfType(a, b, UserDataType.ASTEROID) );
-    		Seed seed = findSeed( BodyUtils.getBodyOfType(a, b, UserDataType.SEED) );
-    		
-    		int playerSeedIndex = seed.getPlayerIndex();
-        	if( asteroid.ensemenate( playerSeedIndex ) ){
-        		int deltaPlayer1 = playerSeedIndex == 1 ? asteroid.getAsteroidType().getPoints() : 0;
-        		int deltaPlayer2 = playerSeedIndex == 2 ? asteroid.getAsteroidType().getPoints() : 0;
-        		updatePlayerPoints(deltaPlayer1, deltaPlayer2);
-        	}
-        	
-        	world.destroyBody(seed.getBody());
-        	seed.remove();
-        	seeds.removeValue( seed, true );
-        	return;
-        }
-        
-        if( BodyUtils.bodiesAreOfTypes(a, b, UserDataType.ASTEROID, UserDataType.LASER) )
-        {
-        	Body asteroidBody = BodyUtils.getBodyOfType(a, b, UserDataType.ASTEROID);
-        	Body laserBody = BodyUtils.getBodyOfType(a, b, UserDataType.LASER);
-        	
-        	removeLaserByBody(laserBody);
-
-        	Asteroid asteroid = findAsteroid(asteroidBody);
-        	asteroid.takeDamage();
-        	
-        	if( asteroid.isDestroyed() ){
-        		int asteroidPlayerIndex = asteroid.getOwningPlayer();
-        		int deltaPlayer1 = asteroidPlayerIndex == 1 ? -asteroid.getAsteroidType().getPoints() : 0;
-        		int deltaPlayer2 = asteroidPlayerIndex == 2 ? -asteroid.getAsteroidType().getPoints() : 0;
-        		updatePlayerPoints(deltaPlayer1, deltaPlayer2);
-        		
-        		removeAsteroidByBody(asteroidBody, true);    
-        		
-        		SoundManager.playSound(Constants.SOUND_ASTEROID_DESTROY, 0.2f);
-        	}
-        	
-        	return;
-        }
-        
-        if( BodyUtils.bodiesAreOfTypes(a, b, UserDataType.PLAYER, UserDataType.LASER) )
-        {
-        	Body laserBody = BodyUtils.getBodyOfType(a, b, UserDataType.LASER);        	
-        	Body shipBody = BodyUtils.getBodyOfType(a, b, UserDataType.PLAYER);
-        	
-        	Laser laser = findLaser(laserBody);
-        	Ship target = findPlayerShip(shipBody);
-        	int targetedPlayer = target.getPlayerIndex();
-        	if( laser.getUserData().getPlayerIndex() != targetedPlayer ){
-        		int deltaPoints1 = targetedPlayer == 2 ? -250 : 0;
-        		int deltaPoints2 = targetedPlayer == 1 ? -250 : 0;
-        		updatePlayerPoints(deltaPoints1, deltaPoints2);
-        	}
-        	
-        	removeLaserByBody(laserBody);
-
-        	
-        	return;
-        }
-	}
-	
-  
 	@Override
 	public void beginContact(Contact contact) {		
 		
@@ -612,21 +355,6 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 //        if( BodyUtils.getBodyOfType(a, b, UserDataType.LASER) != null ){
 //        	contact.setEnabled(false);
 //        }
-	}
-
-	@Override
-	public void endContact(Contact contact) {
-		
-	}
-
-	@Override
-	public void preSolve(Contact contact, Manifold oldManifold) {
-		
-	}
-
-	@Override
-	public void postSolve(Contact contact, ContactImpulse impulse) {
-		
 	}
 	
 	@Override
@@ -754,47 +482,48 @@ public class GameMultiplayerStage extends Stage implements ContactListener, Cont
 		}
 		return retVal;
 	}
-	
-	/*
-	 * Collision and contact data
-	 */
 
-	private void setupContactMap() {
-		contactMap.clear();
-		
-		// Asteroid contacts
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.ASTEROID), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.PLAYER), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.SEED), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.EDGE), false);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.RUNNER), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.ASTEROID, UserDataType.LASER), true);
-		
-		// Seed contacts
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.SEED, UserDataType.PLAYER), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.SEED, UserDataType.SEED), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.SEED, UserDataType.EDGE), false);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.SEED, UserDataType.RUNNER), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.SEED, UserDataType.LASER), false);
-		
-		// Player ship contacts
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.PLAYER, UserDataType.PLAYER), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.PLAYER, UserDataType.EDGE), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.PLAYER, UserDataType.RUNNER), true);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.PLAYER, UserDataType.LASER), true);
-		
-		// Edge contacts
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.EDGE, UserDataType.RUNNER), false);
-		contactMap.put(new Pair<UserDataType, UserDataType>(UserDataType.EDGE, UserDataType.LASER), false);
-		
+	@Override
+	protected void asteroidSeedContact(Asteroid asteroid, Seed seed) {
+		int playerSeedIndex = seed.getPlayerIndex();
+    	if( asteroid.ensemenate( playerSeedIndex ) ){
+    		int deltaPlayer1 = playerSeedIndex == 1 ? asteroid.getAsteroidType().getPoints() : 0;
+    		int deltaPlayer2 = playerSeedIndex == 2 ? asteroid.getAsteroidType().getPoints() : 0;
+    		updatePlayerPoints(deltaPlayer1, deltaPlayer2);
+    	}
+    	
+    	world.destroyBody(seed.getBody());
+    	seed.remove();
+    	seeds.removeValue( seed, true );
 	}
 
 	@Override
-	public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
-		Body a = fixtureA.getBody();
-        Body b = fixtureB.getBody();
-        
-        Boolean contact = contactMap.get( new Pair<UserDataType, UserDataType>( BodyUtils.bodyType(a), BodyUtils.bodyType(b) ) );
-        return contact != null ? contact.booleanValue() : false;
+	protected void asteroidLaserContact(Asteroid asteroid, Laser laser) {
+    	
+    	removeLaserByBody(laser.getBody());
+    	asteroid.takeDamage();
+    	
+    	if( asteroid.isDestroyed() ){
+    		int asteroidPlayerIndex = asteroid.getOwningPlayer();
+    		int deltaPlayer1 = asteroidPlayerIndex == 1 ? -asteroid.getAsteroidType().getPoints() : 0;
+    		int deltaPlayer2 = asteroidPlayerIndex == 2 ? -asteroid.getAsteroidType().getPoints() : 0;
+    		updatePlayerPoints(deltaPlayer1, deltaPlayer2);
+    		
+    		removeAsteroidByBody(asteroid.getBody(), true);    
+    		
+    		SoundManager.playSound(Constants.SOUND_ASTEROID_DESTROY, 0.2f);
+    	}
+	}
+
+	@Override
+	protected void playerLaserContact(Laser laser, Ship ship) {
+		
+    	int targetedPlayer = ship.getPlayerIndex();
+    	if( laser.getUserData().getPlayerIndex() != targetedPlayer ){
+    		int deltaPoints1 = targetedPlayer == 2 ? -250 : 0;
+    		int deltaPoints2 = targetedPlayer == 1 ? -250 : 0;
+    		updatePlayerPoints(deltaPoints1, deltaPoints2);
+    	}
+    	removeLaserByBody(laser.getBody());
 	}
 }

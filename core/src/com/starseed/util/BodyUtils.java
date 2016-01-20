@@ -56,8 +56,12 @@ public class BodyUtils {
     
     public static UserDataType bodyType( Body body )
     {
-    	UserData userData = (UserData) body.getUserData();
-        return userData != null ? userData.getUserDataType(): UserDataType.NONE; 
+    	UserDataType type = UserDataType.NONE;    	
+    	if( body != null ){
+    		UserData userData = (UserData) body.getUserData();
+    		type = userData != null ? userData.getUserDataType(): UserDataType.NONE;
+    	}
+        return type; 
     }
     
     public static Body getBodyOfType( Body a, Body b, UserDataType type ){

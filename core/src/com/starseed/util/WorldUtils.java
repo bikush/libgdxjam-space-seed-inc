@@ -1,7 +1,5 @@
 package com.starseed.util;
 
-import java.util.Random;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -69,7 +67,7 @@ public class WorldUtils {
         bodyDef.position.set(position);
        
         bodyDef.angle = angle;
-        angle += 3.1415926f * 0.5f;
+        angle += Math.PI * 0.5f;
         
         CircleShape shape = new CircleShape();
         shape.setRadius(aType.getRadius());
@@ -86,7 +84,7 @@ public class WorldUtils {
 	public static Body createRunner(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(new Vector2((new Random().nextFloat()) * Constants.WORLD_WIDTH, (new Random().nextFloat()) * Constants.WORLD_HEIGHT));
+        bodyDef.position.set(new Vector2( RandomUtils.nextFloat() * Constants.WORLD_WIDTH, RandomUtils.nextFloat() * Constants.WORLD_HEIGHT));
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(Constants.RUNNER_WIDTH / 2, Constants.RUNNER_HEIGHT / 2);
         Body body = world.createBody(bodyDef);

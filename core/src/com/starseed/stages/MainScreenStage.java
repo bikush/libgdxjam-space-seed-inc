@@ -262,7 +262,7 @@ public class MainScreenStage extends GameStage {
     	Asteroid asteroid = new Asteroid( WorldUtils.createAsteroid(
     			world, AsteroidType.getRandomType(), new Vector2(Constants.WORLD_WIDTH, pos_y)));
     	asteroid.getBody().setLinearVelocity(-15f, 0f);
-    	asteroid.setHealth((int)(new Random().nextFloat()*asteroid.getAsteroidType().getHealth()));
+    	asteroid.setHealth( RandomUtils.rangeInt(1, asteroid.getAsteroidType().getHealth()) );
     	asteroids.add(asteroid);
     	addActor(asteroid);
     	

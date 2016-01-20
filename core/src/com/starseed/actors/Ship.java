@@ -82,6 +82,15 @@ public class Ship extends GameActor {
 		public String getShipName() {
 			return shipName;
 		}
+		
+		public static ShipType findShipTypeByIndex(int playerIndex) {
+			for (ShipType sType : ShipType.values()) {
+				if (sType.getShipId() == playerIndex) {
+					return sType;
+				}
+			}
+			return null;
+		}
 	}
 	
 	public static TextureRegion getShipTextureRegion(String regionName, int index )

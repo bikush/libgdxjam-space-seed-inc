@@ -26,7 +26,6 @@ import com.starseed.enums.UserDataType;
 import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
-import com.starseed.util.OSUtils;
 import com.starseed.util.Pair;
 import com.starseed.util.RandomUtils;
 import com.starseed.util.SoundManager;
@@ -36,9 +35,6 @@ public class GameMultiplayerStage extends GameStage {
 	
 	private Array<Edge> edges = new Array<Edge>(EdgeSideType.values().length);
 	private Array<Runner> runners= new Array<Runner>(Constants.NUMBER_OF_RUNNERS);
-
-	private final float TIME_STEP = 1 / 300f;
-	private float accumulator = 0f;
 
 	private OrthographicCamera camera;
 	//private Box2DDebugRenderer renderer;
@@ -194,11 +190,7 @@ public class GameMultiplayerStage extends GameStage {
 	
 	private float hitSounds = 0;
 		
-	@Override
-	public void act(float delta) {
-		if (delta > Constants.DELTA_MAX) {
-			delta = Constants.DELTA_MAX;
-		}
+	public void prePhysics(float delta) {
 		if (gameInProgress) {
 			time -= delta;
 			if (time >= 0f) {
@@ -245,43 +237,6 @@ public class GameMultiplayerStage extends GameStage {
 				addActor( newAsteroid );
 			}
 		}
-		super.act(delta);
-		
-		Array<Body> bodies = new Array<Body>(world.getBodyCount());
-        world.getBodies(bodies);
-
-        for (Body body : bodies) {
-            update(body);
-        }
-        
-        if( contactsToHandle.size > 0 ){
-        	for(  Pair<Body,Body> contact : contactsToHandle ){
-        		handleContact(contact);
-        	}
-        	contactsToHandle.clear();
-        }
-        
-		// Fixed timestep
-		accumulator += delta;
-
-		while (accumulator >= delta) {
-			world.step(TIME_STEP, 6, 2);
-			accumulator -= TIME_STEP;
-		}
-		
-		// TODO: this could be handled better with an observer pattern
-		if( asteroidDebris.size > 0 ){
-			Array<AsteroidDebris> toRemove = new Array<AsteroidDebris>();
-			for( AsteroidDebris aDebris : asteroidDebris ){
-				if( aDebris.isFinished() ){
-					toRemove.add(aDebris);
-					aDebris.remove();					
-				}
-			}
-			asteroidDebris.removeAll(toRemove, true);
-		}
-
-		hitSounds = MathUtils.clamp(hitSounds-delta, 0f, 10f);
 	}
 	
 	@Override
@@ -521,5 +476,10 @@ public class GameMultiplayerStage extends GameStage {
     		updatePlayerPoints(deltaPoints1, deltaPoints2);
     	}
     	removeLaserByBody(laser.getBody());
+	}
+
+	@Override
+	public void postPhysics(float delta) {
+		hitSounds = MathUtils.clamp(hitSounds-delta, 0f, 10f);
 	}
 }

@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.Array;
 import com.starseed.actors.Asteroid;
-import com.starseed.actors.AsteroidDebris;
 import com.starseed.actors.Background;
 import com.starseed.actors.Laser;
 import com.starseed.actors.Runner;
@@ -16,23 +15,18 @@ import com.starseed.actors.Ship;
 import com.starseed.enums.AsteroidType;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
-import com.starseed.util.OSUtils;
-import com.starseed.util.Pair;
 import com.starseed.util.RandomUtils;
 import com.starseed.util.SoundManager;
 import com.starseed.util.WorldUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MainScreenStage extends GameStage {
 	private MainScreen mainScreen;
-	private final float TIME_STEP = 1 / 300f;
-	private float accumulator = 0f;
 	private float time;
 	private float ateroidTime = Constants.ASTEROID_CREATION_START;
 	private int actionID = 1;
@@ -271,64 +265,6 @@ public class MainScreenStage extends GameStage {
 	}
 	
 	@Override
-	public void act(float delta) {
-		if (delta > Constants.DELTA_MAX) {
-			delta = Constants.DELTA_MAX;
-		}
-		super.act(delta);
-		
-		time -= delta;
-		if (time < 0f) {
-			time = actionMap.get(actionID);
-			changeAction(actionID);
-			actionID++;
-			if (actionID > 9) {
-				actionID = 0;
-			}
-		}
-		
-		ateroidTime -= delta;
-		if (ateroidTime < 0f) {
-			ateroidTime = RandomUtils.rangeFloat(Constants.ASTEROID_CREATION_START, Constants.ASTEROID_CREATION_END);
-			createAsteroid();
-		}
-		shoot();
-		
-		Array<Body> bodies = new Array<Body>(world.getBodyCount());
-        world.getBodies(bodies);
-
-        for (Body body : bodies) {
-            super.update(body);
-        }
-        
-        if( contactsToHandle.size > 0 ){
-        	for(  Pair<Body,Body> contact : contactsToHandle ){
-        		super.handleContact(contact);
-        	}
-        	contactsToHandle.clear();
-        }
-        
-		// Fixed timestep
-		accumulator += delta;
-
-		while (accumulator >= delta) {
-			world.step(TIME_STEP, 6, 2);
-			accumulator -= TIME_STEP;
-		}
-		
-		if( asteroidDebris.size > 0 ){
-			Array<AsteroidDebris> toRemove = new Array<AsteroidDebris>();
-			for( AsteroidDebris aDebris : asteroidDebris ){
-				if( aDebris.isFinished() ){
-					toRemove.add(aDebris);
-					aDebris.remove();					
-				}
-			}
-			asteroidDebris.removeAll(toRemove, true);
-		}
-	}
-
-	@Override
 	protected void asteroidSeedContact(Asteroid asteroid, Seed seed) {
 		int playerSeedIndex = seed.getPlayerIndex();
     	asteroid.ensemenate( playerSeedIndex );
@@ -352,5 +288,31 @@ public class MainScreenStage extends GameStage {
 	@Override
 	protected void playerLaserContact(Laser laser, Ship ship) {  	
     	removeLaserByBody(laser.getBody());
+	}
+
+	@Override
+	public void prePhysics(float delta) {
+		time -= delta;
+		if (time < 0f) {
+			time = actionMap.get(actionID);
+			changeAction(actionID);
+			actionID++;
+			if (actionID > 9) {
+				actionID = 0;
+			}
+		}
+		
+		ateroidTime -= delta;
+		if (ateroidTime < 0f) {
+			ateroidTime = RandomUtils.rangeFloat(Constants.ASTEROID_CREATION_START, Constants.ASTEROID_CREATION_END);
+			createAsteroid();
+		}
+		shoot();
+	}
+
+	@Override
+	public void postPhysics(float delta) {
+		// TODO Auto-generated method stub
+		
 	}
 }

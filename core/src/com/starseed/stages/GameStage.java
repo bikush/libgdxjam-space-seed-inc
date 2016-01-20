@@ -1,7 +1,6 @@
 package com.starseed.stages;
 
 import java.util.HashMap;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -39,6 +38,8 @@ public abstract class GameStage extends Stage implements ContactListener, Contac
 	protected Ship player2 = null;
 	protected boolean isMac = false;
 	protected UIStyle style;
+	private float accumulator = 0f;
+	private final float TIME_STEP = 1 / 300f;
 	
 	public GameStage() {
 		super(new FitViewport(
@@ -48,8 +49,49 @@ public abstract class GameStage extends Stage implements ContactListener, Contac
 		style = UIStyle.getSingleton();
 	}
 	
+	public abstract void prePhysics(float delta);
+	public abstract void postPhysics(float delta);
+	
 	public void act(float delta) {
+		if (delta > Constants.DELTA_MAX) {
+			delta = Constants.DELTA_MAX;
+		}
+		prePhysics(delta);
 		super.act(delta);
+		Array<Body> bodies = new Array<Body>(world.getBodyCount());
+        world.getBodies(bodies);
+
+        for (Body body : bodies) {
+            update(body);
+        }
+        
+        if( contactsToHandle.size > 0 ){
+        	for(  Pair<Body,Body> contact : contactsToHandle ){
+        		handleContact(contact);
+        	}
+        	contactsToHandle.clear();
+        }
+        
+		// Fixed timestep
+		accumulator += delta;
+
+		while (accumulator >= delta) {
+			world.step(TIME_STEP, 6, 2);
+			accumulator -= TIME_STEP;
+		}
+		
+		// TODO: this could be handled better with an observer pattern
+		if( asteroidDebris.size > 0 ){
+			Array<AsteroidDebris> toRemove = new Array<AsteroidDebris>();
+			for( AsteroidDebris aDebris : asteroidDebris ){
+				if( aDebris.isFinished() ){
+					toRemove.add(aDebris);
+					aDebris.remove();					
+				}
+			}
+			asteroidDebris.removeAll(toRemove, true);
+		}
+		postPhysics(delta);
 	}
 	
 	@Override

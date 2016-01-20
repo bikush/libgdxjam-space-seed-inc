@@ -1,6 +1,7 @@
 package com.starseed.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.ShipUserData;
 import com.starseed.util.Constants;
+import com.starseed.util.OSUtils;
 import com.starseed.util.SoundManager;
 
 public class Ship extends GameActor {
@@ -21,9 +23,68 @@ public class Ship extends GameActor {
 	private boolean turnRight = false;
 	private float engineOnTime = 0.0f;
 	private Animation exhaustAnimation;
-		
+    public ShipType shipType = null;
 	private static TextureAtlas shipSeedAtlas = null;
-	public static TextureRegion getShipTextureRegion( String regionName, int index )
+	
+	public enum ShipType {
+		ORANGE_SHIP (1, "Mr. Orange", Input.Keys.W, 
+				Input.Keys.A, Input.Keys.D, Input.Keys.CONTROL_LEFT, Input.Keys.SHIFT_LEFT),
+		PURPLE_SHIP (2, "Ms. Purple", Input.Keys.UP,
+				Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.CONTROL_RIGHT, Input.Keys.SHIFT_RIGHT);
+		private int shipId, engineKey, turnLeftKey, turnRightKey, fireLaser, fireSeed;
+		private String shipName;
+		
+		ShipType(int shipId, String shipName, int engineKey, 
+				  int turnLeftKey, int turnRightKey, int fireLaser, int fireSeed) {
+			//TODO: MAC ! ALT key
+			int rightCtrl = Input.Keys.CONTROL_RIGHT;
+			int altKey = Input.Keys.ALT_RIGHT;
+			if (OSUtils.isMac()) { 
+				engineKey = (engineKey == rightCtrl)? altKey: engineKey;
+				turnLeftKey = (turnLeftKey == rightCtrl)? altKey: turnLeftKey;
+				turnRightKey = (turnRightKey == rightCtrl)? altKey: turnRightKey;
+				fireLaser = (fireLaser == rightCtrl)? altKey: fireLaser;
+				fireSeed = (fireSeed == rightCtrl)? altKey: fireSeed;
+			}
+			this.shipId = shipId;
+			this.shipName = shipName;
+			this.engineKey = engineKey;
+			this.turnLeftKey = turnLeftKey;
+			this.turnRightKey = turnRightKey;
+			this.fireLaser = fireLaser;
+			this.fireSeed = fireSeed;
+		}
+
+		public int getShipId() {
+			return shipId;
+		}
+
+		public int getEngineKey() {
+			return engineKey;
+		}
+
+		public int getTurnLeftKey() {
+			return turnLeftKey;
+		}
+
+		public int getTurnRightKey() {
+			return turnRightKey;
+		}
+
+		public int getFireLaser() {
+			return fireLaser;
+		}
+
+		public int getFireSeed() {
+			return fireSeed;
+		}
+
+		public String getShipName() {
+			return shipName;
+		}
+	}
+	
+	public static TextureRegion getShipTextureRegion(String regionName, int index )
 	{
 		if( shipSeedAtlas == null )
 		{
@@ -37,7 +98,29 @@ public class Ship extends GameActor {
 		
 		this.playerIndex = playerIndex;
 		shipTexture = getShipTextureRegion(Constants.ATLAS_SHIP_PLAYER_REGION, playerIndex);
+		addExhaustAnimation();
+		shipType = findShipTypeByIndex(playerIndex);
 		
+	}
+	
+	public ShipType findShipTypeByIndex(int playerIndex) {
+		for (ShipType sType : ShipType.values()) {
+			if (sType.getShipId() == playerIndex) {
+				return sType;
+			}
+		}
+		return null;
+	}
+	 
+	public Ship (Body body, ShipType sType) {
+		super(body);
+		shipType = sType;
+		this.playerIndex = shipType.getShipId();
+		shipTexture = getShipTextureRegion(Constants.ATLAS_SHIP_PLAYER_REGION, playerIndex);
+		addExhaustAnimation();
+	}
+	
+	private void addExhaustAnimation() {
 		TextureAtlas exhaustAtlas = new TextureAtlas(Constants.ATLAS_SHIP_EXHAUST);
         TextureRegion[] exhaustFrames = new TextureRegion[Constants.ATLAS_SHIP_EXHAUST_COUNT];
         for( int i = 0; i<Constants.ATLAS_SHIP_EXHAUST_COUNT; i++ )
@@ -46,7 +129,22 @@ public class Ship extends GameActor {
         }
         exhaustAnimation = new Animation(0.1f, exhaustFrames);
 	}
-
+	
+	public boolean moveKeyHandler(int keyCode, boolean make_move) {
+		boolean retVal = false;
+		if (keyCode == shipType.getEngineKey()) {
+			this.setEngineOn(make_move);
+			retVal = true;
+		} else if (keyCode == shipType.getTurnRightKey()) {
+			this.setTurnRight(make_move);
+			retVal = true;
+		} else if (keyCode == shipType.getTurnLeftKey()) {
+			retVal = true;
+			this.setTurnLeft(make_move);
+		}
+		return retVal;
+	}
+	
 	@Override
 	public ShipUserData getUserData() {
 		return (ShipUserData) userData;

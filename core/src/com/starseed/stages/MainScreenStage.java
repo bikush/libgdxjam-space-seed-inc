@@ -33,6 +33,8 @@ public class MainScreenStage extends GameStage {
 	private Label variableLabel=null;
 	private Vector2 shipInitPos1;
 	private Vector2 shipInitPos2;
+	private Ship player1 = null;
+	private Ship player2 = null;
 	HashMap<Integer,Float> actionMap;
 	private Array<Runner> runners= new Array<Runner>(Constants.NUMBER_OF_RUNNERS);
 	
@@ -96,6 +98,8 @@ public class MainScreenStage extends GameStage {
         addActor(player1);
         player2 = new Ship( WorldUtils.createPlayerShip(world, shipInitPos2, 0f), 2 );
         addActor(player2);
+        ships.add(player1);
+        ships.add(player2);
     }
 	
 	private String generateSubtitleText() {

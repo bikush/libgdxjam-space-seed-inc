@@ -46,6 +46,9 @@ public class GameMultiplayerStage extends GameStage {
     
     private float nextAsteroidIn = 0.0f;
     
+	private Ship player1 = null;
+	private Ship player2 = null;
+	
     private Label player1Points;
     private int p1Points = 0;
     private int p2Points = 0;
@@ -162,6 +165,9 @@ public class GameMultiplayerStage extends GameStage {
         
         player2 = new Ship( WorldUtils.createPlayerShip(world, new Vector2(Constants.WORLD_WIDTH / 3, Constants.WORLD_HEIGHT * 0.75f), (float)Math.PI * 1.5f), 2 );
         addActor(player2);
+        
+        ships.add(player1);
+        ships.add(player2);
         
     }    
 
@@ -298,48 +304,16 @@ public class GameMultiplayerStage extends GameStage {
              	}
             }
         }
-        
-       
-        
-//		Body a = contact.getFixtureA().getBody();
-//        Body b = contact.getFixtureB().getBody();
-//        if( BodyUtils.getBodyOfType(a, b, UserDataType.LASER) != null ){
-//        	contact.setEnabled(false);
-//        }
 	}
 	
 	@Override
 	public boolean keyDown(int keyCode) {
 		super.keyDown(keyCode);
 		if (gameInProgress) {
-			switch (keyCode) {
-			case Input.Keys.W:
-				player1.setEngineOn(true);
-				break;
-				
-			case Input.Keys.A:
-				player1.setTurnLeft(true);
-				break;
-				
-			case Input.Keys.D:
-				player1.setTurnRight(true);
-				break;
-				
-			case Input.Keys.UP:
-				player2.setEngineOn(true);
-				break;
-				
-			case Input.Keys.LEFT:
-				player2.setTurnLeft(true);
-				break;
-				
-			case Input.Keys.RIGHT:
-				player2.setTurnRight(true);
-				break;
-				
-			default:
-				break;
-			
+			for (Ship ship: ships) {
+				if (ship.moveKeyHandler(keyCode, true)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -363,72 +337,20 @@ public class GameMultiplayerStage extends GameStage {
 			}
 			break;
 			
-		case Input.Keys.W:
-			if (gameInProgress) {
-				player1.setEngineOn(false);
-			}
-			break;
-			
-		case Input.Keys.A:
-			if (gameInProgress) {
-				player1.setTurnLeft(false);
-			}
-			break;
-			
-		case Input.Keys.D:
-			if (gameInProgress) {
-				player1.setTurnRight(false);
-			}
-			break;
-			
-		case Input.Keys.SHIFT_LEFT:
-			if (gameInProgress) {
-				createSeed(player1);
-			}
-			break;
-			
-		case Input.Keys.CONTROL_LEFT:
-			if (gameInProgress) {
-				createLaser(player1);
-			}
-			break;
-			
-		case Input.Keys.UP:
-			if (gameInProgress) {
-				player2.setEngineOn(false);
-			}
-			break;
-			
-		case Input.Keys.LEFT:
-			if (gameInProgress) {
-				player2.setTurnLeft(false);
-			}
-			break;
-			
-		case Input.Keys.RIGHT:
-			if (gameInProgress) {
-				player2.setTurnRight(false);
-			}
-			break;
-			
-		case Input.Keys.SHIFT_RIGHT:
-			if (gameInProgress) {
-				createSeed(player2);
-			}
-			break;
-			
-		case Input.Keys.CONTROL_RIGHT:
-			if (gameInProgress) {
-				createLaser(player2);
-			}
-			break;
-			
-		case Input.Keys.ALT_RIGHT:
-			if( gameInProgress && isMac ) {
-				createLaser(player2);
-			}
-			
 		default:
+			if (gameInProgress) {
+				for (Ship ship: ships) {
+					if (ship.moveKeyHandler(keyCode, false)) {
+						break;
+					} else if (ship.shipType.getFireLaser() == keyCode) {
+						createLaser(ship);
+						break;
+					} else if (ship.shipType.getFireSeed() == keyCode) {
+						createSeed(ship);
+						break;
+					}
+				}
+			}
 			break;
 		}
 		return retVal;

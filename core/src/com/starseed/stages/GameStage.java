@@ -34,8 +34,7 @@ public abstract class GameStage extends Stage implements ContactListener, Contac
 	protected Array< Pair<Body,Body> > contactsToHandle = new Array< Pair<Body,Body> >();
 	protected HashMap<Pair<UserDataType, UserDataType>, Boolean> contactMap = new HashMap<Pair<UserDataType,UserDataType>, Boolean>();
 	protected Array<Asteroid> asteroids = new Array<Asteroid>();
-	protected Ship player1 = null;
-	protected Ship player2 = null;
+	protected Array<Ship> ships = new Array<Ship>();
 	protected boolean isMac = false;
 	protected UIStyle style;
 	private float accumulator = 0f;
@@ -261,11 +260,10 @@ public abstract class GameStage extends Stage implements ContactListener, Contac
 	}
 	
 	protected Ship findPlayerShip( Body aBody ){
-		if( player1.getBody() == aBody ){
-			return player1;
-		}
-		if( player2.getBody() == aBody ){
-			return player2;
+		for (Ship ship: ships) {
+			if( ship.getBody() == aBody ){
+				return ship;
+			}
 		}
 		return null;
 	}

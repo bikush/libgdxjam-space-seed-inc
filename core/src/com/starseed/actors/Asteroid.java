@@ -86,7 +86,7 @@ public class Asteroid extends GameActor {
 				flowers.add(flower);
 			}
 			
-			SoundManager.playSound( RandomUtils.randomElement(Constants.SOUND_ASTEROID_HIT), 0.15f );
+			SoundManager.playSound( RandomUtils.randomElement(Constants.SOUND_ASTEROID_HIT));
 			return true;
 		}
 		return false;
@@ -99,7 +99,7 @@ public class Asteroid extends GameActor {
 	
 	public void takeDamage()
 	{
-		SoundManager.playSound( Constants.SOUND_ASTEROID_HIT[ RandomUtils.nextInt(Constants.SOUND_ASTEROID_HIT.length) ] , 0.2f);
+		SoundManager.playSound( Constants.SOUND_ASTEROID_HIT[ RandomUtils.nextInt(Constants.SOUND_ASTEROID_HIT.length)]);
 		setHealth(health-1);		
 	}
 	

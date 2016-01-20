@@ -300,7 +300,7 @@ public class GameMultiplayerStage extends GameStage {
             {
         		if( hitSounds < 6.0f ){
                  	hitSounds += 1.0f;
-             		SoundManager.playSound( RandomUtils.randomElement(Constants.SOUND_SHIP_HIT), 0.3f );
+             		SoundManager.playSound( RandomUtils.randomElement(Constants.SOUND_SHIP_HIT));
              	}
             }
         }
@@ -340,14 +340,12 @@ public class GameMultiplayerStage extends GameStage {
 		default:
 			if (gameInProgress) {
 				for (Ship ship: ships) {
-					if (ship.moveKeyHandler(keyCode, false)) {
-						break;
-					} else if (ship.shipType.getFireLaser() == keyCode) {
-						createLaser(ship);
-						break;
-					} else if (ship.shipType.getFireSeed() == keyCode) {
-						createSeed(ship);
-						break;
+					if (!ship.moveKeyHandler(keyCode, false)) {
+						if (ship.shipType.getFireLaser() == keyCode) {
+							createLaser(ship);
+						} else if (ship.shipType.getFireSeed() == keyCode) {
+							createSeed(ship);
+						}
 					}
 				}
 			}
@@ -384,7 +382,7 @@ public class GameMultiplayerStage extends GameStage {
     		
     		removeAsteroidByBody(asteroid.getBody(), true);    
     		
-    		SoundManager.playSound(Constants.SOUND_ASTEROID_DESTROY, 0.2f);
+    		SoundManager.playSound(Constants.SOUND_ASTEROID_DESTROY);
     	}
 	}
 

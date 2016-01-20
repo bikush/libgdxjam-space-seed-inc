@@ -118,7 +118,7 @@ public class MainScreenStage extends GameStage {
 		startButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				mainScreen.goToNextScreen = true;
-				SoundManager.playSound(Constants.BUTTON_PRESSED, 0.5f);
+				SoundManager.playSound(Constants.BUTTON_PRESSED);
 			}
 		});
 		final TextButton quitButton=new TextButton("", style.getLeftRocketButtonStyle());
@@ -126,7 +126,7 @@ public class MainScreenStage extends GameStage {
 		this.addActor(quitButton);
 		quitButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				SoundManager.playSound(Constants.BUTTON_PRESSED, 0.5f);
+				SoundManager.playSound(Constants.BUTTON_PRESSED);
 				Gdx.app.exit();
 			}
 		});
@@ -285,7 +285,7 @@ public class MainScreenStage extends GameStage {
     	
     	if( asteroid.isDestroyed() ){
     		removeAsteroidByBody(asteroid.getBody(), true);    
-    		SoundManager.playSound(Constants.SOUND_ASTEROID_DESTROY, 0.2f);
+    		SoundManager.playSound(Constants.SOUND_ASTEROID_DESTROY);
     	}
 	}
 

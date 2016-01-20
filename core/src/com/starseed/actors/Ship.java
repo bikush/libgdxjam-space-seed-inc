@@ -104,27 +104,18 @@ public class Ship extends GameActor {
 
 	public Ship(Body body, int playerIndex) {
 		super(body);
-		
-		this.playerIndex = playerIndex;
-		shipTexture = getShipTextureRegion(Constants.ATLAS_SHIP_PLAYER_REGION, playerIndex);
-		addExhaustAnimation();
-		shipType = findShipTypeByIndex(playerIndex);
+		loadShip(ShipType.findShipTypeByIndex(playerIndex));
 		
 	}
-	
-	public ShipType findShipTypeByIndex(int playerIndex) {
-		for (ShipType sType : ShipType.values()) {
-			if (sType.getShipId() == playerIndex) {
-				return sType;
-			}
-		}
-		return null;
-	}
-	 
+
 	public Ship (Body body, ShipType sType) {
 		super(body);
+		loadShip(sType);
+	}
+	
+	private void loadShip(ShipType sType) {
 		shipType = sType;
-		this.playerIndex = shipType.getShipId();
+		playerIndex = shipType.getShipId();
 		shipTexture = getShipTextureRegion(Constants.ATLAS_SHIP_PLAYER_REGION, playerIndex);
 		addExhaustAnimation();
 	}

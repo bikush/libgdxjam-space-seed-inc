@@ -85,7 +85,7 @@ public class Flower extends Actor {
 			return;
 		}
 		if( !didPlaySound ){
-			SoundManager.playSound(Constants.SOUND_BLOOMING, 0.25f, RandomUtils.rangeFloat(0.75f, 1.25f));
+			SoundManager.playSound(Constants.SOUND_BLOOMING);
 			didPlaySound = true;
 		}
 		

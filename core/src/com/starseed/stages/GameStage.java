@@ -140,7 +140,7 @@ public abstract class GameStage extends Stage implements ContactListener, Contac
 		addActor(newSeed);	
 		
 		seeds.add(newSeed);
-		SoundManager.playSound(Constants.SOUND_SEED_SHOT, 0.7f);
+		SoundManager.playSound(Constants.SOUND_SEED_SHOT);
 	}
 	
 	protected void createLaser( Ship sourceShip ){
@@ -154,7 +154,7 @@ public abstract class GameStage extends Stage implements ContactListener, Contac
 		addActor(newLaser);	
 		
 		lasers.add(newLaser);
-		SoundManager.playSound(Constants.SOUND_LASER, 0.03f);
+		SoundManager.playSound(Constants.SOUND_LASER);
 	}
 	
 	protected void update(Body body) {

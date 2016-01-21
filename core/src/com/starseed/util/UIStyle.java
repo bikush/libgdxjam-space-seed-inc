@@ -1,4 +1,4 @@
-package com.starseed.stages;
+package com.starseed.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.starseed.util.Constants;
 
 public class UIStyle {
 	private FreeTypeFontParameter parameter;
@@ -19,7 +18,7 @@ public class UIStyle {
 	
 	private UIStyle() {
 		parameter = new FreeTypeFontParameter();
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-:!'()>?: ";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-+:!'()>?: ";
 		skin = new Skin();
 		addRocketButtonStyle();
 	}

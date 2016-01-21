@@ -28,7 +28,7 @@ public class StarSeedGame extends Game {
 	private void setUpSound() {
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal(Constants.MAIN_SOUND_FILE));
 		bgMusic.play();      // plays the sound a second time, this is treated as a different instance
-		bgMusic.setVolume(0.08f); 
+		bgMusic.setVolume(0.12f); 
 		bgMusic.setLooping(true); // keeps the sound looping
 		
 	    SoundManager.preloadSounds();

@@ -90,16 +90,16 @@ public class GameMultiplayerStage extends GameStage {
 		instructionWindow = new Image( new Texture( pixWindow ) );
 		instructionWindow.setPosition(100, 80);
 		this.addActor(instructionWindow);
-		String rules = "Welcome Space Seed INC. pilots! Our company\n";
-		rules += "spreads life across the vastness of the universe.\n\n";
-		rules += "Shoot the seeds to give life to the asteroids.\n";
-		rules += "Shoot the lasers to break up the asteroids into\n";
-		rules += "smaller pieces. Play nice, do not shoot your\n"; 
-		rules += "opponent. If you do, you loose points.\n\n";
-		rules += "Mr. Orange uses keys A, W, D to move,\n";
-		rules += "Shift, Ctrl to fire.\n";
-		rules += "Ms. Purple uses keys UP, RIGHT and LEFT to move,\n";
-	    rules += "Shift, Ctrl (Alt on Mac) to fire.\n\n";
+		
+		String rules = "Welcome Space Seed INC. pilots!\n\n";
+		rules += "Gain points by planting seeds on asteroids.\n";
+		rules += "Reduce opponent's points by shooting lasers\n";
+		rules += "at asteroids they inseminated.\n"; 
+		rules += "You loose points by shooting at your opponent.\n\n";
+		rules += "Mr. Orange:   W (engines), A + D (turning),\n                                ";
+		rules += "Shift (seeds), Ctrl (lasers).\n\n";
+		rules += "Ms. Purple:    UP (engines), RIGHT + LEFT (turning),\n                               ";
+	    rules += String.format("Shift (seeds), %s (lasers).\n\n", isMac ? "Alt": "Ctrl");
 		rules += "May the best inseminator win!\n\n";
 		rules += "->   Press space to start the game.";
 		instruction = style.addLabel(rules, 32, Color.WHITE, 130, 90, false);

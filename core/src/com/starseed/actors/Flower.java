@@ -1,42 +1,38 @@
 package com.starseed.actors;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.starseed.util.AtlasUtils;
 import com.starseed.util.Constants;
-import com.starseed.util.RandomUtils;
 import com.starseed.util.SoundManager;
 
 public class Flower extends Actor {
-	// Damnit, this is getting ridiculous...
-	// Unfortunately the lack of time produces some nasty anti-patterns like this.
-	// No time to waste here anymore!
-	private static TextureAtlas flowerAtlas1 = null;
-	private static TextureAtlas flowerAtlas2 = null;
-	private static TextureRegion getFlowerRegion( int playerIndex, int regionIndex ) {		
-		TextureAtlas atlas = null;
-		if( playerIndex == 1 ) {
-			if( flowerAtlas1 == null ){
-				flowerAtlas1 = new TextureAtlas( String.format(Constants.ATLAS_FLOWER_FORMAT, playerIndex) );
-			}
-			atlas = flowerAtlas1;
+
+	private static HashMap<Integer, Animation> bloomAnimations = new HashMap<Integer, Animation>(2);
+	private static Animation getBloomAnimation( int playerIndex ){
+		Animation anim = bloomAnimations.get(playerIndex);
+		if( anim == null ){
+			TextureRegion[] bloomFrames = AtlasUtils.getAnimationFrames( 
+					String.format(Constants.ATLAS_FLOWER_FORMAT, playerIndex),
+					Constants.ATLAS_FLOWER_REGION, 
+					Constants.ATLAS_FLOWER_START_INDEX, 
+					Constants.ATLAS_FLOWER_FRAME_COUNT);
+			
+			anim = new Animation(0.05f, bloomFrames);
+			anim.setPlayMode(PlayMode.NORMAL);
+			bloomAnimations.put(playerIndex, anim);
 		}
-		if( playerIndex == 2 ) {
-			if( flowerAtlas2 == null ){
-				flowerAtlas2 = new TextureAtlas( String.format(Constants.ATLAS_FLOWER_FORMAT, playerIndex) );
-			}
-			atlas = flowerAtlas2;
-		}
-		return atlas.findRegion( Constants.ATLAS_FLOWER_REGION, regionIndex );
+		return anim;
 	}
-	
+		
 	private Vector2 asteroidPosition = new Vector2();
 	private float asteroidRotation = 0f;
 	private Vector2 flowerOffset = new Vector2(0,1);
@@ -54,21 +50,16 @@ public class Flower extends Actor {
 	public Flower( float asteroidSize, int playerIndex, int flowerNumber, int flowerCount )	{
 		super();
 		
-		TextureRegion[] bloomFrames = new TextureRegion[Constants.ATLAS_FLOWER_FRAME_COUNT];
-        for( int i = 0; i<Constants.ATLAS_FLOWER_FRAME_COUNT; i++ )
-        {
-        	bloomFrames[i] = getFlowerRegion(playerIndex, Constants.ATLAS_FLOWER_START_INDEX + i );    
-        }
-        bloomAnimation = new Animation(0.05f, bloomFrames);
-        bloomAnimation.setPlayMode( PlayMode.NORMAL );
+        bloomAnimation = getBloomAnimation(playerIndex);
 
         Random rand = new Random();        
         float theFactor = rand.nextFloat();
         float distanceFactor = 0.6f + theFactor * 0.3f;
         scale = 0.10f * theFactor + 0.15f ;
         
-        frameWidth = bloomFrames[0].getRegionWidth() * scale;
-        frameHeight = bloomFrames[0].getRegionHeight() * scale;        
+        TextureRegion firstFrame = bloomAnimation.getKeyFrames()[0];
+        frameWidth = firstFrame.getRegionWidth() * scale;
+        frameHeight = firstFrame.getRegionHeight() * scale;        
         
         flowerOffset.setLength( distanceFactor * asteroidSize );
 		flowerOffset.setAngle( flowerNumber * 360 / flowerCount + rand.nextInt(60) );		

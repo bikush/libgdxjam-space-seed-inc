@@ -3,7 +3,6 @@ package com.starseed.actors;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.starseed.enums.AsteroidSizeType;
+import com.starseed.util.AtlasUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.RandomUtils;
 
@@ -39,12 +39,8 @@ public class AsteroidDebris extends Actor {
 		}
 	}
 	
-	private static TextureAtlas debrisAtlas = null;
 	private static TextureRegion getDebrisTexture( DebrisType type, int index ) {
-		if( debrisAtlas == null )	{
-			debrisAtlas = new TextureAtlas(Constants.ATLAS_DEBRIS);
-		}
-		return debrisAtlas.findRegion( type.getRegionName(), type.validateIndex(index) );
+		return AtlasUtils.getTextureAtlas(Constants.ATLAS_DEBRIS).findRegion( type.getRegionName(), type.validateIndex(index) );
 	}
 
 	private class DebrisPart {

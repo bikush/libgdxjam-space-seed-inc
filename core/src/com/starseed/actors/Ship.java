@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.ShipUserData;
+import com.starseed.util.AtlasUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.OSUtils;
 import com.starseed.util.SoundManager;
@@ -22,9 +22,18 @@ public class Ship extends GameActor {
 	private boolean turnLeft = false;
 	private boolean turnRight = false;
 	private float engineOnTime = 0.0f;
-	private Animation exhaustAnimation;
-    public ShipType shipType = null;
-	private static TextureAtlas shipSeedAtlas = null;
+    public ShipType shipType = null;    
+
+	private static Animation exhaustAnimation = null;
+	private void addExhaustAnimation() {
+		if( exhaustAnimation == null ){
+	        TextureRegion[] exhaustFrames = AtlasUtils.getAnimationFrames(
+	        		Constants.ATLAS_SHIP_EXHAUST,
+	        		Constants.ATLAS_SHIP_EXHAUST_REGION, 
+	        		1, Constants.ATLAS_SHIP_EXHAUST_COUNT);        		
+	        exhaustAnimation = new Animation(0.1f, exhaustFrames);
+		}
+	}
 	
 	public enum ShipType {
 		ORANGE_SHIP (1, "Mr. Orange", Input.Keys.W, 
@@ -95,11 +104,7 @@ public class Ship extends GameActor {
 	
 	public static TextureRegion getShipTextureRegion(String regionName, int index )
 	{
-		if( shipSeedAtlas == null )
-		{
-			shipSeedAtlas = new TextureAtlas(Constants.ATLAS_SHIP);
-		}
-		return shipSeedAtlas.findRegion( regionName, index );
+		return AtlasUtils.getTextureAtlas(Constants.ATLAS_SHIP).findRegion( regionName, index );
 	}
 
 	public Ship(Body body, int playerIndex) {
@@ -119,17 +124,7 @@ public class Ship extends GameActor {
 		shipTexture = getShipTextureRegion(Constants.ATLAS_SHIP_PLAYER_REGION, playerIndex);
 		addExhaustAnimation();
 	}
-	
-	private void addExhaustAnimation() {
-		TextureAtlas exhaustAtlas = new TextureAtlas(Constants.ATLAS_SHIP_EXHAUST);
-        TextureRegion[] exhaustFrames = new TextureRegion[Constants.ATLAS_SHIP_EXHAUST_COUNT];
-        for( int i = 0; i<Constants.ATLAS_SHIP_EXHAUST_COUNT; i++ )
-        {
-        	exhaustFrames[i] = exhaustAtlas.findRegion( Constants.ATLAS_SHIP_EXHAUST_REGION, i+1 );    
-        }
-        exhaustAnimation = new Animation(0.1f, exhaustFrames);
-	}
-	
+		
 	public boolean moveKeyHandler(int keyCode, boolean make_move) {
 		boolean retVal = false;
 		if (keyCode == shipType.getEngineKey()) {

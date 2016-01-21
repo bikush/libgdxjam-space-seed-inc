@@ -1,7 +1,6 @@
 package com.starseed.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -9,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.starseed.box2d.AsteroidUserData;
 import com.starseed.enums.AsteroidType;
+import com.starseed.util.AtlasUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.RandomUtils;
 import com.starseed.util.SoundManager;
@@ -22,12 +22,8 @@ public class Asteroid extends GameActor {
 		
 	private Array<Flower> flowers = new Array<Flower>();
 	
-	private static TextureAtlas asteroidAtlas = null;
 	private static TextureRegion getAsteroidTexture( AsteroidType type, int health ) {
-		if( asteroidAtlas == null )	{
-			asteroidAtlas = new TextureAtlas(Constants.ATLAS_ASTEROID);
-		}
-		return asteroidAtlas.findRegion( type.getBaseRegionName(), type.getRegionIndex( health ) );
+		return AtlasUtils.getTextureAtlas(Constants.ATLAS_ASTEROID).findRegion( type.getBaseRegionName(), type.getRegionIndex( health ) );
 	}
 	
 

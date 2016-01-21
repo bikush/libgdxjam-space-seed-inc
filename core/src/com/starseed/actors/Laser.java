@@ -12,17 +12,19 @@ import com.starseed.util.Constants;
 
 public class Laser extends GameActor {
 	
-	TextureRegion laserImage = null;
+	private static TextureRegion laserImage = null;
 	float width = 25;
 	float height = 3;
 
 	public Laser(Body body) {
 		super(body);
 
-		Pixmap pixLaser = new Pixmap( (int)width, (int)height, Format.RGBA8888);
-		pixLaser.setColor(0.95f, 0.15f, 0f, 0.75f);
-		pixLaser.fill();
-		laserImage = new TextureRegion( new Texture( pixLaser ) );
+		if( laserImage == null ){
+			Pixmap pixLaser = new Pixmap( (int)width, (int)height, Format.RGBA8888);
+			pixLaser.setColor(0.95f, 0.15f, 0f, 0.75f);
+			pixLaser.fill();
+			laserImage = new TextureRegion( new Texture( pixLaser ) );
+		}
 	}
 
 	@Override

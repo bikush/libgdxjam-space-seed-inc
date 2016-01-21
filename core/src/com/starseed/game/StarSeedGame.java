@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.starseed.screens.GameMultiplayerScreen;
 import com.starseed.screens.MainScreen;
 import com.starseed.util.Constants;
+import com.starseed.util.SoundManager;
 import com.starseed.screens.AbstractScreen;
 
 public class StarSeedGame extends Game {
@@ -15,6 +16,7 @@ public class StarSeedGame extends Game {
 	public void create () {	
 		
 	    setUpSound();
+	    
 		GameMultiplayerScreen gameScreen = new GameMultiplayerScreen();
 		MainScreen mainScreen = new MainScreen();
 		mainScreen.setNextScreen(gameScreen);
@@ -28,6 +30,8 @@ public class StarSeedGame extends Game {
 		bgMusic.play();      // plays the sound a second time, this is treated as a different instance
 		bgMusic.setVolume(0.08f); 
 		bgMusic.setLooping(true); // keeps the sound looping
+		
+	    SoundManager.preloadSounds();
 	}
 	
 	@Override

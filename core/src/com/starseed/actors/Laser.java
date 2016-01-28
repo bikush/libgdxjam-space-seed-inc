@@ -14,7 +14,7 @@ import com.starseed.util.Constants;
 
 public class Laser extends GameActor implements TextureGenerator {
 	
-	private static TextureRegion laserImage = null;
+	private TextureRegion laserImage = null;
 	float width = 25;
 	float height = 3;
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.ShipUserData;
+import com.starseed.enums.AnimationType;
 import com.starseed.util.AtlasUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.OSUtils;
@@ -24,16 +25,7 @@ public class Ship extends GameActor {
 	private float engineOnTime = 0.0f;
     public ShipType shipType = null;    
 
-	private static Animation exhaustAnimation = null;
-	private void addExhaustAnimation() {
-		if( exhaustAnimation == null ){
-	        TextureRegion[] exhaustFrames = AtlasUtils.getAnimationFrames(
-	        		Constants.ATLAS_SHIP_EXHAUST,
-	        		Constants.ATLAS_SHIP_EXHAUST_REGION, 
-	        		1, Constants.ATLAS_SHIP_EXHAUST_COUNT);        		
-	        exhaustAnimation = new Animation(0.1f, exhaustFrames);
-		}
-	}
+	private Animation exhaustAnimation = null;
 	
 	public enum ShipType {
 		ORANGE_SHIP (1, "Mr. Orange", Input.Keys.W, 
@@ -122,7 +114,7 @@ public class Ship extends GameActor {
 		shipType = sType;
 		playerIndex = shipType.getShipId();
 		shipTexture = getShipTextureRegion(Constants.ATLAS_SHIP_PLAYER_REGION, playerIndex);
-		addExhaustAnimation();
+		exhaustAnimation = AtlasUtils.getAnimation( AnimationType.EXHAUST );
 	}
 		
 	public boolean moveKeyHandler(int keyCode, boolean make_move) {

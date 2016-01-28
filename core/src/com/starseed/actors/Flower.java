@@ -1,37 +1,19 @@
 package com.starseed.actors;
 
-import java.util.HashMap;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.starseed.enums.AnimationType;
 import com.starseed.util.AtlasUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.SoundManager;
 
 public class Flower extends Actor {
-
-	private static HashMap<Integer, Animation> bloomAnimations = new HashMap<Integer, Animation>(2);
-	private static Animation getBloomAnimation( int playerIndex ){
-		Animation anim = bloomAnimations.get(playerIndex);
-		if( anim == null ){
-			TextureRegion[] bloomFrames = AtlasUtils.getAnimationFrames( 
-					String.format(Constants.ATLAS_FLOWER_FORMAT, playerIndex),
-					Constants.ATLAS_FLOWER_REGION, 
-					Constants.ATLAS_FLOWER_START_INDEX, 
-					Constants.ATLAS_FLOWER_FRAME_COUNT);
-			
-			anim = new Animation(0.05f, bloomFrames);
-			anim.setPlayMode(PlayMode.NORMAL);
-			bloomAnimations.put(playerIndex, anim);
-		}
-		return anim;
-	}
 		
 	private Vector2 asteroidPosition = new Vector2();
 	private float asteroidRotation = 0f;
@@ -50,8 +32,8 @@ public class Flower extends Actor {
 	public Flower( float asteroidSize, int playerIndex, int flowerNumber, int flowerCount )	{
 		super();
 		
-        bloomAnimation = getBloomAnimation(playerIndex);
-
+        bloomAnimation = AtlasUtils.getAnimation( playerIndex == 1 ? AnimationType.BLOOM1 : AnimationType.BLOOM2 );
+        
         Random rand = new Random();        
         float theFactor = rand.nextFloat();
         float distanceFactor = 0.6f + theFactor * 0.3f;

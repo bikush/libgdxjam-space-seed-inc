@@ -27,4 +27,8 @@ public class AtlasUtils {
         }
 		return frames;
 	}
+	
+	public static void cleanup() {
+		atlases.clear();
+	}
 }

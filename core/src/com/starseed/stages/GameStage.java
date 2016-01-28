@@ -19,6 +19,7 @@ import com.starseed.actors.Laser;
 import com.starseed.actors.Seed;
 import com.starseed.actors.Ship;
 import com.starseed.enums.UserDataType;
+import com.starseed.game.StarSeedGame;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.OSUtils;
@@ -46,7 +47,7 @@ public abstract class GameStage extends Stage implements ContactListener, Contac
 				  Constants.APP_WIDTH, Constants.APP_HEIGHT ));
 		setupContactMap();
 		isMac = OSUtils.isMac();
-		style = UIStyle.getSingleton();
+		style = StarSeedGame.game.uiStyle;
 	}
 	
 	public abstract void prePhysics(float delta);

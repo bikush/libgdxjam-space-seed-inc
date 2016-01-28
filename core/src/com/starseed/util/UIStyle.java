@@ -14,21 +14,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 public class UIStyle {
 	private FreeTypeFontParameter parameter;
 	private Skin skin;
-	private static UIStyle singleton=null;
+//	private static UIStyle singleton=null;
 	
-	private UIStyle() {
+	public UIStyle() {		
 		parameter = new FreeTypeFontParameter();
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-+:!'()>?: ";
 		skin = new Skin();
 		addRocketButtonStyle();
 	}
 	
-	public static UIStyle getSingleton() {
-		if (singleton == null) {
-			singleton = new UIStyle();
-		}
-		return singleton;
-	}
+//	public static UIStyle getSingleton() {
+//		if (singleton == null) {
+//			singleton = new UIStyle();
+//		}
+//		return singleton;
+//	}
 	
 	public Label addLabel(String text, int fontSize, Color fontColor, 
 			               int posX, int posY, Boolean istitle) {

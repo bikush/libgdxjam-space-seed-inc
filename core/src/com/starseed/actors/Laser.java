@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.starseed.box2d.ProjectileUserData;
+import com.starseed.util.AtlasUtils;
+import com.starseed.util.AtlasUtils.TextureGenerator;
 import com.starseed.util.Constants;
 
-public class Laser extends GameActor {
+public class Laser extends GameActor implements TextureGenerator {
 	
 	private static TextureRegion laserImage = null;
 	float width = 25;
@@ -18,13 +20,14 @@ public class Laser extends GameActor {
 
 	public Laser(Body body) {
 		super(body);
-
-		if( laserImage == null ){
-			Pixmap pixLaser = new Pixmap( (int)width, (int)height, Format.RGBA8888);
-			pixLaser.setColor(0.95f, 0.15f, 0f, 0.75f);
-			pixLaser.fill();
-			laserImage = new TextureRegion( new Texture( pixLaser ) );
-		}
+		laserImage = AtlasUtils.getGeneratedTexture("laser", this);
+	}
+	
+	public TextureRegion generate() {
+		Pixmap pixLaser = new Pixmap( (int)width, (int)height, Format.RGBA8888);
+		pixLaser.setColor(0.95f, 0.15f, 0f, 0.75f);
+		pixLaser.fill();
+		return new TextureRegion( new Texture( pixLaser ) );			
 	}
 
 	@Override

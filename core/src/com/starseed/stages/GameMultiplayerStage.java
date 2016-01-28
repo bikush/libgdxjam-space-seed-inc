@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,6 +25,8 @@ import com.starseed.enums.AsteroidType;
 import com.starseed.enums.EdgeSideType;
 import com.starseed.enums.UserDataType;
 import com.starseed.screens.GameMultiplayerScreen;
+import com.starseed.util.AtlasUtils;
+import com.starseed.util.AtlasUtils.TextureGenerator;
 import com.starseed.util.BodyUtils;
 import com.starseed.util.Constants;
 import com.starseed.util.Pair;
@@ -84,10 +87,18 @@ public class GameMultiplayerStage extends GameStage {
 	}
 	
 	private void setUpInstructionWindow() {
-		Pixmap pixWindow = new Pixmap((int)(Constants.APP_WIDTH*0.8), (int)(Constants.APP_HEIGHT*0.7), Format.RGBA8888);
-		pixWindow.setColor(0.05f, 0.05f, 0.1f, 0.8f);
-		pixWindow.fill();
-		instructionWindow = new Image( new Texture( pixWindow ) );
+		
+		TextureRegion background = AtlasUtils.getGeneratedTexture("instruction_bg", new TextureGenerator() {			
+			@Override
+			public TextureRegion generate() {
+				Pixmap pixWindow = new Pixmap((int)(Constants.APP_WIDTH*0.8), (int)(Constants.APP_HEIGHT*0.7), Format.RGBA8888);
+				pixWindow.setColor(0.05f, 0.05f, 0.1f, 0.8f);
+				pixWindow.fill();
+				return new TextureRegion( new Texture( pixWindow ) );
+			}
+		});
+		
+		instructionWindow = new Image( background );
 		instructionWindow.setPosition(100, 80);
 		this.addActor(instructionWindow);
 		

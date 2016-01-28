@@ -10,7 +10,8 @@ import com.starseed.enums.AnimationType;
 public class AtlasUtils {
 	
 	private static HashMap<String, TextureAtlas> atlases = new HashMap<String, TextureAtlas>(16);
-	private static HashMap<AnimationType, Animation> animations = new HashMap<AnimationType, Animation>(16);
+	private static HashMap<AnimationType, Animation> animations = new HashMap<AnimationType, Animation>(4);
+	private static HashMap<String, TextureRegion> generatedTextures = new HashMap<String, TextureRegion>(16);
 	
 	public static TextureAtlas getTextureAtlas( String atlasPath ){
 		TextureAtlas atlas = atlases.get(atlasPath);
@@ -59,9 +60,23 @@ public class AtlasUtils {
 		}
 		return animation;
 	}
+	
+	public static TextureRegion getGeneratedTexture( String name, TextureGenerator generator ){
+		TextureRegion region = generatedTextures.get(name);
+		if( region == null ){
+			region = generator.generate();
+			generatedTextures.put(name, region);
+		}
+		return region;
+	}
+	
+	public interface TextureGenerator{
+		public TextureRegion generate();
+	}
 		
 	public static void cleanup() {
 		atlases.clear();
 		animations.clear();
+		generatedTextures.clear();
 	}
 }

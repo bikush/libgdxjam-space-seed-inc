@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 public class UIStyle {
 	private FreeTypeFontParameter parameter;
 	private Skin skin;
-//	private static UIStyle singleton=null;
 	
 	public UIStyle() {		
 		parameter = new FreeTypeFontParameter();
@@ -22,13 +21,6 @@ public class UIStyle {
 		skin = new Skin();
 		addRocketButtonStyle();
 	}
-	
-//	public static UIStyle getSingleton() {
-//		if (singleton == null) {
-//			singleton = new UIStyle();
-//		}
-//		return singleton;
-//	}
 	
 	public Label addLabel(String text, int fontSize, Color fontColor, 
 			               int posX, int posY, Boolean istitle) {

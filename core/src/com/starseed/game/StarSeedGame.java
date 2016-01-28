@@ -14,6 +14,7 @@ import com.starseed.screens.AbstractScreen;
 public class StarSeedGame extends Game {
 	private Music bgMusic;
 	public UIStyle uiStyle = null;
+	public SoundManager soundManager = null;
 	
 	public static StarSeedGame game = null;
 		
@@ -32,13 +33,14 @@ public class StarSeedGame extends Game {
 		
 	}
 	
-	private void setUpSound() {
+	private void setUpSound() {		
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal(Constants.MAIN_SOUND_FILE));
 		bgMusic.play();      // plays the sound a second time, this is treated as a different instance
 		bgMusic.setVolume(0.12f); 
 		bgMusic.setLooping(true); // keeps the sound looping
 		
-	    SoundManager.preloadSounds();
+		soundManager = new SoundManager();
+		soundManager.preloadSounds();
 	}
 	
 	public void pause() {
@@ -58,6 +60,9 @@ public class StarSeedGame extends Game {
 		super.dispose();
 		bgMusic.stop();
 		bgMusic.dispose();
+		
+		soundManager.cleanupSounds();
+		AtlasUtils.cleanup();
 	}
 	
 	@Override

@@ -9,8 +9,10 @@ import com.badlogic.gdx.audio.Sound;
 
 public class SoundManager {
 	
-	static Sound engine1 = null;
-	static Sound engine2 = null;
+	private static SoundManager currentInstance = null;
+	
+	private Sound engine1 = null;
+	private Sound engine2 = null;
 	
 	enum SoundType {
 		LASER (Constants.SOUND_LASER, 0.05f, 1.0f, 1.0f),
@@ -51,10 +53,14 @@ public class SoundManager {
 		}
 	}
 	
-	private static HashMap<String, Sound> soundMap = new HashMap<String, Sound>();
-	private static HashMap<String, SoundType> soundDescMap = new HashMap<String, SoundType>();
+	private HashMap<String, Sound> soundMap = new HashMap<String, Sound>();
+	private HashMap<String, SoundType> soundDescMap = new HashMap<String, SoundType>();
 	
-	public static void preloadSounds() {
+	public SoundManager(){
+		currentInstance = this;
+	}
+		
+	public void preloadSounds() {
 		for (SoundType sType: SoundType.values()) {
 			if( !soundMap.containsKey(sType.soundPath) ){
 				soundMap.put(
@@ -64,11 +70,29 @@ public class SoundManager {
 			}			
 		}
 	}
-
+	
+	public void cleanupSounds(){
+		soundMap.clear();
+		soundDescMap.clear();
+	}
+	
 	public static long playSound( String soundPath ){
+		if( currentInstance == null ){
+			return 0;
+		}
+		return currentInstance.internalPlaySound(soundPath);
+	}
+
+	public long internalPlaySound( String soundPath ){
 		if (!soundMap.containsKey(soundPath)) {
 			soundMap.put(soundPath,
 					     Gdx.audio.newSound(Gdx.files.getFileHandle(soundPath, FileType.Internal)));
+			for( SoundType type : SoundType.values() ){
+				if( type.getSoundPath() == soundPath ){
+					soundDescMap.put(type.soundPath, type);
+					break;
+				}
+			}
 		}
 		Sound sound= soundMap.get(soundPath);
 		float volume = soundDescMap.containsKey(soundPath)? soundDescMap.get(soundPath).getVolume():0.5f;
@@ -79,6 +103,13 @@ public class SoundManager {
 	}
 	
 	public static void playEngine( int playerIndex ){
+		if( currentInstance == null ){
+			return;
+		}
+		currentInstance.internalPlayEngine(playerIndex);
+	}
+	
+	public void internalPlayEngine( int playerIndex ){
 		if( playerIndex == 1 ){
 			if( engine1 == null ){
 				engine1 = Gdx.audio.newSound( Gdx.files.getFileHandle(Constants.SOUND_ENGINE_1, FileType.Internal) );
@@ -93,6 +124,13 @@ public class SoundManager {
 	}
 	
 	public static void stopEngine( int playerIndex ){
+		if( currentInstance == null ){
+			return;
+		}
+		currentInstance.internalStopEngine(playerIndex);
+	}
+	
+	public void internalStopEngine( int playerIndex ){		
 		if( playerIndex == 1 && engine1 != null ){
 			engine1.stop();
 		}

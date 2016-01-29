@@ -2,8 +2,12 @@ package com.starseed.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -17,9 +21,10 @@ public class UIStyle {
 	
 	public UIStyle() {		
 		parameter = new FreeTypeFontParameter();
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-+:!'()>?: ";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-+:!'()<>?: ";
 		skin = new Skin();
 		addRocketButtonStyle();
+		addBlankButtonStyle();
 	}
 	
 	public Label addLabel(String text, int fontSize, Color fontColor, 
@@ -46,6 +51,30 @@ public class UIStyle {
 		leftButtonStyle.font = getFont(20);
 		skin.add("leftRocketButton", leftButtonStyle);
 	}
+	
+	private void addBlankButtonStyle(){
+		if( !skin.has("blankButtonBg", TextureRegion.class) ){
+			Pixmap pMap = new Pixmap(128, 128, Format.RGBA8888);
+			pMap.setColor(0.2f, 0.4f, 0.7f, 0.5f);
+			pMap.fill();
+			skin.add("blankButtonBg", new TextureRegion( new Texture( pMap ) ), TextureRegion.class);
+			pMap.dispose();
+		}
+		if( !skin.has("blankButtonBgDown", TextureRegion.class) ){
+			Pixmap pMap = new Pixmap(128, 128, Format.RGBA8888);
+			pMap.setColor(0.2f, 0.55f, 0.7f, 0.5f);
+			pMap.fill();
+			skin.add("blankButtonBgDown", new TextureRegion( new Texture( pMap ) ), TextureRegion.class);
+			pMap.dispose();
+		}
+
+		TextButtonStyle blankButtonStyle = new TextButtonStyle();
+		blankButtonStyle.up = skin.getDrawable("blankButtonBg");
+		blankButtonStyle.down = skin.getDrawable("blankButtonBgDown");
+		blankButtonStyle.over = blankButtonStyle.up;
+		blankButtonStyle.font = getFont(24);
+		skin.add("blankButton", blankButtonStyle);
+	}
 
 	public TextButtonStyle getRightRocketButtonStyle() {
 		return skin.get("rightRocketButton", TextButtonStyle.class);
@@ -53,6 +82,10 @@ public class UIStyle {
 	
 	public TextButtonStyle getLeftRocketButtonStyle() {
 		return skin.get("leftRocketButton", TextButtonStyle.class);
+	}
+	
+	public TextButtonStyle getBlankButtonStyle() {
+		return skin.get("blankButton", TextButtonStyle.class);
 	}
 	
 	public LabelStyle getLabelStyle(int fontSize, Color fontColor) {

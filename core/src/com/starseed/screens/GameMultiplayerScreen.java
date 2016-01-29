@@ -1,7 +1,9 @@
 package com.starseed.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.graphics.GL20;
+import com.starseed.stages.AndroidGameMultiplayerStage;
 import com.starseed.stages.GameMultiplayerStage;
 import com.starseed.screens.AbstractScreen;
 
@@ -17,7 +19,11 @@ public class GameMultiplayerScreen extends AbstractScreen {
 	@Override
 	public void show() {
 		goBack = false;
-		stage = new GameMultiplayerStage(this);
+		if( Gdx.app.getType() == ApplicationType.Android ){
+			stage = new AndroidGameMultiplayerStage(this);
+		}else{
+			stage = new GameMultiplayerStage(this);
+		}
 		Gdx.input.setInputProcessor(stage);
 	}
 

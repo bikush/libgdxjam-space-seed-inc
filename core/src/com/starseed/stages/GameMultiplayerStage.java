@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 //import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
@@ -42,22 +43,25 @@ public class GameMultiplayerStage extends GameStage {
 	private OrthographicCamera camera;
 	//private Box2DDebugRenderer renderer;
 	    
-    private GameMultiplayerScreen gameScreen;
+    protected GameMultiplayerScreen gameScreen;
     
-    private float time = Constants.GAME_DURATION;
-    private Label timeLabel;
+    protected float time = Constants.GAME_DURATION;
+    protected Label timeLeftLabel;
+    protected Label timeLabel;
     
     private float nextAsteroidIn = 0.0f;
     
-	private Ship player1 = null;
-	private Ship player2 = null;
+    protected Ship player1 = null;
+    protected Ship player2 = null;
 	
-    private Label player1Points;
+    protected Label player1Label;
+    protected Label player1Points;
     private int p1Points = 0;
     private int p2Points = 0;
-    private Label player2Points;
-    private Boolean gameInProgress=false;
-    private Image instructionWindow = null;
+    protected Label player2Label;
+    protected Label player2Points;
+    protected Boolean gameInProgress=false;
+    protected Image instructionWindow = null;
     private Label instruction = null;
     
 	public GameMultiplayerStage(GameMultiplayerScreen gameScreen) {
@@ -74,11 +78,16 @@ public class GameMultiplayerStage extends GameStage {
     }
 	
 	private void setupUI() {
-		this.addActor(style.addLabel("Mr. Orange:", 30, Color.WHITE, 55, 720, false));
-		this.addActor(style.addLabel("Ms. Purple:", 30, Color.WHITE, 380, 720, false));
-		this.addActor(style.addLabel("Time left", 30, Color.WHITE, 730, 720, false));
+		player1Label = style.addLabel("Mr. Orange:", 30, Color.WHITE, 55, 720, false); 
+		this.addActor(player1Label);
+		player2Label = style.addLabel("Ms. Purple:", 30, Color.WHITE, 380, 720, false); 
+		this.addActor(player2Label);
+		
+		timeLeftLabel = style.addLabel("Time left", 30, Color.WHITE, 730, 720, false);
+		this.addActor(timeLeftLabel);
 		timeLabel = style.addLabel("02 : 00", 30, Color.WHITE, 885, 720, false);
 		this.addActor(timeLabel);
+		
 		player1Points = style.addLabel("0", 30, Color.WHITE, 240, 720, false);
 		this.addActor(player1Points);
 		player2Points = style.addLabel("0", 30, Color.WHITE, 550, 720, false);
@@ -99,7 +108,7 @@ public class GameMultiplayerStage extends GameStage {
 		});
 		
 		instructionWindow = new Image( background );
-		instructionWindow.setPosition(100, 80);
+		instructionWindow.setPosition(100, 80);		
 		this.addActor(instructionWindow);
 		
 		String rules = "Welcome Space Seed INC. pilots!\n\n";
@@ -114,27 +123,35 @@ public class GameMultiplayerStage extends GameStage {
 		rules += "May the best inseminator win!\n\n";
 		rules += "->   Press space to start the game.";
 		instruction = style.addLabel(rules, 32, Color.WHITE, 130, 90, false);
+		instruction.setTouchable(Touchable.disabled);
 		this.addActor(instruction);
 	}
 	
-	private void hideInstructionWindow() {
+	protected void hideInstructionWindow() {
 		instructionWindow.setVisible(false);
 		instruction.remove();
 	}
 	
 	private void showEndingWindow() {
+		instructionWindow.setVisible(true);
+		instruction.setVisible(true);
+		
 		String endText = (this.p1Points > this.p2Points) ? "Mr. Orange, " : "Ms. Purple, ";
 		endText += "Victory!\nCongratulations!\n\nYou're the greatest\ninseminator!";
 		instruction = style.addLabel(endText, 50, Color.WHITE, 130, 300, true);
+		instruction.setTouchable(Touchable.disabled);
 		this.addActor(instruction);
-		instructionWindow.setVisible(true);
-		instruction.setVisible(true);
+		
 		String returnToMain = "->   Press escape to return to the main screen.";
-		this.addActor(style.addLabel(returnToMain, 36, Color.WHITE, 130, 130, false));
+		Label returnLabel = style.addLabel(returnToMain, 36, Color.WHITE, 130, 130, false); 
+		returnLabel.setTouchable(Touchable.disabled);
+		this.addActor( returnLabel );
+		
 		String imagePath = (this.p1Points > this.p2Points) ? "orange_winner.png" : "purple_winner.png";
 		Image winner = new Image(new Texture(Gdx.files.internal(imagePath)));
 		winner.setPosition(500, 150);
 		winner.setRotation(30);
+		winner.setTouchable(Touchable.disabled);
 		this.addActor(winner);
 	}
 	

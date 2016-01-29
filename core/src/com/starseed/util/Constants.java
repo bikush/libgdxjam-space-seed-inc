@@ -22,7 +22,7 @@ public class Constants {
 	
 	// Screen space
 	// Top UI will take 1/16 of the screen
-	public static final float GAME_UI_HEIGHT = APP_WIDTH * 0.0625f;	
+	public static final float GAME_UI_HEIGHT = APP_WIDTH * 0.0625f * 0;	
 		
 	// Physics space
 	// Multiplayer game space is 128 * 84 meters

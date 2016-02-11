@@ -22,6 +22,9 @@ public class Ship extends GameActor {
 	private boolean engineOn = false;
 	private boolean turnLeft = false;
 	private boolean turnRight = false;
+	public float leftFactor = 1.0f;
+	public float rightFactor = 1.0f;
+	public float engineFactor = 1.0f;
 	private float engineOnTime = 0.0f;
     public ShipType shipType = null;    
 
@@ -171,13 +174,13 @@ public class Ship extends GameActor {
 		super.act(delta);
 		if( engineOn )
 		{			
-			Vector2 force = new Vector2( Constants.SHIP_ENGINE_FORCE,0);
+			Vector2 force = new Vector2( engineFactor * Constants.SHIP_ENGINE_FORCE,0);
 			force.setAngle( 90f + body.getAngle() * Constants.RAD_TO_DEG );
 			body.applyForceToCenter(force, true);
 		}
 		if( turnLeft || turnRight )
 		{
-			body.applyAngularImpulse( ((turnLeft ? Constants.SHIP_ANGULAR_IMPULSE : 0) + (turnRight ? -Constants.SHIP_ANGULAR_IMPULSE : 0)), true);
+			body.applyAngularImpulse( ((turnLeft ? leftFactor * Constants.SHIP_ANGULAR_IMPULSE : 0) + (turnRight ? rightFactor * -Constants.SHIP_ANGULAR_IMPULSE : 0)), true);
 		}		
 	}
 	 

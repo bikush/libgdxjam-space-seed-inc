@@ -62,7 +62,7 @@ public class UIStyle {
 		}
 		if( !skin.has("blankButtonBgDown", TextureRegion.class) ){
 			Pixmap pMap = new Pixmap(128, 128, Format.RGBA8888);
-			pMap.setColor(0.2f, 0.55f, 0.7f, 0.5f);
+			pMap.setColor(0.35f, 0.55f, 0.7f, 0.5f);
 			pMap.fill();
 			skin.add("blankButtonBgDown", new TextureRegion( new Texture( pMap ) ), TextureRegion.class);
 			pMap.dispose();
